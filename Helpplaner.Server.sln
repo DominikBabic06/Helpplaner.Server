@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpplaner.Service.Core", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpplaner.Service.UI", "Helpplaner.Service.UI\Helpplaner.Service.UI.csproj", "{1757F2CB-CF79-44BC-8D05-067E243D3C69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpplaner.Service.Shared", "Helpplaner.Service.Shared\Helpplaner.Service.Shared.csproj", "{F6459D5F-938A-48A5-A174-A15564ACABC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1757F2CB-CF79-44BC-8D05-067E243D3C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1757F2CB-CF79-44BC-8D05-067E243D3C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1757F2CB-CF79-44BC-8D05-067E243D3C69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6459D5F-938A-48A5-A174-A15564ACABC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6459D5F-938A-48A5-A174-A15564ACABC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6459D5F-938A-48A5-A174-A15564ACABC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6459D5F-938A-48A5-A174-A15564ACABC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
