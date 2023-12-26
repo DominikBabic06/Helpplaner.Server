@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpplaner.Service.Core", "Helpplaner.Service.Core\Helpplaner.Service.Core.csproj", "{88438C25-6E0E-4822-9504-C9B2C171CEA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpplaner.Service.UI", "Helpplaner.Service.UI\Helpplaner.Service.UI.csproj", "{1757F2CB-CF79-44BC-8D05-067E243D3C69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88438C25-6E0E-4822-9504-C9B2C171CEA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88438C25-6E0E-4822-9504-C9B2C171CEA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88438C25-6E0E-4822-9504-C9B2C171CEA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88438C25-6E0E-4822-9504-C9B2C171CEA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1757F2CB-CF79-44BC-8D05-067E243D3C69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1757F2CB-CF79-44BC-8D05-067E243D3C69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1757F2CB-CF79-44BC-8D05-067E243D3C69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1757F2CB-CF79-44BC-8D05-067E243D3C69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6241B6F1-87CF-4960-B857-568462EF3E18}
+	EndGlobalSection
+EndGlobal
