@@ -8,5 +8,8 @@ namespace Helpplaner.Service.Objects
 {
     internal class Kategorie
     {
+      public  string name { get; set; }
+      public string id { get; set; } 
+
     }
 }
