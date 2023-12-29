@@ -17,11 +17,9 @@
             _logger = logger;
 
         }   
-        public void HandleSelectSqlCommand()
-        { 
-        
-        
-        }
+    
+
+        #region User
         public User[] GiveAllUsers()
         {
             List<User> users = new List<User>();
@@ -120,6 +118,15 @@
             }
             return user;    
         }
+        #endregion
+        #region Project
+        #endregion
+        #region Task    
+        #endregion
+        #region Kategorie   
+        #endregion  
+        #region Kommentar
+        #endregion
 
 
     }
