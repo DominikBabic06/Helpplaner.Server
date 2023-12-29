@@ -1,0 +1,1 @@
+﻿Select * from Nutzer where Nutzer_ID = 0;

@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Helpplaner.Service.Objects\Helpplaner.Service.Objects.csproj" />
     <ProjectReference Include="..\Helpplaner.Service.Shared\Helpplaner.Service.Shared.csproj" />
-    <ProjectReference Include="..\Helpplaner.Service.SqlHandling\Helpplaner.Service.SqlHandling.csproj" />
   </ItemGroup>
 
 </Project>

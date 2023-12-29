@@ -1,8 +1,12 @@
 ﻿namespace Helpplaner.Service.Core
 {
+    using System.Data.SqlClient;
     using System.Net;
     using System.Net.Sockets;
     using Helpplaner.Service.Shared;
+    using Helpplaner.Service.SqlHandling;
+    using Helpplaner.Service.Objects;
+ 
     public class Server
     {
         Socket _socket;  
@@ -11,7 +15,14 @@
         int _port;  
         IServiceLogger _logger;
         ClientHandler clientHandler;
-    public    bool isRunning = false;  
+
+
+        Dictionary<Guid, SessionHandler> _sessions = new Dictionary<Guid, SessionHandler>();
+        SqlConnection _connection;
+        SelectSqlCommandHandler _selectSqlCommandHandler;
+
+
+        public    bool isRunning = false;  
         public Server(IServiceLogger logger , string ipAddress = "127.0.0.1", int port = 50000 )
         {
             _ipAddress = IPAddress.Parse(ipAddress);
@@ -19,6 +30,8 @@
             _endPoint = new IPEndPoint(_ipAddress, _port);
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _logger = logger;
+            _connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True");
+            _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
         }  
         
         public void Start()
@@ -32,7 +45,10 @@
             Thread thread = new Thread(clientHandler.AcceptClients);    
             thread.IsBackground = true; 
             thread.Start();
-            
+            _connection.Open();
+            _logger.Log("Connection to database established", "green");
+          
+
 
         }
         public void Stop() {
@@ -43,6 +59,8 @@
           
                 _logger.Log("Server stopped", "red");   
             }
+            _connection.Close();   
+            _logger.Log("Connection to database closed", "red");    
           
 
 
@@ -51,8 +69,43 @@
         {
             Stop();
             Start();
-        }   
+        }
 
-       
+        public void GiveAllUsers()
+        {
+            try
+            {
+                User[] users = _selectSqlCommandHandler.GiveAllUsers();
+                string[] usernames = new string[users.Length];
+                for (int i = 0; i < users.Length; i++)
+                {
+                    _logger.Log(users[i].ToString(), "white");
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+
+                _logger.Log(ex.Message, "red"); 
+            }
+          
+         
+        }
+        public void GiveUser(int id)
+        {
+            try
+            {
+              User user = _selectSqlCommandHandler.GiveUser(id);
+                _logger.Log(user.ToString(), "white");
+            }
+            catch (NullReferenceException ex)
+            {
+
+                _logger.Log(ex.Message, "red");
+            }
+
+
+        }
+
+
     }
 }

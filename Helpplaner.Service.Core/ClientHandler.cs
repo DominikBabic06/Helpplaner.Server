@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;   
-using Helpplaner.Service.Shared;    
+using Helpplaner.Service.Shared;  
+using Helpplaner.Service.Objects;
+using Helpplaner.Service.SqlHandling;   
+using System.Data.SqlClient;    
 
 namespace Helpplaner.Service.Core
 {
@@ -13,14 +16,14 @@ namespace Helpplaner.Service.Core
         Socket _socket;
       
         IServiceLogger Logger; 
-        Dictionary<Guid, Thread> _sessions = new Dictionary<Guid, Thread>();
-        
-
+        Dictionary<Guid, SessionHandler> _sessions = new Dictionary<Guid, SessionHandler>();
+      
 
       public  ClientHandler(Socket socket, IServiceLogger logger)
         {
             _socket = socket;
             Logger = logger;
+          
           
         } 
         
@@ -35,7 +38,7 @@ namespace Helpplaner.Service.Core
                 Thread sessionTask = new Thread(session.HandleClient);  
                 sessionTask.IsBackground = true;    
                 sessionTask.Start();    
-               _sessions.Add(session._sessionId,sessionTask);
+               _sessions.Add(session._sessionId,session);
                 
             }
            
@@ -68,6 +71,7 @@ namespace Helpplaner.Service.Core
             _sessions.Remove(session._sessionId);
             Logger.Log("Session closed", "red");
         }
+    
         public Guid GetFirstAvailableSessionId()
         {
             Guid sessionId = Guid.NewGuid();

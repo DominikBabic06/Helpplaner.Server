@@ -40,6 +40,14 @@ class Program
                     }
                     server.Restart();   
                     break;
+                case "user":
+               
+                    server.GiveAllUsers();  
+                    break;
+                case "userid":
+                    int id = int.Parse(cl.GetInfo("Enter id: "));
+                    server.GiveUser(id);
+                    break;
                 default:
                     cl.Log("Invalid command", "red");
                     break;
