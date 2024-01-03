@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace Helpplaner.Service.Objects
 {
-    internal class Comment
+    public class Comment
     {
-        string text;
+      public  string Kommentar_ID { get; set; } 
+      public  string Ersteller_ID { get; set; } 
+      
+      public  string Arbeitspaket_ID { get; set; }  
+
+      public  string Inhalt { get; set; }   
+
+
     }
 }

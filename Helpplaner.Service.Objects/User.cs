@@ -3,14 +3,16 @@
     public class User
     {
         public User() { }   
-        public string Id { get; set; }  
-        public string Username { get; set; }
-        public string Password { get; set; }    
+        public string Nutzer_ID { get; set; }  
+        public string NutzerPasswort { get; set; }
+        public string Nutzernamen { get; set; }    
         public string Email { get; set; }   
+
+
 
         public override string ToString()
         {
-            return $"Id: {Id}, Username: {Username}, Password: {Password}, Email: {Email}";
+            return $"Id: {Nutzer_ID}, Username: {Nutzernamen}, Password: {NutzerPasswort}, Email: {Email}";
         }
     
     }

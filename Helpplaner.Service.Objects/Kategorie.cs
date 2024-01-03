@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Helpplaner.Service.Objects
 {
-    internal class Kategorie
+    public class Kategorie
     {
-      public  string name { get; set; }
-      public string id { get; set; } 
+      public  string Kategorie_ID { get; set; }
+      public string Name { get; set; } 
 
     }
 }

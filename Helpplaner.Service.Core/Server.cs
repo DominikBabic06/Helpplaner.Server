@@ -45,8 +45,7 @@
             Thread thread = new Thread(clientHandler.AcceptClients);    
             thread.IsBackground = true; 
             thread.Start();
-            _connection.Open();
-            _logger.Log("Connection to database established", "green");
+         
           
 
 
