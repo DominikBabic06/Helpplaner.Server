@@ -8,19 +8,20 @@ namespace Helpplaner.Service.Objects
 {
     public class Task
     {
-        public int Arbeitspaket_ID { get; set; }
+        public Task() { }  
+        public string Arbeitspaket_ID { get; set; }
         public string Arbeitspaket_Name { get; set; }
-        public int Projekt_ID { get; set; }
+        public string Projekt_ID { get; set; }
         public string Arbeitspaket_Beschreibung { get; set; }
-        public DateTime FruehestmoeglicherAnfang { get; set; }
-        public DateTime FruehestmoeglichesEnde { get; set; }
-        public DateTime SpaetmoeglichsterAnfang { get; set; }
-        public DateTime SpaetmoeglichstesEnde { get; set; }
-        public int Arbeitspaket_InsgeArbeitszeit { get; set; }
+        public string FruehestmoeglicherAnfang { get; set; }
+        public string FruehestmoeglichesEnde { get; set; }
+        public string SpaetmoeglichsterAnfang { get; set; }
+        public string SpaetmoeglichstesEnde { get; set; }
+        public string Arbeitspaket_InsgeArbeitszeit { get; set; }
         public string Arbeitspaket_Zustaendiger { get; set; }
 
-        public List<string> KommentarIDs { get; set; } = new List<string>();    
-        public List<string> ArbeitsSitzungsIDs { get; set; } = new List<string>();
+         
+        public List<WorkSession> ArbeitsSitzungs { get; set; } = new List<WorkSession>();
 
         public override string ToString()
         {

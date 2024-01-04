@@ -31,6 +31,8 @@
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _logger = logger;
             _connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True");
+           
+          
             _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
         }  
         
@@ -45,6 +47,8 @@
             Thread thread = new Thread(clientHandler.AcceptClients);    
             thread.IsBackground = true; 
             thread.Start();
+            _connection.Open();
+            _logger.Log("Connection to database opened", "green");  
          
           
 
@@ -60,6 +64,8 @@
             }
             _connection.Close();   
             _logger.Log("Connection to database closed", "red");    
+           
+
           
 
 
@@ -103,6 +109,19 @@
             }
 
 
+        }
+        public void GiveProject(int id)
+        {
+            try
+            {
+                Project project = _selectSqlCommandHandler.GiveProjekt(id);
+                _logger.Log(project.ToString(), "white");
+            }
+            catch (NullReferenceException ex)
+            {
+
+                _logger.Log(ex.Message, "red");
+            }   
         }
 
 

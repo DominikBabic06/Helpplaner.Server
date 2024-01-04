@@ -13,15 +13,21 @@ namespace Helpplaner.Service.Objects
         public string Projekt_Name { get; set; } 
         public string Projekt_Beschreibung { get; set; }  
 
-        public List<string> UserIDs { get; set; } = new List<string>();
+        public List<User> Users { get; set; } = new List<User>();
 
-        public List<string> AdminUserIDs { get; set; } = new List<string>();  
+        public List<User> AdminUser { get; set; } = new List<User>();  
             
-        public List<string> KategorieIDs { get; set; } = new List<string>();    
+       
 
                       
-        public List<string> TaskIDs { get; set; } = new List<string>();   
-      public  Project() { 
+        public List<Task> Tasks{ get; set; } = new List<Task>();
+        public override string ToString()
+        {
+            return "Projekt_ID: " + Projekt_ID + "\n" +
+                    "Projekt_Name: " + Projekt_Name + "\n" +
+                    "Projekt_Beschreibung: " + Projekt_Beschreibung + "\n";
+        }
+        public  Project() { 
         
         
         }   

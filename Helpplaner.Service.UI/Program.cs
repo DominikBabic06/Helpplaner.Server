@@ -48,6 +48,10 @@ class Program
                     int id = int.Parse(cl.GetInfo("Enter id: "));
                     server.GiveUser(id);
                     break;
+                case "Projektid":
+                    int Projid = int.Parse(cl.GetInfo("Enter id: "));
+                    server.GiveProject(Projid); 
+                    break;  
                 default:
                     cl.Log("Invalid command", "red");
                     break;
