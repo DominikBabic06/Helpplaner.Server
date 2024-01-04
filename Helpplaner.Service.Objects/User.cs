@@ -1,7 +1,10 @@
 ﻿namespace Helpplaner.Service.Objects
 {
+    using System.Runtime.Serialization.Formatters.Binary;
+    [Serializable]
     public class User
     {
+
         public User() { }   
         public string Nutzer_ID { get; set; }  
         public string Nutzer_Passwort { get; set; }
