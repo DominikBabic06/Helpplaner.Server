@@ -1,0 +1,11 @@
+﻿<Application x:Class="Helpplaner.Client.GUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Helpplaner.Client.GUI"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- <BitmapImage x:Key="Folder" UriSource="Helpplaner.Client.GUI\Images\folder.svg"></BitmapImage> -->
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
