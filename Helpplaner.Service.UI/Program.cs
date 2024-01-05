@@ -4,6 +4,7 @@ using Helpplaner.Service.Core;
 using Helpplaner.Service.Shared;
 class Program
 {
+    //hurensohn
     static void Main(string[] args)
     {
         ConsoleLogger cl = new ConsoleLogger();
