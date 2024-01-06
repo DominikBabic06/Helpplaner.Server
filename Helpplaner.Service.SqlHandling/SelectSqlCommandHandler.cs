@@ -3,6 +3,7 @@
 {
     using System.Data;
     using System.Data.SqlClient;
+    using System.Data.SqlTypes;
     using System.Net.Security;
     using Helpplaner.Service.Objects;
     using Helpplaner.Service.Shared;
@@ -73,7 +74,8 @@
             {
                 using (SqlCommand command = new SqlCommand("Select * from Nutzer where Nutzer_ID = @Nutzer_ID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Nutzer_ID", id);  
+                    command.Parameters.AddWithValue("@Nutzer_ID", id);
+                    _logger.Log(command.CommandText, "green");
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -111,9 +113,11 @@
             User user = new User();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Nutzer where Nutzernamen = '@Nutzernamen'", _connection))
+                SqlString sqlString = new SqlString(username);  
+                using (SqlCommand command = new SqlCommand("Select * from Nutzer where Nutzernamen = @1", _connection))
                 {
-                    command.Parameters.AddWithValue("@Nutzernamen", username);
+                    command.Parameters.AddWithValue("@1", sqlString);
+                    _logger.Log(command.CommandText, "green");  
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -592,7 +596,69 @@
         }
         #endregion
 
+        #region NutzerProjekt   
 
+        public Project[] GetAllProjekte(User user)
+        {
+            List<Project> projekte = new List<Project>();
+            List<string> projektIDs = new List<string>();
+            try
+            {
+                using (SqlCommand command = new SqlCommand("Select * from NutzerProjekt where Nutzer_ID = @Nutzer_ID" , _connection))
+                {
+                    command.Parameters.AddWithValue("@Nutzer_ID", user.Nutzer_ID);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            projektIDs.Add(reader["Projekt_ID"].ToString());    
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+            foreach (string item in projektIDs)
+            {
+                projekte.Add(GiveProjekt(Convert.ToInt32(item))); 
+            }
+          
+            return projekte.ToArray();
+        }
+        public User[] GetAllUsers(Project proj)
+        {
+            List<User> users = new List<User>();
+            List<string> userIDs = new List<string>();
+            try
+            {
+                using (SqlCommand command = new SqlCommand("Select * from NutzerProjekt where Projekt_ID = @Projekt_ID" , _connection))
+                {
+                    command.Parameters.AddWithValue("@Projekt_ID", proj.Projekt_ID);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            userIDs.Add(reader["Nutzer_ID"].ToString());    
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+            foreach (string item in userIDs)
+            {
+                users.Add(GiveUser(Convert.ToInt32(item))); 
+            }
+          
+            return users.ToArray();
+        }   
+        #endregion
 
 
     }

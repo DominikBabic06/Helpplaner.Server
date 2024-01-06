@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Helpplaner.Service.Objects
 {
+    [Serializable]
     public class Task
     {
         public Task() { }  

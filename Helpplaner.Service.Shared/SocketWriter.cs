@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 
 namespace Helpplaner.Service.Shared
 {
@@ -12,7 +13,7 @@ namespace Helpplaner.Service.Shared
     {
         Socket socket;
         IServiceLogger logger;
-        BinaryFormatter formatter = new BinaryFormatter();
+     
 
 
         public SocketWriter(Socket socket, IServiceLogger logger)
@@ -43,11 +44,13 @@ namespace Helpplaner.Service.Shared
         {
             try
             {
-               MemoryStream stream = new MemoryStream();    
+               
                 byte[] buffer = new byte[1024];
-                formatter.Serialize(stream, obj);   
-                buffer = Encoding.UTF8.GetBytes(obj.ToString());
-                socket.Send(buffer);
+                string json = JsonSerializer.Serialize(obj);    
+               buffer = Encoding.UTF8.GetBytes(json);   
+                socket.Send(buffer);    
+
+                
             }
             catch (Exception e)
             {
