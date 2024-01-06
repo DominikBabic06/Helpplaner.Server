@@ -16,6 +16,7 @@ namespace Helpplaner.Service.Shared
      
 
 
+
         public SocketWriter(Socket socket, IServiceLogger logger)
         {
             this.logger = logger;
@@ -28,8 +29,14 @@ namespace Helpplaner.Service.Shared
         {
             try
             {
+                Message Message = new Message();
                 byte[] buffer = new byte[1024];
-                buffer = Encoding.UTF8.GetBytes(message);
+             
+                Message.Type = message.GetType().ToString();
+                Message.Content = message;
+
+                buffer = JsonSerializer.SerializeToUtf8Bytes(Message);
+
                 socket.Send(buffer);
             }
             catch (Exception e)
@@ -44,10 +51,15 @@ namespace Helpplaner.Service.Shared
         {
             try
             {
-               
+                Message Message = new Message();
+
                 byte[] buffer = new byte[1024];
-                string json = JsonSerializer.Serialize(obj);    
-               buffer = Encoding.UTF8.GetBytes(json);   
+                Message = new Message();
+                Message.Type = obj.GetType().ToString();
+                Message.Content = JsonSerializer.Serialize(obj);
+
+                buffer = JsonSerializer.SerializeToUtf8Bytes(Message);    
+             
                 socket.Send(buffer);    
 
                 

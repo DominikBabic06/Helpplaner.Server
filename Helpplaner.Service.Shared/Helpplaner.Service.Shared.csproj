@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Helpplaner.Service.Objects\Helpplaner.Service.Objects.csproj" />
+  </ItemGroup>
+
 </Project>

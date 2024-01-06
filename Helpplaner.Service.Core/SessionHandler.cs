@@ -54,7 +54,10 @@ namespace Helpplaner.Service.Core
                         Project project =  new Project();
                         Objects.Task[] tasks; 
                         User[] users;
+                        Project[] projects;
                         int id;
+                        string check; 
+                        _logger.Log(text, "green");
                         switch (text.Split(';')[0])
                         {
 
@@ -68,8 +71,16 @@ namespace Helpplaner.Service.Core
                                 break;
                             case "getallprojects":
                                 OpenConnection();
-                                writer.SendObject(_selectSqlCommandHandler.GetAllProjekte(user));
+                                projects = _selectSqlCommandHandler.GetAllProjekte(user); 
+                                
                                 CloseConnection();
+                                foreach (Project proj in projects)
+                                {
+                                    writer.SendObject(proj);
+                                   check = reader.Read();
+                                }   
+                                writer.Send("done");
+                                _logger.Log("All projects sent", "green");
                                 break;
                             case "getalltasks":
                                 //parameter1 is project id  
@@ -98,7 +109,7 @@ namespace Helpplaner.Service.Core
                                 {
                                     writer.SendObject(user);
                                 }   
-                              
+                                writer.Send("done");
                                 break;
 
                         }
