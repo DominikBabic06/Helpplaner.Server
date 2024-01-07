@@ -52,6 +52,7 @@ namespace Helpplaner.Service.Shared
             }
 
         }
+        public event EventHandler<string> ServerMEssage;
         public object ReadObject()
         {
             Message message;
@@ -75,10 +76,14 @@ namespace Helpplaner.Service.Shared
                         return project;
                         break;
 
-                      case "Helpplaner.Service.Objects.User": 
-                         User user = JsonSerializer.Deserialize<User>(message.Content);
+                    case "Helpplaner.Service.Objects.User":
+                        User user = JsonSerializer.Deserialize<User>(message.Content);
                         return user;
                         break;
+
+
+                    case "SERVERAsync":
+
                     default:
                         break;
                 }
@@ -91,6 +96,17 @@ namespace Helpplaner.Service.Shared
             {
 
                 return "exit";
+            }
+
+        }
+
+
+
+        public virtual void OnUserfound(string Message)
+        {
+            if (ServerMEssage != null)
+            {
+                ServerMEssage(this, Message);
             }
 
         }

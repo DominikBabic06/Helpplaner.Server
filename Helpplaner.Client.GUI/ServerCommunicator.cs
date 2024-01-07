@@ -17,13 +17,18 @@ namespace Helpplaner.Client.GUI
         private SocketWriter _writer;
         private SocketReader _reader;
         Socket sk;
+        Thread thread;  
+            
 
+       public  event EventHandler<string> ServerMessage;
         public ServerCommunicator(IServiceLogger logger)
         {
             sk = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             sk.Connect(new IPEndPoint(IPAddress.Loopback, 50000));
             _writer = new SocketWriter(sk, logger);
             _reader = new SocketReader(sk, logger  );
+            _reader.ServerMEssage += ReceiveAsyncMessage;
+           
 
 
         }
@@ -42,11 +47,12 @@ namespace Helpplaner.Client.GUI
         {
 
             _writer.Send(username + ";" + password);
-           
+          
             string input = _reader.Read();
+   
             if (input == "done")
             {
-                
+               
                 User user = (User)_reader.ReadObject();
                 return user;
             }
@@ -79,9 +85,13 @@ namespace Helpplaner.Client.GUI
 
             return projects.ToArray();
         }
-        public void ReceiveAsyncMessage()
+         
+        public void ReceiveAsyncMessage(object sender, string e)
         {
-
-        }
+            if (ServerMessage != null)
+            {
+                ServerMessage(sender, e);
+            }
+        }   
     }
 }
