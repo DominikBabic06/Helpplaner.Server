@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Helpplaner.Service.Objects;   
+using Helpplaner.Service.Shared;    
 
 namespace Helpplaner.Client.GUI.Pages
 {
@@ -20,9 +22,43 @@ namespace Helpplaner.Client.GUI.Pages
     /// </summary>
     public partial class Login : Page
     {
-        public Login()
+        ServerCommunicator server;
+        string username;
+        string password;
+        User user; 
+        public Login( ServerCommunicator server , ref User user)
         {
             InitializeComponent();
+            this.server  = server;   
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            password = Password.Password;   
+            username = User.Text;   
+            User userlog = server.TryLogin(username, password);
+            if (userlog == null)
+            {
+                MessageBox.Show("Login failed");
+                return;
+            }
+            user = userlog;    
+            OnUserfound();  
+
+        }
+
+        public event EventHandler Userfound;
+
+
+        protected virtual void OnUserfound()
+        {
+            if (Userfound != null)
+            {
+                Userfound(user, EventArgs.Empty);
+            }
+        }   
+
+
+
     }
 }

@@ -154,13 +154,13 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"  Grid.Column="0" Background="{DynamicResource  BackgroundColorTextHighlight}">
-                <TextBlock Text="Helpplaner"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left"
-                    FontSize="20" 
-                    Margin="25,0,0,0"/>
-            </Grid>
+                <TextBlock x:Name="Username" Text="Helpplaner"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Left"
             
+              FontSize="20" 
+              Margin="12,0,0,0"/>
+        </Grid>
         <Grid Grid.Row="0"  Grid.Column="1" >
                 <Menu Background="{DynamicResource  BackgroundColorSecondary}">
 
@@ -192,7 +192,7 @@
 
             </StackPanel>
 
-            <Frame Grid.Row="1" Grid.Column="1" Source="Pages\Login.xaml" NavigationUIVisibility="Hidden" />  
+            <Frame x:Name="Main" Grid.Row="1" Grid.Column="1"  NavigationUIVisibility="Hidden" />  
             
 
         </Grid>

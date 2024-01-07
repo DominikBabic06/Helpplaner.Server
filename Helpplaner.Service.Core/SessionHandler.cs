@@ -112,6 +112,11 @@ namespace Helpplaner.Service.Core
                                 writer.Send("done");
                                 break;
 
+                            case "logout":
+                                user = null;
+                                writer.Send("done");
+                                break;  
+
                         }
                     }
                     catch (Exception ex)
@@ -130,6 +135,7 @@ namespace Helpplaner.Service.Core
                     OpenConnection();   
                     CheckPassword(text);
                     CloseConnection();  
+
                    
                    
                 }
@@ -164,12 +170,13 @@ namespace Helpplaner.Service.Core
                 if (trueUser.Nutzer_Passwort == text.Split(';')[1].Trim())
                 {
                     user = trueUser;
-                    writer.Send("Login erfolgreich");
+                    writer.Send("done");
+                    writer.SendObject(user);
                 }
                 else
                 {
                     user = null;
-                    writer.Send("Login nicht erfolgreich");
+                    writer.Send("NDone");
 
                 }
             }
