@@ -61,7 +61,7 @@
                                 </DockPanel>
                                 <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="false" HorizontalOffset="1" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom" VerticalOffset="-1">
 
-                                    <Border BorderThickness="2" BorderBrush="{DynamicResource BackgroundColorSecondary}" Background="{DynamicResource BackgroundColorSecondary}">
+                                    <Border BorderThickness="2" BorderBrush="{DynamicResource BackgroundColorSecondary}" Background="{DynamicResource BackgroundColorTextHighlight}">
                                         <ScrollViewer x:Name="SubMenuScrollViewer" CanContentScroll="true" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle"/>
@@ -87,7 +87,9 @@
                 <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
                 <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>
                 <Setter Property="BorderThickness" Value="0">
-                   
+                    
+                    
+
                 </Setter>
                 
                     
@@ -124,16 +126,8 @@
         <Grid Grid.Row="0"  Grid.Column="1" >
                 <Menu Background="{DynamicResource  BackgroundColorSecondary}">
 
-                    <MenuItem Header="Datei"   Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Top">
+                    <MenuItem Header="Projekte"   Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Top" Margin="0,10,0,0">
                         
-
-                        <MenuItem Header="Neu" />
-                           
-                        <MenuItem Header="Öffnen" />
-                        <MenuItem Header="Speichern" />
-                        <MenuItem Header="Speichern unter" />
-
-
                     </MenuItem>
                     <MenuItem Header="Prefernzen" Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Bottom">
                         
@@ -148,8 +142,11 @@
 
             </StackPanel>
 
-           
+            <Frame Grid.Row="1" Grid.Column="1" Source="Pages\Login.xaml" NavigationUIVisibility="Hidden" />  
+            
+
         </Grid>
+      
 
         
         
