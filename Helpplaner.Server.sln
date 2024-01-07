@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpplaner.Service.SqlHandl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpplaner.Service.Objects", "Helpplaner.Service.Objects\Helpplaner.Service.Objects.csproj", "{1A714196-5791-421A-A41E-4EF8E38938F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpplaner.Client.GUI", "Helpplaner.Client.GUI\Helpplaner.Client.GUI.csproj", "{E8CA75C5-85B8-42DC-B2E8-98056EFA093B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Helpplaner.Client.GUI", "Helpplaner.Client.GUI\Helpplaner.Client.GUI.csproj", "{E8CA75C5-85B8-42DC-B2E8-98056EFA093B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

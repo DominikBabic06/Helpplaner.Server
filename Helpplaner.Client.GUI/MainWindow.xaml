@@ -4,35 +4,146 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Helpplaner.Client.GUI"
+      
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        WindowStyle="None" AllowsTransparency="True"
-        Background="Transparent" ResizeMode="CanResize">
+        Title="MainWindow" Height="600" Width="1200"
+         
+        Background="Transparent"  ResizeMode="CanResizeWithGrip" >
+
+
+      <Window.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes\DarkMode.xaml"/>
+
+                <ResourceDictionary Source="Templates.xaml"></ResourceDictionary>
+                <!-- You can include a default theme here -->
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+            </Style>
+
+            <Style TargetType="RadioButton">
+                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+            </Style>
+
+            <Style TargetType="Menu">
+                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+                <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontSize" Value="20"/>
+
+                <Setter Property="BorderBrush"  Value="{DynamicResource BackgroundColorTextHighlight}" />
+            </Style>
+            <Style TargetType="ContextMenu">
+                <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>
+            </Style>
+
+            <Style x:Key="MenuItemBaseStyle" TargetType="{x:Type MenuItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type MenuItem}">
+                            <Grid SnapsToDevicePixels="true">
+                                <DockPanel>
+                                    <ContentPresenter x:Name="Icon" ContentSource="Icon" Margin="4,0,6,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                    <Path x:Name="GlyphPanel" Fill="{TemplateBinding Foreground}" FlowDirection="LeftToRight" Margin="7,0,0,0" Visibility="Collapsed" VerticalAlignment="Center"/>
+                                    <ContentPresenter x:Name="content" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </DockPanel>
+                                <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="false" HorizontalOffset="1" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom" VerticalOffset="-1">
+
+                                    <Border BorderThickness="2" BorderBrush="{DynamicResource BackgroundColorSecondary}" Background="{DynamicResource BackgroundColorSecondary}">
+                                        <ScrollViewer x:Name="SubMenuScrollViewer" CanContentScroll="true" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                            <Grid RenderOptions.ClearTypeHint="Enabled">
+                                                <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle"/>
+                                            </Grid>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource  BackgroundColorTextHighlight}" TargetName="content"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+
+
+            <Style TargetType="MenuItem">
+                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+                <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>
+                <Setter Property="BorderThickness" Value="0">
+                   
+                </Setter>
+                
+                    
+                
+            </Style>
+
+
+
+
+        </ResourceDictionary>
+        </Window.Resources>
     
-    
-    <Border Background="#272537">
+    <Border Background="{DynamicResource BackgroundColorMain}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="90*"/>
+                
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition/>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="70*"/>
             </Grid.RowDefinitions>
 
+            <Grid Grid.Row="0"  Grid.Column="0" Background="{DynamicResource  BackgroundColorTextHighlight}">
             <TextBlock Text="Helpplaner"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Left"
-                Foreground="White"
-                FontSize="20" Grid.Column="1"
-                Margin="20,0,0,0"/>
+              VerticalAlignment="Center"
+            HorizontalAlignment="Left"
+            
+            FontSize="20" 
+              Margin="20,0,0,0"/>
+        </Grid>
+        <Grid Grid.Row="0"  Grid.Column="1" >
+                <Menu Background="{DynamicResource  BackgroundColorSecondary}">
 
-            <StackPanel Grid.Row="1">
+                    <MenuItem Header="Datei"   Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Top">
+                        
+
+                        <MenuItem Header="Neu" />
+                           
+                        <MenuItem Header="Öffnen" />
+                        <MenuItem Header="Speichern" />
+                        <MenuItem Header="Speichern unter" />
+
+
+                    </MenuItem>
+                    <MenuItem Header="Prefernzen" Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Bottom">
+                        
+                    </MenuItem>
+                </Menu>
+            </Grid>
+           
+            <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
                 <RadioButton Content="Projekt"
-                             Foreground="White"
+                            
                              FontSize="15"/>
 
             </StackPanel>
