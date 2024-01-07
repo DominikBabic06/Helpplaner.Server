@@ -74,6 +74,11 @@ namespace Helpplaner.Service.Shared
                         Project project = JsonSerializer.Deserialize<Project>(message.Content);
                         return project;
                         break;
+
+                      case "Helpplaner.Service.Objects.User": 
+                         User user = JsonSerializer.Deserialize<User>(message.Content);
+                        return user;
+                        break;
                     default:
                         break;
                 }

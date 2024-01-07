@@ -8,4 +8,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Helpplaner.Service.Objects\Helpplaner.Service.Objects.csproj" />
+    <ProjectReference Include="..\Helpplaner.Service.Shared\Helpplaner.Service.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

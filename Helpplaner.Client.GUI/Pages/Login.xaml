@@ -90,7 +90,7 @@
               
                 <Grid Grid.Row="4" >
                     
-                    <Button Template="{DynamicResource RoundetButton}" Content="Login" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="100" Height="40" Margin="0,0,40,0" FontSize="20"   Foreground="{DynamicResource ColorText}" />    
+                    <Button Template="{DynamicResource RoundetButton}" Content="Login" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="100" Height="40" Margin="0,0,40,0" FontSize="20"   Foreground="{DynamicResource ColorText}" Click="Button_Click" />    
                 </Grid>
 
 
