@@ -136,9 +136,9 @@
             </Grid>
            
             <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
-                <RadioButton Content="Projekt"
-                            
-                             FontSize="15"/>
+                <ListBox Margin="0,20,0,0">
+                    
+                </ListBox>
 
             </StackPanel>
 
