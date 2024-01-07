@@ -15,41 +15,87 @@
 
                 <!-- You can include a default theme here -->
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Button" >
+                
+            </Style>
+            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+            <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+            <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+            <ControlTemplate x:Key="RoundetButton" TargetType="{x:Type ButtonBase}">
+                <Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                    <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="Button.IsDefaulted" Value="true">
+                        <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="TextBlock.Foreground" TargetName="contentPresenter" Value="{DynamicResource BackgroundColorTextHighlight}"></Setter>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="true">
+                        <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
         </ResourceDictionary>
-    </Page.Resources>   
+    </Page.Resources>
     <Grid Background="{DynamicResource  BackgroundColorMain}">
 
-        <Border CornerRadius="20" Background="{DynamicResource BackgroundColorTextHighlight}" Width="300" Height="400">
-
        
-        <Grid   >
-           
-            <Grid.RowDefinitions>
-                <RowDefinition/>
+        <Border CornerRadius="20" Background="{DynamicResource BackgroundColorTextHighlight}" Width="400" Height="400">
+
+            
+            <Grid  Height="400" VerticalAlignment="Bottom"  >
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="20*" />
                     <RowDefinition Height="20*" />
                     <RowDefinition Height="20*"/>
                     <RowDefinition Height="20*"/>
-                    <RowDefinition Height="20*"/>
+                   
 
                 </Grid.RowDefinitions>
-              
-                <Grid Grid.Row="1">
-                    <Label Content="Benutzername:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="20"/>
-                    <TextBox HorizontalAlignment="Right"  ></TextBox>
+                <Grid Grid.Row="1" >
+
+                    <Label Content="Helpplaner" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="40"/>
                 </Grid>
-                <Grid Grid.Row="2">
-                    <Label Content="Benutzername" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="20"/>
+                <Grid Grid.Row="2" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Benutzername:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Foreground="{DynamicResource ColorText}" FontSize="20"/>
+                    <TextBox Grid.Column="1" x:Name="User" HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Margin="0,0,40,0" Width="149" FontSize="20" ></TextBox>
                 </Grid>
                 <Grid Grid.Row="3">
-                    <Label Content="Benutzername" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="20"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Passwort:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Foreground="{DynamicResource ColorText}" FontSize="20"/>
+                    <PasswordBox Grid.Column="1" x:Name ="Password"  HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Margin="0,0,40,0" Width="149" FontSize="20"></PasswordBox>
                 </Grid>
-                <Grid Grid.Row="4">
-                    <Label Content="Benutzername" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="20"/>
+              
+                <Grid Grid.Row="4" >
+                    
+                    <Button Template="{DynamicResource RoundetButton}" Content="Login" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="100" Height="40" Margin="0,0,40,0" FontSize="20"   Foreground="{DynamicResource ColorText}" />    
                 </Grid>
 
 
             </Grid>
         </Border>
     </Grid>
-   
+
 </Page>
