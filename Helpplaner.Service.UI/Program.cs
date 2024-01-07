@@ -13,6 +13,7 @@ class Program
         string input;
         do
         {
+            server.Start(); 
            cl.Log("Type 'start' to start the server, 'stop' to stop the server" , "white");    
             input = cl.GetInfo("Enter command: ");  
             switch (input)

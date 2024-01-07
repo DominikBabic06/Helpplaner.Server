@@ -70,9 +70,15 @@ namespace Helpplaner.Client.GUI
             Object proj = null;
             try
             {
-                proj = _reader.ReadObject();
-                _writer.Send("check");
-                projects.Add((Project)proj);
+                do
+                {
+                    proj = _reader.ReadObject();
+                    _writer.Send("done");
+                    projects.Add((Project)proj);
+                } while (true);
+               
+
+               
             }
             catch (Exception ex)
             {
@@ -85,7 +91,38 @@ namespace Helpplaner.Client.GUI
 
             return projects.ToArray();
         }
+        public void Logout()
+        {
+            _writer.Send("logout");
+            _reader.Read();
+        }
          
+        public Project[] GetAdminProjekts()
+        {
+            List<Project> projects = new List<Project>();
+            string input = "";
+            _writer.Send("getadminprojects");
+
+            Object proj = null;
+            try
+            {
+                do
+                {
+                    proj = _reader.ReadObject();
+                    _writer.Send("done");
+                    projects.Add((Project)proj);
+                } while (true);
+            }
+            catch (Exception ex)
+            {
+
+                input = (string)proj;
+            }
+
+
+            return projects.ToArray();
+        }
+
         public void ReceiveAsyncMessage(object sender, string e)
         {
             if (ServerMessage != null)

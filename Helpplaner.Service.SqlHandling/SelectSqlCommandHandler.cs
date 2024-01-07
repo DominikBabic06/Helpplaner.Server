@@ -443,6 +443,38 @@
 
             return admins.ToArray();
         }
+
+        public Project[] GetAllAdminProjekte(User user)
+        {
+            List<Project> projekte = new List<Project>();
+            List<string> projektIDs = new List<string>();
+            try
+            {
+                using (SqlCommand command = new SqlCommand("Select * from AdminProjekt where Nutzer_ID = @Nutzer_ID" , _connection))
+                {
+                    command.Parameters.AddWithValue("@Nutzer_ID", user.Nutzer_ID);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            projektIDs.Add(reader["Projekt_ID"].ToString());    
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+            foreach (string item in projektIDs)
+            {
+
+                projekte.Add(GiveProjekt(Convert.ToInt32(item))); 
+            }
+          
+            return projekte.ToArray();
+        }
         #endregion
 
         #region ArbeitsSitzung

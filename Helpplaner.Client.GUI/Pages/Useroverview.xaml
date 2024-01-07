@@ -19,12 +19,12 @@
     </Page.Resources>
 
     <Grid Background="{DynamicResource BackgroundColorMain}" x:Name="Users">
-        <DataGrid Background="{DynamicResource BackgroundColorMain}">
+        <DataGrid Background="{DynamicResource BackgroundColorMain}" SelectionChanged="DataGrid_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="25*"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="25*"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="25*"/>
-                <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="25*"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="20*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="20*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="20*"/>
+                <DataGridTextColumn Header="Admin" Binding="{Binding Admin}" Width="20*"/>
             </DataGrid.Columns>
           
         </DataGrid>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Helpplaner.Service.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,25 @@ namespace Helpplaner.Client.GUI.Pages
     /// </summary>
     public partial class Useroverview : Page
     {
-        public Useroverview()
+        Project Project;
+        public Useroverview(Project proj , ServerCommunicator sr)
         {
             InitializeComponent();
+            Project = proj; 
+            
+        }
+
+        private void FillUser()
+        {
+            foreach (User item in Project.Users)
+            {
+              
+            }
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -35,6 +35,7 @@
 
             <Style TargetType="Button">
                 <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+                <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>  
             </Style>
 
             <Style TargetType="Menu">
@@ -203,9 +204,9 @@
             </Grid>
            
             <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
-                <RadioButton Content="Login"
-                             Height="50"
-                             Style="{StaticResource MenuButtonTheme}"/>
+                <Button Content="Logout" Template="{DynamicResource ReloadButton}" 
+               Height="50" VerticalAlignment="Bottom"
+               Background="{StaticResource BackgroundColorSecondary}" FontSize="20" Click="Logout_Click" />
 
                 <RadioButton Content="Diagramm"
                             Height="50"

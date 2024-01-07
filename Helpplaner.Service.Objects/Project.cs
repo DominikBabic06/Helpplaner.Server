@@ -22,7 +22,9 @@ namespace Helpplaner.Service.Objects
 
                       
         public List<Task> Tasks{ get; set; } = new List<Task>();
-        public override string ToString()
+
+        public 
+         override string ToString()
         {
             return "Projekt_ID: " + Projekt_ID + "\n" +
                     "Projekt_Name: " + Projekt_Name + "\n" +

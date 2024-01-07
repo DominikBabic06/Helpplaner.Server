@@ -93,8 +93,9 @@ namespace Helpplaner.Service.Core
                                 foreach (Objects.Task task in project.Tasks)
                                 {
                                     writer.SendObject(task);
+                                    check = reader.Read();
                                 }
-                                writer.Send("done");
+                                writer.Send("done");    
                                
                                 break;
                             case "getalluserprojects":
@@ -108,10 +109,25 @@ namespace Helpplaner.Service.Core
                                 foreach (User user in users)
                                 {
                                     writer.SendObject(user);
+                                    check = reader.Read();
+
                                 }   
                                 writer.Send("done");
                                 break;
+                             case "getadminprojects":
+                                OpenConnection();
+                                projects = _selectSqlCommandHandler.GetAllAdminProjekte(user);
+                                CloseConnection();
+                                foreach (Project proj in projects)
+                                {
+                                    writer.SendObject(proj);
+                                    check = reader.Read();
 
+                                }
+                                writer.Send("done");
+                                _logger.Log("All projects sent", "green");
+                                
+                                break;
                             case "logout":
                                 user = null;
                                 writer.Send("done");
