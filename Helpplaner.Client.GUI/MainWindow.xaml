@@ -80,8 +80,38 @@
                 </Setter>
             </Style>
 
+            <Style BasedOn="{StaticResource {x:Type ToggleButton}}"
+       TargetType="{x:Type RadioButton}"
+       x:Key="MenuButtonTheme">
+                <Style.Setters>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Grid VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          Background="{TemplateBinding Background}">
 
+                                    <TextBlock Text="{TemplateBinding Property=Content}"
+                                   VerticalAlignment="Center"
+                                   Margin="25,0,0,0"/>
 
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+
+                </Style.Setters>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="{DynamicResource  BackgroundColorTextHighlight}"/>
+                    </Trigger>
+                </Style.Triggers>
+
+            </Style>
 
             <Style TargetType="MenuItem">
                 <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
@@ -118,27 +148,41 @@
             <Grid Grid.Row="0"  Grid.Column="0" Background="{DynamicResource  BackgroundColorTextHighlight}">
             <TextBlock Text="Helpplaner"
               VerticalAlignment="Center"
-            HorizontalAlignment="Left"
+              HorizontalAlignment="Left"
             
-            FontSize="20" 
-              Margin="20,0,0,0"/>
+              FontSize="20" 
+              Margin="12,0,0,0"/>
         </Grid>
         <Grid Grid.Row="0"  Grid.Column="1" >
                 <Menu Background="{DynamicResource  BackgroundColorSecondary}">
 
-                    <MenuItem Header="Projekte"   Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Top" Margin="0,10,0,0">
+                    <MenuItem Header="Projekte" Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Bottom" Margin="0,10,0,0">
                         
                     </MenuItem>
-                    <MenuItem Header="Prefernzen" Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Bottom">
+                    <MenuItem Header="Preferenzen" Style="{StaticResource MenuItemBaseStyle}" Click="MenuItem_Click" VerticalAlignment="Bottom" Margin="0,10,0,0">
                         
                     </MenuItem>
                 </Menu>
             </Grid>
            
             <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
+                <RadioButton Content="Login"
+                             Height="50"
+                             FontSize="17"
+                             Style="{StaticResource MenuButtonTheme}"
+                             Foreground="{DynamicResource ColorText}"/>
+
+                <RadioButton Content="Diagramm"
+                            Height="50"
+                            FontSize="17"
+                            Style="{StaticResource MenuButtonTheme}"
+                            Foreground="{DynamicResource ColorText}"/>
+
                 <RadioButton Content="Projekt"
-                            
-                             FontSize="15"/>
+                            Height="50"
+                            FontSize="17"
+                            Style="{StaticResource MenuButtonTheme}"
+                            Foreground="{DynamicResource ColorText}"/>
 
             </StackPanel>
 
