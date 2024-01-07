@@ -6,9 +6,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <!-- <BitmapImage x:Key="Folder" UriSource="Helpplaner.Client.GUI\Images\folder.svg"></BitmapImage> -->
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Themes/MenuButtonTheme.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
