@@ -94,8 +94,8 @@
 
                                     <TextBlock Text="{TemplateBinding Property=Content}"
                                                VerticalAlignment="Center"
-                                               Margin="25,0,0,0"
-                                               FontSize="18"
+                                               Margin="20,0,0,0"
+                                               FontSize="19"
                                                Foreground="{DynamicResource ColorText}"/>
 
                                 </Grid>
@@ -206,22 +206,22 @@
             <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
                 <Button Content="Logout" Template="{DynamicResource ReloadButton}" 
                Height="50" VerticalAlignment="Bottom"
-               Background="{StaticResource BackgroundColorSecondary}" FontSize="20" Click="Logout_Click" />
+               Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
 
-                <RadioButton Content="Diagramm"
-                            Height="50"
-                            Style="{StaticResource MenuButtonTheme}"/>
+                <Button Content="Diagramm" Template="{DynamicResource ReloadButton}" 
+Height="50" VerticalAlignment="Bottom"
+Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
 
-                <RadioButton Content="Projekt"
-                            Height="50"
-                            Style="{StaticResource MenuButtonTheme}"/>
+                <Button Content="Projekt" Template="{DynamicResource ReloadButton}" 
+Height="50" VerticalAlignment="Bottom"
+Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
 
                 <RadioButton Content="AP-Übersicht"
                             Height="50"
                             Style="{StaticResource MenuButtonTheme}"/>
                 <Button Template="{DynamicResource ReloadButton}" Content="Reload"
                Height="50" VerticalAlignment="Bottom"
-               Background="{StaticResource BackgroundColorSecondary}" FontSize="20" Click="Reload_Click"  />
+               Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Reload_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
 
 
             </StackPanel>
