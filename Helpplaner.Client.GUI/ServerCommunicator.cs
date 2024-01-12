@@ -24,7 +24,7 @@ namespace Helpplaner.Client.GUI
         public ServerCommunicator(IServiceLogger logger)
         {
             sk = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            sk.Connect(new IPEndPoint(IPAddress.Loopback, 50000));
+          
             _writer = new SocketWriter(sk, logger);
             _reader = new SocketReader(sk, logger  );
             _reader.ServerMEssage += ReceiveAsyncMessage;
@@ -32,6 +32,46 @@ namespace Helpplaner.Client.GUI
 
 
         }
+        public bool tryConnect()
+        {
+            if (sk.Connected)
+            {
+                try
+                {
+                    _writer.Send("ping");
+                    if (_reader.Read() == "pong")
+                    {
+                        return true;
+                    }
+
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception)
+                {
+
+                    return false;
+                }
+               
+            }
+            else
+            {
+                try
+                {
+                    sk.Connect(new IPEndPoint(IPAddress.Loopback, 50000));
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    return false;
+                }
+            }
+           
+        }
+
 
         public string Send(string message)
         {

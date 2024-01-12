@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Helpplaner.Client.GUI.Pages;
+using Helpplaner.Client.GUI.SVG;
 using Helpplaner.Service.Objects;
 using Helpplaner.Service.Shared;
 
@@ -19,7 +20,7 @@ namespace Helpplaner.Client.GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        bool connected = false; 
         User user;
         public Login login;
         ServerCommunicator sc;
@@ -44,29 +45,27 @@ namespace Helpplaner.Client.GUI
             login.Userfound += Login_Userfound;
             sc.ServerMessage += Sc_ServerMessage;
             Main.Content = login;
+            CheckServer();
 
 
         }
 
 
-        private void Request_Info()
+        private void CheckServer()
         {
-           
-            if (user != null)
-            {
-                projects = sc.GetProjectsforUser();
-            }
-            
-            
-            foreach (Project item in projects)
-            {
-                Projekte.Items.Add(item.Projekt_Name + " (" + item.Projekt_ID + ")");
-            }
-            foreach (MenuItem item in Projekte.Items)
+          connected = sc.tryConnect();
+            if (connected)
             {
                 
-
+                Plug plug = new Plug();
+                ConnectionEstablished.Content = plug;   
             }
+            else
+            {
+                NoPlug plug = new NoPlug();
+                ConnectionEstablished.Content = plug;
+            }   
+           
 
         }   
 
