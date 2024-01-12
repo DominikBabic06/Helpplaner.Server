@@ -128,6 +128,22 @@ namespace Helpplaner.Service.Core
                                 _logger.Log("All projects sent", "green");
                                 
                                 break;
+                            case "getusersforproject":
+                                //parameter1 is project id  
+                                id = int.Parse(text.Split(';')[1].Trim());
+
+                                OpenConnection();
+                                project = _selectSqlCommandHandler.GiveProjekt(id);
+                                users = _selectSqlCommandHandler.GetAllUsers(project);
+                                CloseConnection();
+                                foreach (User user in users)
+                                {
+                                    writer.SendObject(user);
+                                    check = reader.Read();
+
+                                }
+                                writer.Send("done");
+                                break;
                             case "logout":
                                 user = null;
                                 writer.Send("done");

@@ -22,19 +22,23 @@ namespace Helpplaner.Client.GUI.Pages
     public partial class Useroverview : Page
     {
         Project Project;
-        public Useroverview(Project proj , ServerCommunicator sr)
+        User[] User;
+        ServerCommunicator sr;
+        public Useroverview(Project proj, ServerCommunicator sr)
         {
             InitializeComponent();
-            Project = proj; 
-            
+            Project = proj;
+            this.sr = sr;
+            FillUser();
+
         }
 
         private void FillUser()
         {
-            foreach (User item in Project.Users)
-            {
-              
-            }
+            User = sr.GetUsersforProject(Convert.ToInt32(Project.Projekt_ID));
+            Users.ItemsSource = User;
+
+
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

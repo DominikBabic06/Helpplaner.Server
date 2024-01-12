@@ -71,7 +71,31 @@ namespace Helpplaner.Client.GUI
             }
            
         }
+        public User[] GetUsersforProject(int id)
+        {
+            List<User> users = new List<User>();
+            string input = "";
+            _writer.Send("getusersforproject;" + id);
 
+            Object user = null;
+            try
+            {
+                do
+                {
+                    user = _reader.ReadObject();
+                    _writer.Send("done");
+                    users.Add((User)user);
+                } while (true);
+            }
+            catch (Exception ex)
+            {
+
+                input = (string)user;
+            }
+
+
+            return users.ToArray();
+        }
 
         public string Send(string message)
         {
