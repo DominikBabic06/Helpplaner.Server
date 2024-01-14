@@ -22,7 +22,7 @@ namespace Helpplaner.Service.Core
         InsertSqlCommandHandler _insertSqlCommandHandler;   
         SelectSqlCommandHandler _selectSqlCommandHandler;  
        User user;
-
+        string info; 
 
       public  SessionHandler(Socket client, IServiceLogger logger,Guid id)
         {
@@ -31,7 +31,7 @@ namespace Helpplaner.Service.Core
             _sessionId = id;
             writer = new SocketWriter(_clientSocket, _logger);  
             reader = new SocketReader(_clientSocket, _logger);
-           
+           info = "None";
                
                 
                 _connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True");
@@ -39,6 +39,7 @@ namespace Helpplaner.Service.Core
             _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
 
         }   
+        
         public void HandleClient()
         {
             
@@ -46,8 +47,7 @@ namespace Helpplaner.Service.Core
             
             while (text != "exit" )
             {
-                if (user != null)
-                {
+              
                     text = reader.Read();
                     try
                     {
@@ -57,13 +57,23 @@ namespace Helpplaner.Service.Core
                         Project[] projects;
                         int id;
                         string check; 
-                        _logger.Log(text, "green");
+                      if(!text.Contains("info"))
+                        if(user != null)    
+                       _logger.Log(user.Nutzernamen = text , "green");
                         switch (text.Split(';')[0])
                         {
 
+
+
+                            //format is command;parameter1;parameter2;parameter3;...
+                            case "info":
+                                writer.Send(info);
+                                if(info != "None")
+                                _logger.Log(info, "green"); 
+                                info = "None";  
+                                break;
                            
-                          
-                            //format is command;parameter1;parameter2;parameter3;...    
+                        
                             case "getallusers":
                                 OpenConnection();
                                 writer.SendObject(_selectSqlCommandHandler.GiveAllUsers());
@@ -148,7 +158,16 @@ namespace Helpplaner.Service.Core
                                 user = null;
                                 writer.Send("done");
                                 break;  
-
+                            case "login":
+                                text = text.Replace("login;", "");  
+                                OpenConnection();
+                                CheckPassword(text);
+                                CloseConnection();  
+                                break;
+                            case "exit":
+                            Close();
+                                
+                                break;  
                         }
                     }
                     catch (Exception ex)
@@ -158,19 +177,8 @@ namespace Helpplaner.Service.Core
                         writer.Send("0!;error");
                     }
                     
-                }
-                else
-                {
-                    
-                    // login sent in the format username;password    
-                    text = reader.Read();
-                    OpenConnection();   
-                    CheckPassword(text);
-                    CloseConnection();  
-
-                   
-                   
-                }
+             
+            
 
 
 
@@ -178,6 +186,10 @@ namespace Helpplaner.Service.Core
             Close();    
          
         }
+        public void PostMessage(string message)
+        {
+            info = message; 
+        }   
         public void CloseConnection()
         {
             if (_connection.State == System.Data.ConnectionState.Open)

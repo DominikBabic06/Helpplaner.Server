@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Helpplaner.Service.Objects;   
 using Helpplaner.Service.Shared;    
+using System.Security.Cryptography;
+using System.IO;
 
 namespace Helpplaner.Client.GUI.Pages
 {
@@ -22,24 +24,50 @@ namespace Helpplaner.Client.GUI.Pages
     /// </summary>
     public partial class Login : Page
     {
+        public bool inputblocked = false;   
         ServerCommunicator server;
         string username;
         string password;
-        User user; 
+        User user;
+        string remeber;
         public Login( ServerCommunicator server , ref User user)
         {
             InitializeComponent();
             this.server  = server;   
+            StreamReader sr = new StreamReader("UserData/remeber.txt");    
+            remeber = sr.ReadLine();  
+            sr.Close(); 
+            if(!String.IsNullOrEmpty(remeber))
+            {
+                Password.Password = remeber.Split(";")[1];
+                User.Text = remeber.Split(";")[0];  
+
+            }   
+
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             password = Password.Password;   
-            username = User.Text;   
+            username = User.Text;
+            if(RememberMe.IsChecked == true)
+            {
+                StreamWriter sw = new StreamWriter("UserData/remeber.txt");
+                sw.WriteLine(username + ";" + password);
+                sw.Close();  
+            }
+            else
+            {
+                StreamWriter sw = new StreamWriter("UserData/remeber.txt");
+                sw.WriteLine("");
+                sw.Close();
+
+            }
             User userlog = server.TryLogin(username, password);
             if (userlog == null)
             {
-                MessageBox.Show("Login failed");
+                Warning.Content= "Login failed";
                 return;
             }
             user = userlog;    
@@ -48,6 +76,27 @@ namespace Helpplaner.Client.GUI.Pages
         }
 
         public event EventHandler Userfound;
+
+        public void BlockInput()
+        {
+            User.IsEnabled = false;
+            Password.IsEnabled = false;
+            LoginButton.IsEnabled = false;
+            inputblocked = true;    
+        }
+
+        public void UnblockInput()
+        {
+            User.IsEnabled = true;
+            Password.IsEnabled = true;
+            LoginButton.IsEnabled = true;
+            inputblocked = false;
+        }    
+        
+        public void ChangeWarning(string warning)
+        {
+            Warning.Content = warning;   
+        }   
 
 
         protected virtual void OnUserfound()

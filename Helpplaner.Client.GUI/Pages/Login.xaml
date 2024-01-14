@@ -89,8 +89,10 @@
                 </Grid>
               
                 <Grid Grid.Row="4" >
-                    
-                    <Button Template="{DynamicResource RoundetButton}" Content="Login" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="100" Height="40" Margin="0,0,40,0" FontSize="20"   Foreground="{DynamicResource ColorText}" Click="Button_Click" />    
+                    <Label  x:Name="Warning" Foreground="Red" FontSize="20"></Label>
+                    <Label Content="Remember me" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="20" Margin="40,0,0,0"/>
+                    <CheckBox x:Name="RememberMe" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" IsChecked="True" />   
+                    <Button x:Name="LoginButton" Template="{DynamicResource RoundetButton}" Content="Login" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="100" Height="40" Margin="0,0,40,0" FontSize="20"   Foreground="{DynamicResource ColorText}" Click="Button_Click" />    
                 </Grid>
 
 

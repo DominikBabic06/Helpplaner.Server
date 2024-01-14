@@ -211,7 +211,7 @@
                     </Menu>
                    
                     <Grid Grid.Column="1" Background="{DynamicResource  BackgroundColorSecondary}">
-                        <Frame  x:Name ="ConnectionEstablished"  HorizontalAlignment="Right" Source="SVG/NoPlug.xaml" Margin="0,0,20,0"></Frame>
+                        <Frame   x:Name ="ConnectionEstablished"  HorizontalAlignment="Right"  Margin="0,0,20,0" NavigationUIVisibility="Hidden"></Frame>
                         
                           
 

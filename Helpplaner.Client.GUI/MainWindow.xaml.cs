@@ -27,6 +27,9 @@ namespace Helpplaner.Client.GUI
         Project[] projects;
         Project[] adminprojects;
         Project selectetProj;
+        NoPlug noplug = new NoPlug();   
+        Plug plug = new Plug();
+        
         public MainWindow()
         {
 
@@ -45,25 +48,59 @@ namespace Helpplaner.Client.GUI
             login.Userfound += Login_Userfound;
             sc.ServerMessage += Sc_ServerMessage;
             Main.Content = login;
+          
             CheckServer();
+
+
+            Thread checkThread = new Thread(CheckServerRepeating); 
+            checkThread.IsBackground = true;
+          
+            checkThread.Start();
+
 
 
         }
 
-
-        private void CheckServer()
+        public void CheckServerRepeating()
         {
+          
+            while (true)
+            {
+                Thread.Sleep(1000);
+                CheckServer();
+            }
+        }   
+
+        private  void CheckServer()
+        {
+            
           connected = sc.tryConnect();
+           
             if (connected)
             {
+
+
+                Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { ConnectionEstablished.Content = plug; });
+                if (login.inputblocked)
+                {
+                   Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { login.Warning.Content = ""; });
+                    Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { ConnectionEstablished.Source = new Uri(@"SVG/Plug.xaml", UriKind.Relative); });
+                    Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { login.UnblockInput(); }); 
+              
+                }
                 
-                Plug plug = new Plug();
-                ConnectionEstablished.Content = plug;   
             }
             else
             {
-                NoPlug plug = new NoPlug();
-                ConnectionEstablished.Content = plug;
+               
+                
+                if (!login.inputblocked)
+                {
+                    Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { login.Warning.Content = "Server is offline"; });
+                    Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { ConnectionEstablished.Source = new Uri(@"SVG/NoPlug.xaml", UriKind.Relative); });
+
+                    Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { login.BlockInput(); });    
+                }
             }   
            
 

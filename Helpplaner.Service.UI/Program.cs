@@ -11,9 +11,10 @@ class Program
         Server server = new Server(cl);
         
         string input;
+       /// server.Start();
         do
         {
-            server.Start(); 
+            
            cl.Log("Type 'start' to start the server, 'stop' to stop the server" , "white");    
             input = cl.GetInfo("Enter command: ");  
             switch (input)
@@ -25,6 +26,7 @@ class Program
                         break;
                     }
                     server.Start();
+                    
                     break;
                 case "stop":
                     if (!server.isRunning)

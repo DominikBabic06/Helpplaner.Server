@@ -18,7 +18,8 @@ namespace Helpplaner.Client.GUI
         private SocketReader _reader;
         Socket sk;
         Thread thread;  
-            
+        private bool skipconnection = false;
+        bool isconnected = false;   
 
        public  event EventHandler<string> ServerMessage;
         public ServerCommunicator(IServiceLogger logger)
@@ -34,45 +35,66 @@ namespace Helpplaner.Client.GUI
         }
         public bool tryConnect()
         {
-            if (sk.Connected)
+            if (!skipconnection)
             {
-                try
+                if (isconnected)
                 {
-                    _writer.Send("ping");
-                    if (_reader.Read() == "pong")
+                    try
                     {
-                        return true;
+                        _writer.Send("info");
+                        string input = _reader.Read();
+                   
+                        if (input == "None")
+                        {
+                            return true;
+                        }
+                        if(input == "Shutdown")
+                        {
+                            _writer.Send("exit");
+                            sk.Shutdown(SocketShutdown.Both);
+                            sk.Disconnect(true);
+                            Thread.Sleep(5000);
+                            isconnected = false;
+                            return false;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                       
+                        return false;
                     }
 
-                    else
+                }
+                else
+                {
+                    try
                     {
+                       sk = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);    
+                        _writer = new SocketWriter(sk, new ConsoleLogger());    
+                        _reader = new SocketReader(sk, new ConsoleLogger());    
+
+                        sk.Connect(new IPEndPoint(IPAddress.Loopback, 50000));
+                        isconnected = true;
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                    //  sk = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                         return false;
                     }
                 }
-                catch (Exception)
-                {
-
-                    return false;
-                }
-               
             }
-            else
-            {
-                try
-                {
-                    sk.Connect(new IPEndPoint(IPAddress.Loopback, 50000));
-                    return true;
-                }
-                catch (Exception)
-                {
-
-                    return false;
-                }
-            }
+            return true;
+         
            
         }
         public User[] GetUsersforProject(int id)
         {
+            skipconnection = true;  
             List<User> users = new List<User>();
             string input = "";
             _writer.Send("getusersforproject;" + id);
@@ -93,7 +115,7 @@ namespace Helpplaner.Client.GUI
                 input = (string)user;
             }
 
-
+            skipconnection = false;
             return users.ToArray();
         }
 
@@ -109,8 +131,9 @@ namespace Helpplaner.Client.GUI
 
         public User TryLogin(string username, string password)
         {
-
-            _writer.Send(username + ";" + password);
+            skipconnection = true;
+            Thread.Sleep(1000);
+            _writer.Send("login;" + username + ";" + password);
           
             string input = _reader.Read();
    
@@ -118,12 +141,16 @@ namespace Helpplaner.Client.GUI
             {
                
                 User user = (User)_reader.ReadObject();
+                skipconnection = false;
                 return user;
             }
             else
+              
             {
+                skipconnection = false;
                 return null;
             }
+         
         }   
         public Project[] GetProjectsforUser()
         {

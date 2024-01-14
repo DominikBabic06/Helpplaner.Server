@@ -27,7 +27,7 @@
         {
             _ipAddress = IPAddress.Parse(ipAddress);
             _port = port;
-            _endPoint = new IPEndPoint(_ipAddress, _port);
+           
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _logger = logger;
             _connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True");
@@ -38,6 +38,8 @@
         
         public void Start()
         {
+            _endPoint = new IPEndPoint(_ipAddress, _port);
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);  
             _socket.Bind(_endPoint);
             _socket.Listen(100);
             _logger.Log("Server started", "green"); 
@@ -49,24 +51,41 @@
             thread.Start();
             _connection.Open();
             _logger.Log("Connection to database opened", "green");  
+            isRunning = true;   
          
           
 
 
         }
         public void Stop() {
-            if (_socket.Connected)
+
+            try
             {
-                _socket.Shutdown(SocketShutdown.Both);
+               clientHandler.PostMessage("Shutdown");
+
+                Thread.Sleep(5000);
+                _logger.Log("Server stopping", "red");
                 _socket.Close();
-          
-                _logger.Log("Server stopped", "red");   
+                _logger.Log("Socket closed", "red");
+                clientHandler.Close();
+                _logger.Log("All sessions closed", "red");
+               
+              
+
             }
+            catch (Exception e)
+            {
+
+                _logger.Log(e.Message, "red");
+            }
+                
+                _logger.Log("Server stopped", "red");   
+           
             _connection.Close();   
             _logger.Log("Connection to database closed", "red");    
            
 
-          
+          isRunning = false;
 
 
         }

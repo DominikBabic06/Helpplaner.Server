@@ -29,21 +29,39 @@ namespace Helpplaner.Service.Core
         
         public void AcceptClients()
         {
-            while (true)
+            try
             {
-                Socket client = _socket.Accept();
-                Logger.Log($"Client connected: {client.RemoteEndPoint}", "green");
-                SessionHandler session = new SessionHandler(client, Logger,GetFirstAvailableSessionId());
-                session.SessionClosed += SessionHandler;
-                Thread sessionTask = new Thread(session.HandleClient);  
-                sessionTask.IsBackground = true;    
-                sessionTask.Start();    
-               _sessions.Add(session._sessionId,session);
-                
+                while (true)
+                {
+                    Socket client = _socket.Accept();
+                    Logger.Log($"Client connected: {client.RemoteEndPoint}", "green");
+                    SessionHandler session = new SessionHandler(client, Logger, GetFirstAvailableSessionId());
+                    session.SessionClosed += SessionHandler;
+                    Thread sessionTask = new Thread(session.HandleClient);
+                    sessionTask.IsBackground = true;
+                    sessionTask.Start();
+                    _sessions.Add(session._sessionId, session);
+
+                }
+            }
+            catch (Exception)
+            {
+
+                Logger.Log("Server stopped", "red");    
             }
            
+           
         }
+        
 
+
+        public void PostMessage(string message)
+        {
+            foreach (Guid id in _sessions.Keys)
+            {
+                _sessions[id].PostMessage(message);
+            }
+        }
         public void Close()
         {
         

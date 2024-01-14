@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Helpplaner.Service.Shared\Helpplaner.Service.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UserData\" />
+  </ItemGroup>
+
 </Project>
