@@ -80,7 +80,10 @@ namespace Helpplaner.Service.Shared
                         User user = JsonSerializer.Deserialize<User>(message.Content);
                         return user;
                         break;
-
+                    case "Helpplaner.Service.Objects.Task":
+                        Helpplaner.Service.Objects.Task task = JsonSerializer.Deserialize<Helpplaner.Service.Objects.Task>(message.Content);
+                        return task;
+                        break;  
 
                     case "SERVERAsync":
 

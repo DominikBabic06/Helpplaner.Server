@@ -65,11 +65,11 @@ namespace Helpplaner.Service.SqlHandling
                 command.Parameters.AddWithValue("@Arbeitspaket_Name", task.Arbeitspaket_Name);
                 command.Parameters.AddWithValue("@Projekt_ID", task.Projekt_ID);
                 command.Parameters.AddWithValue("@Arbeitspaket_Beschreibung", task.Arbeitspaket_Beschreibung);
-                command.Parameters.AddWithValue("@FruehestmoeglicherAnfang", task.FruehestmoeglicherAnfang);
-                command.Parameters.AddWithValue("@FruehestmoeglichesEnde", task.FruehestmoeglichesEnde);
-                command.Parameters.AddWithValue("@SpaetmoeglichsterAnfang", task.SpaetmoeglichsterAnfang);
-                command.Parameters.AddWithValue("@SpaetmoeglichstesEnde", task.SpaetmoeglichstesEnde);
-                command.Parameters.AddWithValue("@Arbeitspaket_InsgeArbeitszeit", task.Arbeitspaket_InsgeArbeitszeit);
+                command.Parameters.AddWithValue("@FruehestmoeglicherAnfang", "1905-07-11 00:00:00.000");
+                command.Parameters.AddWithValue("@FruehestmoeglichesEnde", "1905-07-11 00:00:00.000");
+                command.Parameters.AddWithValue("@SpaetmoeglichsterAnfang", "1905-07-11 00:00:00.000");
+                command.Parameters.AddWithValue("@SpaetmoeglichstesEnde", "1905-07-11 00:00:00.000");
+                command.Parameters.AddWithValue("@Arbeitspaket_InsgeArbeitszeit", "40");
                 command.Parameters.AddWithValue("@Arbeitspaket_Zustaendiger", task.Arbeitspaket_Zustaendiger);
                 command.ExecuteNonQuery();
             }

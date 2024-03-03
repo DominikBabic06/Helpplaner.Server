@@ -20,6 +20,8 @@ namespace Helpplaner.Client.GUI
         Thread thread;  
         private bool skipconnection = false;
         bool isconnected = false;   
+       bool needsToBeReloaded = false;  
+        int projetidthatneedsreloading = 0; 
 
        public  event EventHandler<string> ServerMessage;
         public ServerCommunicator(IServiceLogger logger)
@@ -57,10 +59,17 @@ namespace Helpplaner.Client.GUI
                             isconnected = false;
                             return false;
                         }
+                        if (input.StartsWith("tr;"))
+                        {
+
+                            needsToBeReloaded = true;   
+                            projetidthatneedsreloading = int.Parse(input.Remove(0, 3));  
+                            return true;
+                        }
                         else
                         {
                             return false;
-                        }
+                        }   
                     }
                     catch (Exception)
                     {
@@ -92,6 +101,21 @@ namespace Helpplaner.Client.GUI
          
            
         }
+
+
+        public bool NeedsToBeReloaded(int CurrentProjectId)
+        {
+            if(needsToBeReloaded)
+            { 
+               if (CurrentProjectId == projetidthatneedsreloading)
+                 {
+                projetidthatneedsreloading = 0;
+                    needsToBeReloaded = false;  
+                return true;
+                  }
+            }
+            return false;   
+        }   
         public User[] GetUsersforProject(int id)
         {
             skipconnection = true;  
@@ -118,6 +142,35 @@ namespace Helpplaner.Client.GUI
             skipconnection = false;
             return users.ToArray();
         }
+
+
+        public Helpplaner.Service.Objects.Task[] GetTasksforProject(int id)
+        {
+            skipconnection = true;
+            List<Helpplaner.Service.Objects.Task> tasks = new List<Helpplaner.Service.Objects.Task>();
+            string input = "";
+            _writer.Send("getalltasks;" + id);   
+            Object task = null;
+            try
+            {
+                do
+                {
+                    task = _reader.ReadObject();
+                    _writer.Send("done");
+                    tasks.Add((Helpplaner.Service.Objects.Task)task);
+                } while (true);
+            }
+            catch (Exception ex)
+            {
+
+                input = (string)task;
+            }
+            
+
+            skipconnection = false;
+            return tasks.ToArray();
+
+        }   
 
         public string Send(string message)
         {
@@ -221,5 +274,20 @@ namespace Helpplaner.Client.GUI
                 ServerMessage(sender, e);
             }
         }   
+
+
+        public void AddTaskToProject(Helpplaner.Service.Objects.Task task, int projectid)
+        {
+        
+            _writer.Send("addTask;" + projectid);
+            if (_reader.Read() == "ok")
+            {
+                _writer.SendObject(task);
+            }   
+
+            _reader.Read(); 
+
+
+        }
     }
 }

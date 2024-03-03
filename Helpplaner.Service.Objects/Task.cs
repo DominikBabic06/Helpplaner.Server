@@ -10,6 +10,7 @@ namespace Helpplaner.Service.Objects
     public class Task
     {
         public Task() { }  
+        
         public string Arbeitspaket_ID { get; set; }
         public string Arbeitspaket_Name { get; set; }
         public string Projekt_ID { get; set; }

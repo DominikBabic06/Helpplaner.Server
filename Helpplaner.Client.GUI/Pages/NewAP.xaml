@@ -1,0 +1,45 @@
+﻿<Window x:Class="Helpplaner.Client.GUI.Pages.NewAP"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Helpplaner.Client.GUI.Pages"
+        mc:Ignorable="d"
+        Title="NewAP" Height="450" Width="400">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Themes\DarkMode.xaml"/>
+
+
+                <!-- You can include a default theme here -->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="{DynamicResource BackgroundColorSecondary}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            
+        </Grid.RowDefinitions>
+
+
+        <Label x:Name="Hinzufügen" Foreground="{DynamicResource BackgroundColorTextHighlight}" Content="Hinzufügen">
+            
+        </Label>
+        <TextBox x:Name="Name" Grid.Row="1" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" Text="Name"></TextBox>
+        <TextBox x:Name="Beschreibung" Grid.Row="2" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" Text="Beschreibung"></TextBox>
+        <ListBox x:Name="Zuständiger" Grid.Row="3" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" SelectionMode="Single" ItemsSource="{Binding Kategorien}"></ListBox>
+       
+        <Button x:Name="Speichern" Grid.Row="6" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" Content="Speichern" Click="Speichern_Click"></Button>
+        
+
+
+    </Grid>
+</Window>

@@ -15,7 +15,7 @@
 
         public override string ToString()
         {
-            return $"Id: {Nutzer_ID}, Username: {Nutzernamen}, Password: {Nutzer_Passwort}, Email: {Email}";
+            return $"{Nutzer_ID}, {Nutzernamen}" ;
         }
     
     }
