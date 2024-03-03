@@ -10,7 +10,7 @@
     mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1200" MinHeight="400" MinWidth="700"
          
-        Background="Transparent"  ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+        Background="Transparent"  ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" >
 
     
 
