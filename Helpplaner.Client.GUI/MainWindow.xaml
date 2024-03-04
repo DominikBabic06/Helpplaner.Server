@@ -20,8 +20,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes\DarkMode.xaml"/>
 
-                <ResourceDictionary Source="Templates.xaml"></ResourceDictionary>
-                <!-- You can include a default theme here -->
+             
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Label">
@@ -225,31 +224,61 @@
             </Grid>
            
             <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
-                <Button Content="Logout" Template="{DynamicResource ReloadButton}" 
-               Height="50" VerticalAlignment="Bottom"
-               Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
 
-                <Button Content="Diagramm" Template="{DynamicResource ReloadButton}" 
-Height="50" VerticalAlignment="Bottom"
-Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                <Grid Height="539">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50*"/>
+                       
+                        <RowDefinition Height="50*"/>    
+                    </Grid.RowDefinitions>  
+                    <StackPanel VerticalAlignment="Top" Grid.Row="0">
 
-                <Button Content="Projekt" Template="{DynamicResource ReloadButton}" 
-Height="50" VerticalAlignment="Bottom"
-Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                        <Button x:Name="Dia" Content="Diagramm" Template="{DynamicResource ReloadButton}" 
+                Height="50" VerticalAlignment="Bottom"
+                Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="NotImplemented_Click" HorizontalAlignment="Left" Margin="20,0,0,0" Visibility="Hidden"/>
 
-                <Button Content="AP-Übersicht" Template="{DynamicResource ReloadButton}" 
-Height="50" VerticalAlignment="Bottom"
-Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                        <Button x:Name="Pro" Content="Projekt" Template="{DynamicResource ReloadButton}" 
+                Height="50" VerticalAlignment="Bottom"
+                Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="NotImplemented_Click" HorizontalAlignment="Left" Margin="20,0,0,0" Visibility="Hidden"/>
 
-                <Button Template="{DynamicResource ReloadButton}" Content="Reload"
-               Height="50" VerticalAlignment="Bottom"
-               Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Reload_Click" HorizontalAlignment="Left" Margin="20,0,0,0"/>
+                        <Button Content="AP-Übersicht"
+                                x:Name="APu"
+                            Height="50"
+                            Template="{DynamicResource ReloadButton}" Click="ApOverView_Click" Visibility="Hidden"/>
+                       
+                    </StackPanel>
+                    
+                    
+                    
+                    <StackPanel VerticalAlignment="Bottom" Grid.Row="2"  >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="50*"/>
+                            </Grid.ColumnDefinitions>
 
+                            <Button  x:Name="LogoutButton" Template="{DynamicResource ReloadButton}" Grid.Column="0" 
+                                  Height="100" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
+                                  Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" >
+                                <Frame   x:Name ="UserIconu"  HorizontalAlignment="Stretch"  Margin="0,0,0,20" NavigationUIVisibility="Hidden" VerticalAlignment="Top" ></Frame>
+                                
+                            </Button>
 
+                            <Button  x:Name="UserInfo" Template="{DynamicResource ReloadButton}" Grid.Column="1" 
+                         Height="100" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
+                            Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="NotImplemented_Click" >
+                                <Frame   x:Name ="Leave"  HorizontalAlignment="Stretch"  Margin="0,0,20,20" NavigationUIVisibility="Hidden" VerticalAlignment="Top" ></Frame>
+
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+               
+                
+                </Grid>
             </StackPanel>
-
-            <Frame x:Name="Main" Grid.Row="1" Grid.Column="1"  NavigationUIVisibility="Hidden" />  
-            
+        
+        <Frame x:Name="Main" Grid.Row="1" Grid.Column="1"  NavigationUIVisibility="Hidden" />
+        
 
         </Grid>
       

@@ -37,6 +37,7 @@ namespace Helpplaner.Service.Core
                     Logger.Log($"Client connected: {client.RemoteEndPoint}", "green");
                     SessionHandler session = new SessionHandler(client, Logger, GetFirstAvailableSessionId());
                     session.SessionClosed += SessionHandler;
+                    session.TriggererServerMessage += Session_TriggererServerMessage;
                     Thread sessionTask = new Thread(session.HandleClient);
                     sessionTask.IsBackground = true;
                     sessionTask.Start();
@@ -52,13 +53,19 @@ namespace Helpplaner.Service.Core
            
            
         }
-        
 
+        private void Session_TriggererServerMessage(object? sender, string e)
+        {
+            PostMessage(e);
+
+        }
 
         public void PostMessage(string message)
         {
+           
             foreach (Guid id in _sessions.Keys)
             {
+                Logger.Log($"Sending message to session {id}", "green");
                 _sessions[id].PostMessage(message);
             }
         }
@@ -68,6 +75,9 @@ namespace Helpplaner.Service.Core
           CloseAllSessions();   
 
         }   
+
+
+        
 
         public void CloseAllSessions()
         {

@@ -24,11 +24,14 @@ namespace Helpplaner.Client.GUI.Pages
         Project Project;
         User[] User;
         ServerCommunicator sr;
-        public Useroverview(Project proj, ServerCommunicator sr)
+        ProjectViewModel pvm;   
+        public Useroverview(Project proj, ServerCommunicator sr,ProjectViewModel pvm )
         {
             InitializeComponent();
             Project = proj;
             this.sr = sr;
+            this.pvm = pvm;
+            this.DataContext = pvm; 
             FillUser();
 
         }

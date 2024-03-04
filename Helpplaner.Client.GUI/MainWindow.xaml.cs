@@ -23,20 +23,25 @@ namespace Helpplaner.Client.GUI
         bool connected = false; 
         User user;
         public Login login;
+        public NotImplemented nt;
         ServerCommunicator sc;
         Project[] projects;
         Project[] adminprojects;
         Project selectetProj;
         NoPlug noplug = new NoPlug();   
         Plug plug = new Plug();
+        APÜbersicht aPÜbersicht;
+        ProjectViewModel pvm;
+
         
         public MainWindow()
         {
 
 
             InitializeComponent();
+            nt = new NotImplemented();
             user = new User();  
-
+            pvm = new ProjectViewModel();
              sc = new ServerCommunicator(new ConsoleLogger());
 
             //Thread thread = new Thread(Request_Info);
@@ -48,7 +53,11 @@ namespace Helpplaner.Client.GUI
             login.Userfound += Login_Userfound;
             sc.ServerMessage += Sc_ServerMessage;
             Main.Content = login;
-          
+            
+
+            UserIconu.Source = new Uri(@"SVG/Leave.xaml", UriKind.Relative);
+            Leave.Source = new Uri(@"SVG/UserIcon.xaml", UriKind.Relative);    
+
             CheckServer();
 
 
@@ -56,7 +65,8 @@ namespace Helpplaner.Client.GUI
             checkThread.IsBackground = true;
           
             checkThread.Start();
-
+            
+           
 
 
         }
@@ -88,6 +98,16 @@ namespace Helpplaner.Client.GUI
                     Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { login.UnblockInput(); }); 
               
                 }
+                if(selectetProj != null)
+                if (sc.NeedsToBeReloaded(int.Parse(selectetProj.Projekt_ID)))
+                {
+                    pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.Projekt_ID));
+                    pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.Projekt_ID));
+                        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { aPÜbersicht.Reload(); });  
+                        
+
+                } 
+
                 
             }
             else
@@ -162,7 +182,16 @@ namespace Helpplaner.Client.GUI
                     selectetProj = item;
                 }
             }
-            Useroverview useroverview = new Useroverview(selectetProj, sc);
+
+            pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.Projekt_ID));
+            pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.Projekt_ID));
+
+            Useroverview useroverview = new Useroverview(selectetProj, sc, pvm  );
+
+            APu.Visibility = Visibility.Visible;
+            Pro.Visibility = Visibility.Visible;    
+            Dia.Visibility = Visibility.Visible;
+
             Main.Content = useroverview;
             //MessageBox.Show(id);  
 
@@ -209,8 +238,28 @@ namespace Helpplaner.Client.GUI
             login.Userfound += Login_Userfound;
             sc.ServerMessage += Sc_ServerMessage;
             Projekte.Items.Clear();
-           
+
+
+            APu.Visibility = Visibility.Hidden;
+            Pro.Visibility = Visibility.Hidden;
+            Dia.Visibility = Visibility.Hidden;
             Main.Content = login;
+        }
+
+
+        private void NotImplemented_Click(object sender, RoutedEventArgs e)
+        {
+           
+            Main.Content = nt;
+        }
+
+   
+
+        private void ApOverView_Click(object sender, RoutedEventArgs e)
+        {
+             aPÜbersicht = new APÜbersicht(selectetProj, sc, pvm);    
+
+            Main.Content = aPÜbersicht;
         }
     }
 }
