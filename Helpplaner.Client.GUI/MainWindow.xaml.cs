@@ -53,10 +53,12 @@ namespace Helpplaner.Client.GUI
             login.Userfound += Login_Userfound;
             sc.ServerMessage += Sc_ServerMessage;
             Main.Content = login;
-            
 
             UserIconu.Source = new Uri(@"SVG/Leave.xaml", UriKind.Relative);
-            Leave.Source = new Uri(@"SVG/UserIcon.xaml", UriKind.Relative);    
+            Leave.Source = new Uri(@"SVG/UserIcon.xaml", UriKind.Relative);
+            DiagrammIcon.Source = new Uri(@"SVG/Diagramm.xaml", UriKind.Relative);
+            StatsIcon.Source = new Uri(@"SVG/Stats.xaml", UriKind.Relative);
+            APIcon.Source = new Uri(@"SVG/Database.xaml", UriKind.Relative);
 
             CheckServer();
 

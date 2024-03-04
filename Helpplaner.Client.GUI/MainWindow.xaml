@@ -233,19 +233,23 @@
                     </Grid.RowDefinitions>  
                     <StackPanel VerticalAlignment="Top" Grid.Row="0">
 
-                        <Button x:Name="Dia" Content="Diagramm" Template="{DynamicResource ReloadButton}" 
-                Height="50" VerticalAlignment="Bottom"
-                Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="NotImplemented_Click" HorizontalAlignment="Left" Margin="20,0,0,0" Visibility="Hidden"/>
+                        <Button x:Name="Dia"        
+Height= "50    "
+    Template="{DynamicResource ReloadButton}" Visibility="Hidden">
+                            <Frame x:Name="DiagrammIcon"></Frame>
+                        </Button>
 
-                        <Button x:Name="Pro" Content="Projekt" Template="{DynamicResource ReloadButton}" 
-                Height="50" VerticalAlignment="Bottom"
-                Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="NotImplemented_Click" HorizontalAlignment="Left" Margin="20,0,0,0" Visibility="Hidden"/>
+                        <Button x:Name="Pro" Height= "50    "
+     Template="{DynamicResource ReloadButton}" Visibility="Hidden">
+                            <Frame x:Name="StatsIcon"></Frame>
+                        </Button>
 
-                        <Button Content="AP-Übersicht"
-                                x:Name="APu"
-                            Height="50"
-                            Template="{DynamicResource ReloadButton}" Click="ApOverView_Click" Visibility="Hidden"/>
-                       
+                        <Button 
+            x:Name="APu"
+       Height= "50    "
+     Template="{DynamicResource ReloadButton}" Visibility="Hidden" Click="ApOverView_Click">
+                            <Frame x:Name="APIcon"></Frame>
+                        </Button>
                     </StackPanel>
                     
                     
