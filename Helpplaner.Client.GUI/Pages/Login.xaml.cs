@@ -33,8 +33,19 @@ namespace Helpplaner.Client.GUI.Pages
         public Login( ServerCommunicator server , ref User user)
         {
             InitializeComponent();
-            this.server  = server;   
-            StreamReader sr = new StreamReader("UserData/remeber.txt");    
+            this.server  = server;
+            if (!File.Exists("UserData/remember.txt"))
+            {
+             
+                Directory.CreateDirectory("UserData");
+                File.Create("UserData/remember.txt");
+                Console.WriteLine("Ordner erstellt: " + "UserData/remember.txt");
+            }
+            else
+            {
+                Console.WriteLine("Ordner existiert bereits: " + "UserData/remember.txt");
+            }
+            StreamReader sr = new StreamReader("UserData/remember.txt");
             remeber = sr.ReadLine();  
             sr.Close(); 
             if(!String.IsNullOrEmpty(remeber))
@@ -53,13 +64,13 @@ namespace Helpplaner.Client.GUI.Pages
             username = User.Text;
             if(RememberMe.IsChecked == true)
             {
-                StreamWriter sw = new StreamWriter("UserData/remeber.txt");
+                StreamWriter sw = new StreamWriter("UserData/remember.txt");
                 sw.WriteLine(username + ";" + password);
                 sw.Close();  
             }
             else
             {
-                StreamWriter sw = new StreamWriter("UserData/remeber.txt");
+                StreamWriter sw = new StreamWriter("UserData/remember.txt");
                 sw.WriteLine("");
                 sw.Close();
 
