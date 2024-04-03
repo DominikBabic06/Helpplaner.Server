@@ -52,14 +52,14 @@ namespace Helpplaner.Service.Core
                     try
                     {
                         Project project =  new Project();
-                        Objects.Task[] tasks; 
+                        Objects.WorkPackage[] tasks; 
                         User[] users;
                         Project[] projects;
                         int id;
                         string check; 
                       if(!text.Contains("info"))
                         if(user != null)    
-                       _logger.Log(user.Nutzernamen = text , "green");
+                       _logger.Log(user.Username = text , "green");
                         switch (text.Split(';')[0])
                         {
 
@@ -100,7 +100,7 @@ namespace Helpplaner.Service.Core
                                 project = _selectSqlCommandHandler.GiveProjekt(id);
                                 tasks = _selectSqlCommandHandler.GetAllTasks(project);
                                 CloseConnection();
-                                foreach (Objects.Task ad in tasks)
+                                foreach (Objects.WorkPackage ad in tasks)
                                 {
                                     writer.SendObject(ad);
                                     check = reader.Read();
@@ -160,16 +160,16 @@ namespace Helpplaner.Service.Core
 
                             writer.Send("ok");
 
-                            Objects.Task task = (Objects.Task)reader.ReadObject();
+                            Objects.WorkPackage task = (Objects.WorkPackage)reader.ReadObject();
 
 
                             OpenConnection();
-                                 project = _selectSqlCommandHandler.GiveProjekt(Convert.ToInt32(task.Projekt_ID));   
-                                 task.Arbeitspaket_ID = getFirstFreeTaskIDFromProject(project); 
+                                 project = _selectSqlCommandHandler.GiveProjekt(Convert.ToInt32(task.ProjectID));   
+                                 task.ID = getFirstFreeTaskIDFromProject(project); 
                                 _insertSqlCommandHandler.InsertArbeitspaket(task);
                                 CloseConnection();
                                 writer.Send("done");
-                                 id =  Convert.ToInt32(project.Projekt_ID);
+                                 id =  Convert.ToInt32(project.ID);
                                 TriggererServerMessage(this, "tr;" + id);
                                 break;
                             case "logout":
@@ -229,7 +229,7 @@ namespace Helpplaner.Service.Core
             try
             {
                 User trueUser = _selectSqlCommandHandler.GiveUser(text.Split(';')[0].Trim());
-                if (trueUser.Nutzer_Passwort == text.Split(';')[1].Trim())
+                if (trueUser.Password == text.Split(';')[1].Trim())
                 {
                     user = trueUser;
                     writer.Send("done");
@@ -281,14 +281,14 @@ namespace Helpplaner.Service.Core
 
         public string getFirstFreeTaskIDFromProject(Project pr)
         {
-           Objects.Task[] tasks = _selectSqlCommandHandler.GetAllTasks(pr);    
+           Objects.WorkPackage[] tasks = _selectSqlCommandHandler.GetAllTasks(pr);    
             int i = 0;  
             while (true)
             {
                 bool found = false;
-                foreach (Objects.Task task in tasks)
+                foreach (Objects.WorkPackage task in tasks)
                 {
-                    if (task.Arbeitspaket_ID == i.ToString())
+                    if (task.ID == i.ToString())
                     {
                         found = true;
                         break;

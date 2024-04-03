@@ -19,7 +19,7 @@ namespace Helpplaner.Client.GUI
         { }
 
 
-        public IEnumerable<Service.Objects.Task> Tasks { get; set; }
+        public IEnumerable<Service.Objects.WorkPackage> Tasks { get; set; }
 
         public IEnumerable<User> users { get; set; }
 
@@ -29,9 +29,9 @@ namespace Helpplaner.Client.GUI
             int id = 0;
             foreach (var task in Tasks)
             {
-                if (Convert.ToInt32(task.Arbeitspaket_ID) > id)
+                if (Convert.ToInt32(task.ID) > id)
                 {
-                    id = Convert.ToInt32(task.Arbeitspaket_ID);
+                    id = Convert.ToInt32(task.ID);
                 }
             }
             return id + 1;

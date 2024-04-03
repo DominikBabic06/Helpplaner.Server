@@ -101,10 +101,10 @@ namespace Helpplaner.Client.GUI
               
                 }
                 if(selectetProj != null)
-                if (sc.NeedsToBeReloaded(int.Parse(selectetProj.Projekt_ID)))
+                if (sc.NeedsToBeReloaded(int.Parse(selectetProj.ID)))
                 {
-                    pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.Projekt_ID));
-                    pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.Projekt_ID));
+                    pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.ID));
+                    pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.ID));
                         Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { aPÜbersicht.Reload(); });  
                         
 
@@ -137,7 +137,7 @@ namespace Helpplaner.Client.GUI
             Main.Content = null;
             user = (User)sender;    
 
-            Username.Text = user.Nutzernamen;
+            Username.Text = user.Username;
 
 
             projects = sc.GetProjectsforUser();
@@ -150,7 +150,7 @@ namespace Helpplaner.Client.GUI
                 if (IsAdmin(item) )
                 {
                     Button btn = new Button();  
-                    btn.Content = "Admin" + item.Projekt_Name + " (" + item.Projekt_ID + ")";
+                    btn.Content = "Admin" + item.Name + " (" + item.ID + ")";
                     btn.Template = (ControlTemplate)FindResource("ReloadButton");
                     btn.Click += MenuButtonClick;
                     Projekte.Items.Add( btn);
@@ -158,7 +158,7 @@ namespace Helpplaner.Client.GUI
                 else
                 {
                     Button btn = new Button();
-                    btn.Content = item.Projekt_Name + " (" + item.Projekt_ID + ")";
+                    btn.Content = item.Name + " (" + item.ID + ")";
                     btn.Template = (ControlTemplate)FindResource("ReloadButton");
                     btn.Click += MenuButtonClick; 
                     Projekte.Items.Add(btn);
@@ -179,14 +179,14 @@ namespace Helpplaner.Client.GUI
             string id = split[1].Trim(')');
             foreach (Project item in projects)
             {
-                if (item.Projekt_ID == id)
+                if (item.ID == id)
                 {
                     selectetProj = item;
                 }
             }
 
-            pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.Projekt_ID));
-            pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.Projekt_ID));
+            pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.ID));
+            pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.ID));
 
             Useroverview useroverview = new Useroverview(selectetProj, sc, pvm  );
 
@@ -203,7 +203,7 @@ namespace Helpplaner.Client.GUI
         {
             foreach (Project item in adminprojects)
             {
-                if (item.Projekt_ID == project.Projekt_ID)
+                if (item.ID == project.ID)
                 {
                   return true;
                 }

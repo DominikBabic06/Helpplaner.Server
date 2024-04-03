@@ -10,9 +10,9 @@ namespace Helpplaner.Service.Objects
     public class Project
     {
         
-        public string Projekt_ID { get; set; }   
-        public string Projekt_Name { get; set; } 
-        public string Projekt_Beschreibung { get; set; }  
+        public string ID { get; set; }   
+        public string Name { get; set; } 
+        public string Description { get; set; }  
 
         public List<User> Users { get; set; } = new List<User>();
 
@@ -21,14 +21,14 @@ namespace Helpplaner.Service.Objects
        
 
                       
-        public List<Task> Tasks{ get; set; } = new List<Task>();
+        public List<WorkPackage> Tasks{ get; set; } = new List<WorkPackage>();
 
         public 
          override string ToString()
         {
-            return "Projekt_ID: " + Projekt_ID + "\n" +
-                    "Projekt_Name: " + Projekt_Name + "\n" +
-                    "Projekt_Beschreibung: " + Projekt_Beschreibung + "\n";
+            return "Projekt_ID: " + ID + "\n" +
+                    "Projekt_Name: " + Name + "\n" +
+                    "Projekt_Beschreibung: " + Description + "\n";
         }
         public  Project() { 
         

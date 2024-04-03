@@ -38,7 +38,7 @@ namespace Helpplaner.Client.GUI.Pages
 
         private void FillUser()
         {
-            User = sr.GetUsersforProject(Convert.ToInt32(Project.Projekt_ID));
+            User = sr.GetUsersforProject(Convert.ToInt32(Project.ID));
             Users.ItemsSource = User;
 
 

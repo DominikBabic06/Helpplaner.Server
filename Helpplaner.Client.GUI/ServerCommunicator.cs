@@ -144,10 +144,10 @@ namespace Helpplaner.Client.GUI
         }
 
 
-        public Helpplaner.Service.Objects.Task[] GetTasksforProject(int id)
+        public Helpplaner.Service.Objects.WorkPackage[] GetTasksforProject(int id)
         {
             skipconnection = true;
-            List<Helpplaner.Service.Objects.Task> tasks = new List<Helpplaner.Service.Objects.Task>();
+            List<Helpplaner.Service.Objects.WorkPackage> tasks = new List<Helpplaner.Service.Objects.WorkPackage>();
             string input = "";
             _writer.Send("getalltasks;" + id);   
             Object task = null;
@@ -157,7 +157,7 @@ namespace Helpplaner.Client.GUI
                 {
                     task = _reader.ReadObject();
                     _writer.Send("done");
-                    tasks.Add((Helpplaner.Service.Objects.Task)task);
+                    tasks.Add((Helpplaner.Service.Objects.WorkPackage)task);
                 } while (true);
             }
             catch (Exception ex)
@@ -276,7 +276,7 @@ namespace Helpplaner.Client.GUI
         }   
 
 
-        public void AddTaskToProject(Helpplaner.Service.Objects.Task task, int projectid)
+        public void AddTaskToProject(Helpplaner.Service.Objects.WorkPackage task, int projectid)
         {
         
             _writer.Send("addTask;" + projectid);

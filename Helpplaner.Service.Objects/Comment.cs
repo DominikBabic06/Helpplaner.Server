@@ -9,12 +9,12 @@ namespace Helpplaner.Service.Objects
     [Serializable]
     public class Comment
     {
-      public  string Kommentar_ID { get; set; } 
-      public  string Ersteller_ID { get; set; } 
+      public  string ID { get; set; } 
+      public  string CreatorID { get; set; } 
       
-      public  string Arbeitspaket_ID { get; set; }  
+      public  string WorkPackageID { get; set; }  
 
-      public  string Inhalt { get; set; }   
+      public  string Text { get; set; }   
 
 
     }

@@ -81,7 +81,7 @@ namespace Helpplaner.Service.Shared
                         return user;
                         break;
                     case "Helpplaner.Service.Objects.Task":
-                        Helpplaner.Service.Objects.Task task = JsonSerializer.Deserialize<Helpplaner.Service.Objects.Task>(message.Content);
+                        Helpplaner.Service.Objects.WorkPackage task = JsonSerializer.Deserialize<Helpplaner.Service.Objects.WorkPackage>(message.Content);
                         return task;
                         break;  
 

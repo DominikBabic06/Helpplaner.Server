@@ -21,7 +21,7 @@ namespace Helpplaner.Client.GUI.Pages
     public partial class NewAP : Window
     {
         Project Project;
-        Helpplaner.Service.Objects.Task[] APs;
+        Helpplaner.Service.Objects.WorkPackage[] APs;
         ServerCommunicator sr;
 
         ProjectViewModel pvm;
@@ -47,15 +47,15 @@ namespace Helpplaner.Client.GUI.Pages
         {
             try
             {
-                Service.Objects.Task task = new Service.Objects.Task();
-                task.Projekt_ID = Project.Projekt_ID;
-                task.Arbeitspaket_Name = Name.Text;
-                task.Arbeitspaket_Beschreibung = Beschreibung.Text;
+                Service.Objects.WorkPackage task = new Service.Objects.WorkPackage();
+                task.ProjectID = Project.ID;
+                task.Name = Name.Text;
+                task.Description = Beschreibung.Text;
 
                 User user = (User)Zuständiger.SelectedItem;
-                task.Arbeitspaket_Zustaendiger = user.Nutzer_ID;
+                task.Responsible = user.ID;
 
-                sr.AddTaskToProject(task, Convert.ToInt32(Project.Projekt_ID));
+                sr.AddTaskToProject(task, Convert.ToInt32(Project.ID));
             }
             catch (Exception ex)
             {

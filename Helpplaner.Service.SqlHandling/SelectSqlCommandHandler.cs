@@ -29,7 +29,7 @@
             List<User> users = new List<User>();
             try
             {
-                using (SqlCommand command = new SqlCommand("SELECT * FROM Nutzer", _connection))
+                using (SqlCommand command = new SqlCommand("SELECT * FROM User", _connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -37,9 +37,9 @@
                         {
                             User user = new User();
 
-                            user.Nutzer_ID = reader["Nutzer_ID"].ToString();
-                            user.Nutzer_Passwort = reader["Nutzer_Passwort"].ToString();
-                            user.Nutzernamen = reader["Nutzernamen"].ToString();
+                            user.ID = reader["ID"].ToString();
+                            user.Password = reader["Password"].ToString();
+                            user.Username = reader["Username"].ToString();
                             user.Email = reader["Email"].ToString();
 
 
@@ -72,18 +72,18 @@
             User user = new User();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Nutzer where Nutzer_ID = @Nutzer_ID", _connection))
+                using (SqlCommand command = new SqlCommand(@"Select * from ""User"" where ""ID"" = @ID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Nutzer_ID", id);
+                    command.Parameters.AddWithValue("@ID", id);
                     _logger.Log(command.CommandText, "green");
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
 
-                            user.Nutzer_ID = reader["Nutzer_ID"].ToString();
-                            user.Nutzer_Passwort = reader["Nutzer_Passwort"].ToString();
-                            user.Nutzernamen = reader["Nutzernamen"].ToString();
+                            user.ID = reader["ID"].ToString();
+                            user.Password = reader["Password"].ToString();
+                            user.Username = reader["Username"].ToString();
                             user.Email = reader["Email"].ToString();
                             _logger.Log(user.ToString(), "green");
 
@@ -114,7 +114,7 @@
             try
             {
                 SqlString sqlString = new SqlString(username);  
-                using (SqlCommand command = new SqlCommand("Select * from Nutzer where Nutzernamen = @1", _connection))
+                using (SqlCommand command = new SqlCommand("Select * from \"User\" where Username = @1", _connection))
                 {
                     command.Parameters.AddWithValue("@1", sqlString);
                     _logger.Log(command.CommandText, "green");  
@@ -122,9 +122,9 @@
                     {
                         while (reader.Read())
                         {
-                            user.Nutzer_ID = reader["Nutzer_ID"].ToString();
-                            user.Nutzer_Passwort = reader["Nutzer_Passwort"].ToString();
-                            user.Nutzernamen = reader["Nutzernamen"].ToString();
+                            user.ID = reader["ID"].ToString();
+                            user.Password = reader["Password"].ToString();
+                            user.Username = reader["Username"].ToString();
                             user.Email = reader["Email"].ToString();
 
                             _logger.Log(user.ToString(), "green");
@@ -151,9 +151,9 @@
             Project proj = new Project();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Projekt where Projekt_ID = @Projekt_ID ", _connection))
+                using (SqlCommand command = new SqlCommand("Select * from Project where ID = @ID ", _connection))
                 {
-                    command.Parameters.AddWithValue("@Projekt_ID", id);
+                    command.Parameters.AddWithValue("@ID", id);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -161,9 +161,9 @@
                         while (reader.Read())
                         {
 
-                            proj.Projekt_ID = reader["Projekt_ID"].ToString();
-                            proj.Projekt_Name = reader["Projekt_Name"].ToString();
-                            proj.Projekt_Beschreibung = reader["Projekt_Beschreibung"].ToString();
+                            proj.ID = reader["ID"].ToString();
+                            proj.Name = reader["Name"].ToString();
+                            proj.Description = reader["Description"].ToString();
 
                             _logger.Log(proj.ToString(), "green");
 
@@ -192,16 +192,16 @@
                
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Projekt", _connection))
+                using (SqlCommand command = new SqlCommand("Select * from Project", _connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             Project proj = new Project();
-                            proj.Projekt_ID = reader["Projekt_ID"].ToString();
-                            proj.Projekt_Name = reader["Projekt_Name"].ToString();
-                            proj.Projekt_Beschreibung = reader["Projekt_Beschreibung"].ToString();
+                            proj.ID = reader["ID"].ToString();
+                            proj.Name = reader["Name"].ToString();
+                            proj.Description = reader["Description"].ToString();
                             projekte.Add(proj); 
 
                             
@@ -223,29 +223,26 @@
 
         #region Task 
 
-        public Task GetTask(int id)
+        public WorkPackage GetTask(int id)
         {
           
-            Task task = new Task();
+            WorkPackage task = new WorkPackage();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Arbeitspaket where Arbeitspaket_ID = @Arbeitspaket_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from WorkPackage where ID = @ID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Arbeitspaket_ID", id);
+                    command.Parameters.AddWithValue("@ID", id);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            task.Arbeitspaket_ID = reader["Arbeitspaket_ID"].ToString();
-                            task.Arbeitspaket_Name = reader["Arbeitspaket_Name"].ToString();    
-                            task.Projekt_ID = reader["Projekt_ID"].ToString();  
-                            task.Arbeitspaket_Beschreibung = reader["Arbeitspaket_Beschreibung"].ToString();    
-                            task.FruehestmoeglicherAnfang = reader["FruehestmoeglicherAnfang"].ToString();   
-                            task.FruehestmoeglichesEnde = reader["FruehestmoeglichesEnde"].ToString();   
-                            task.SpaetmoeglichsterAnfang = reader["SpaetmoeglichsterAnfang"].ToString(); 
-                            task.SpaetmoeglichstesEnde = reader["SpaetmoeglichstesEnde"].ToString();
-                            task.Arbeitspaket_InsgeArbeitszeit = reader["Arbeitspaket_InsgeArbeitszeit"].ToString();
-                            task.Arbeitspaket_Zustaendiger = reader["Arbeitspaket_Zustaendiger"].ToString();
+                            task.ID = reader["ID"].ToString();
+                            task.Name = reader["Name"].ToString();    
+                            task.ProjectID = reader["ProjectID"].ToString();  
+                            task.Description = reader["Description"].ToString();    
+                            task.ExpectedTime = reader["ExpectedTime"].ToString();
+                            task.RealTime = reader["RealTime"].ToString();  
+                            task.Responsible = reader["Responsible"].ToString();
 
                         }
                     }
@@ -258,30 +255,27 @@
           
             return task;
         }
-        public Task[] GetAllTasks(Project proj)
+        public WorkPackage[] GetAllTasks(Project proj)
         {
            
-            List<Task> tasks = new List<Task>();
+            List<WorkPackage> tasks = new List<WorkPackage>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Arbeitspaket where Projekt_ID = @Projekt_ID"  , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from WorkPackage where ProjectID = @ProjectID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Projekt_ID", proj.Projekt_ID);
+                    command.Parameters.AddWithValue("@ProjectID", proj.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Task task = new Task();
-                            task.Arbeitspaket_ID = reader["Arbeitspaket_ID"].ToString();
-                            task.Arbeitspaket_Name = reader["Arbeitspaket_Name"].ToString();
-                            task.Projekt_ID = reader["Projekt_ID"].ToString();
-                            task.Arbeitspaket_Beschreibung = reader["Arbeitspaket_Beschreibung"].ToString();
-                            task.FruehestmoeglicherAnfang = reader["FruehestmoeglicherAnfang"].ToString();
-                            task.FruehestmoeglichesEnde = reader["FruehestmoeglichesEnde"].ToString();
-                            task.SpaetmoeglichsterAnfang = reader["SpaetmoeglichsterAnfang"].ToString();
-                            task.SpaetmoeglichstesEnde = reader["SpaetmoeglichstesEnde"].ToString();
-                            task.Arbeitspaket_InsgeArbeitszeit = reader["Arbeitspaket_InsgeArbeitszeit"].ToString();
-                            task.Arbeitspaket_Zustaendiger = reader["Arbeitspaket_Zustaendiger"].ToString();
+                            WorkPackage task = new WorkPackage();
+                            task.ID = reader["ID"].ToString();
+                            task.Name = reader["Name"].ToString();
+                            task.ProjectID = reader["ProjectID"].ToString();
+                            task.Description = reader["Description"].ToString();
+                 
+                            task.ExpectedTime = reader["ExpectedTime"].ToString();
+                            task.Responsible = reader["Responsible"].ToString();
                             tasks.Add(task);
 
                         }
@@ -298,19 +292,19 @@
         #endregion
 
         #region Kategorie 
-        public Kategorie[] GetAllKategorien()
+        public Category[] GetAllKategorien()
         {
            
-            List<Kategorie> kategorien = new List<Kategorie>();
+            List<Category> kategorien = new List<Category>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Kategorie", _connection))
+                using (SqlCommand command = new SqlCommand("Select * from Category", _connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            kategorien.Add(new Kategorie() { Kategorie_ID = reader["Kategorie_ID"].ToString(), Name = reader["Name"].ToString() }); 
+                            kategorien.Add(new Category() { ID = reader["ID"].ToString(), Name = reader["Name"].ToString() }); 
 
 
                         }
@@ -324,20 +318,20 @@
           
             return kategorien.ToArray();
         }
-        public Kategorie GetKategorie(int id)
+        public Category GetKategorie(int id)
         {
            
-            Kategorie kat = new Kategorie();
+            Category kat = new Category();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Kategorie where Kategorie_ID = @Kategorie_ID " , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from Category where ID = @ID ", _connection))
                 {
-                    command.Parameters.AddWithValue("@Kategorie_ID", id);
+                    command.Parameters.AddWithValue("@ID", id);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            kat.Kategorie_ID = reader["Kategorie_ID"].ToString();   
+                            kat.ID = reader["ID"].ToString();   
                             kat.Name = reader["Name"].ToString();   
 
                         }
@@ -354,20 +348,20 @@
         #endregion
 
         #region Kommentar
-        public Comment[] GetAllKommentare(Task task)
+        public Comment[] GetAllKommentare(WorkPackage task)
         {
            
             List<Comment> kommentare = new List<Comment>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Kommentar where Arbeitspaket_ID = @Arbeitspaket_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from Comment where WorkPackageID = @WorkPackageID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Arbeitspaket_ID", task.Arbeitspaket_ID);  
+                    command.Parameters.AddWithValue("@WorkPackageID", task.ID);  
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            kommentare.Add(new Comment() { Kommentar_ID = reader["Kommentar_ID"].ToString(), Ersteller_ID = reader["Ersteller_ID"].ToString(), Arbeitspaket_ID = reader["Arbeitspaket_ID"].ToString(), Inhalt = reader["Inhalt"].ToString() }); 
+                            kommentare.Add(new Comment() { ID = reader["ID"].ToString(), CreatorID = reader["CreatorID"].ToString(), WorkPackageID = reader["WorkPackageID"].ToString(), Text = reader["Text"].ToString() }); 
 
                         }
                     }
@@ -385,14 +379,14 @@
             List<Comment> kommentare = new List<Comment>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Kommentar where Ersteller_ID = @Ersteller_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from Comment where CreatorID = @CreatorID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Ersteller_ID", user.Nutzer_ID);
+                    command.Parameters.AddWithValue("@CreatorID", user.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            kommentare.Add(new Comment() { Kommentar_ID = reader["Kommentar_ID"].ToString(), Ersteller_ID = reader["Ersteller_ID"].ToString(), Arbeitspaket_ID = reader["Arbeitspaket_ID"].ToString(), Inhalt = reader["Inhalt"].ToString() });
+                            kommentare.Add(new Comment() { ID = reader["ID"].ToString(), CreatorID = reader["CreatorID"].ToString(), WorkPackageID = reader["WorkPackageID"].ToString(), Text = reader["Text"].ToString() });
 
                         }
                     }
@@ -415,18 +409,18 @@
 
             try
             {
-                string query = "Select * from AdminProjekt where Projekt_ID = @Projekt_ID " ;
+             string query = "Select * from ProjectUser where ProjectID = @ProjectID and Administrator = 1   ";
 
                 using (SqlCommand command = new SqlCommand(query, _connection))
                 {
-                    command.Parameters.AddWithValue("@Projekt_ID", proj.Projekt_ID);    
+                    command.Parameters.AddWithValue("@ProjectID", proj.ID);    
                     
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
 
-                            adminIDs.Add(reader["Nutzer_ID"].ToString());   
+                            adminIDs.Add(reader["UserID"].ToString());   
                         }
                     }
                 }
@@ -450,14 +444,14 @@
             List<string> projektIDs = new List<string>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from AdminProjekt where Nutzer_ID = @Nutzer_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from ProjectUSer where UserID = @UserID and Administrator = 1 ", _connection))
                 {
-                    command.Parameters.AddWithValue("@Nutzer_ID", user.Nutzer_ID);
+                    command.Parameters.AddWithValue("@UserID", user.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            projektIDs.Add(reader["Projekt_ID"].ToString());    
+                            projektIDs.Add(reader["ProjectID"].ToString());    
 
                         }
                     }
@@ -478,23 +472,23 @@
         #endregion
 
         #region ArbeitsSitzung
-        public WorkSession[] GetAllArbeitsSitzungen(Task task)
+        public WorkSession[] GetAllArbeitsSitzungen(WorkPackage task)
         {
             List<WorkSession> arbeitsSitzungen = new List<WorkSession>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from ArbeitsSitzung where Arbeitspaket_ID = @Arbeitspaket_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from WorkSession where WorkPackageID = @WorkPackageID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Arbeitspaket_ID", task.Arbeitspaket_ID);  
+                    command.Parameters.AddWithValue("@WorkPackageID", task.ID);  
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             WorkSession session   = new WorkSession();
-                            session.Arbeitssitzung_ID = reader["Arbeitssitzung_ID"].ToString();
-                                session.Arbeitspaket_ID = reader["Arbeitspaket_ID"].ToString();
-                            session.Ersteller_ID = reader["Ersteller_ID"].ToString();
-                            session.Arbeitszeit = reader["Arbeitszeit"].ToString(); 
+                            session.ID = reader["ID"].ToString();
+                                session.WorkPackageID = reader["WorkPackageID"].ToString();
+                            session.CreatorID = reader["CreatorID"].ToString();
+                            session.WorkTime = reader["WorkTime"].ToString(); 
                             arbeitsSitzungen.Add(session);
 
 
@@ -512,19 +506,19 @@
         #endregion
 
         #region KategorieArbeitspaket
-        public Kategorie[] GetAllKategorien(Task task)
+        public Category[] GetAllKategorien(WorkPackage task)
         {
-            List<Kategorie> kategorien = new List<Kategorie>();
+            List<Category> kategorien = new List<Category>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from KategorieArbeitspaket where Arbeitspaket_ID = @Arbeitspaket_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from WorkpackageCategory where WorkPackageID = @WorkPackageID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Arbeitspaket_ID", task.Arbeitspaket_ID);
+                    command.Parameters.AddWithValue("@WorkPackageID", task.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            kategorien.Add(new Kategorie() { Kategorie_ID = reader["Kategorie_ID"].ToString(), Name = reader["Name"].ToString() }); 
+                            kategorien.Add(new Category() { ID = reader["ID"].ToString(), Name = reader["Name"].ToString() }); 
 
                         }
                     }
@@ -537,18 +531,18 @@
           
             return kategorien.ToArray();
         }
-        public Kategorie[] GetKategories()
+        public Category[] GetKategories()
         {
-            List<Kategorie> kategorien = new List<Kategorie>();
+            List<Category> kategorien = new List<Category>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from Kategorie", _connection))
+                using (SqlCommand command = new SqlCommand("Select * from Category", _connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            kategorien.Add(new Kategorie() { Kategorie_ID = reader["Kategorie_ID"].ToString(), Name = reader["Name"].ToString() });
+                            kategorien.Add(new Category() { ID = reader["ID"].ToString(), Name = reader["Name"].ToString() });
 
                         }
                     }
@@ -565,20 +559,20 @@
 
         #region ArbeitspaketRelations
 
-        public Task[] GetDependecys(Task task)
+        public WorkPackage[] GetDependecys(WorkPackage task)
         {
-            List<Task> tasks = new List<Task>();
+            List<WorkPackage> tasks = new List<WorkPackage>();
             List<string> taskIDs = new List<string>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from ArbeitspaketRelation where Nachfolger_ID = @Arbeitspaket_ID " , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from WorkpackageRelation where SuccessorID = @SuccessorID ", _connection))
                 {
-                    command.Parameters.AddWithValue("@Arbeitspaket_ID", task.Arbeitspaket_ID);
+                    command.Parameters.AddWithValue("@SuccessorID", task.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            taskIDs.Add(reader["Vorgaenger_ID"].ToString());    
+                            taskIDs.Add(reader["PredecessorID"].ToString());    
 
                         }
                     }
@@ -596,20 +590,20 @@
             return tasks.ToArray();
         }  
         
-        public Task[] GetSuccessors(Task task)
+        public WorkPackage[] GetSuccessors(WorkPackage task)
         {
-            List<Task> tasks = new List<Task>();
+            List<WorkPackage> tasks = new List<WorkPackage>();
             List<string> taskIDs = new List<string>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from ArbeitspaketRelation where Vorgaenger_ID = @Arbeitspaket_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from ArbeitspaketRelation where PredecessorID = @PredecessorID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Arbeitspaket_ID", task.Arbeitspaket_ID);
+                    command.Parameters.AddWithValue("@PredecessorID", task.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            taskIDs.Add(reader["Nachfolger_ID"].ToString());    
+                            taskIDs.Add(reader["SuccessorID"].ToString());    
 
                         }
                     }
@@ -636,14 +630,14 @@
             List<string> projektIDs = new List<string>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from NutzerProjekt where Nutzer_ID = @Nutzer_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from ProjectUser where UserID = @UserID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Nutzer_ID", user.Nutzer_ID);
+                    command.Parameters.AddWithValue("@UserID", user.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            projektIDs.Add(reader["Projekt_ID"].ToString());    
+                            projektIDs.Add(reader["ProjectID"].ToString());    
 
                         }
                     }
@@ -666,14 +660,14 @@
             List<string> userIDs = new List<string>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from NutzerProjekt where Projekt_ID = @Projekt_ID" , _connection))
+                using (SqlCommand command = new SqlCommand("Select * from ProjectUser where ProjectID = @ProjectID", _connection))
                 {
-                    command.Parameters.AddWithValue("@Projekt_ID", proj.Projekt_ID);
+                    command.Parameters.AddWithValue("@ProjectID", proj.ID);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            userIDs.Add(reader["Nutzer_ID"].ToString());    
+                            userIDs.Add(reader["UserID"].ToString());    
 
                         }
                     }

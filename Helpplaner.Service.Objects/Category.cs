@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Helpplaner.Service.Objects
 {
     [Serializable]
-    public class Kategorie
+    public class Category
     {
-      public  string Kategorie_ID { get; set; }
+      public  string ID { get; set; }
       public string Name { get; set; } 
 
     }

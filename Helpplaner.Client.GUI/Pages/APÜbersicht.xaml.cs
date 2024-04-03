@@ -23,7 +23,7 @@ namespace Helpplaner.Client.GUI.Pages
     public partial class APÜbersicht : Page
     {
         Project Project;
-    Helpplaner.Service.Objects.Task [] APs;
+    Helpplaner.Service.Objects.WorkPackage [] APs;
         ServerCommunicator sr;
 
         ProjectViewModel pvm;   

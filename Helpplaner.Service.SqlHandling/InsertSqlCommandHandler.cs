@@ -28,10 +28,10 @@ namespace Helpplaner.Service.SqlHandling
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Projekt (Projekt_ID, Projekt_Name, Projekt_Beschreibung) VALUES (@Projekt_ID, @Projekt_Name, @Projekt_Beschreibung)", _connection);
-                command.Parameters.AddWithValue("@Projekt_ID", project.Projekt_ID);
-                command.Parameters.AddWithValue("@Projekt_Name", project.Projekt_Name);
-                command.Parameters.AddWithValue("@Projekt_Beschreibung", project.Projekt_Beschreibung);
+                SqlCommand command = new SqlCommand("INSERT INTO Project ( Name, Description) VALUES ( @Name, @Description)", _connection);
+             
+                command.Parameters.AddWithValue("@Name", project.Name);
+                command.Parameters.AddWithValue("@Description", project.Description);
                 command.ExecuteNonQuery();
              
             }
@@ -44,10 +44,10 @@ namespace Helpplaner.Service.SqlHandling
         public void InsertNutzer(User user)
         {             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Nutzer (Nutzer_ID, Nutzernamen, Nutzer_Passwort, Email) VALUES (@Nutzer_ID, @Nutzer_Name, @Nutzer_Passwort, @Email)", _connection);
-                command.Parameters.AddWithValue("@Nutzer_ID", user.Nutzer_ID);
-                command.Parameters.AddWithValue("@Nutzer_Name", user.Nutzernamen);
-                command.Parameters.AddWithValue("@Nutzer_Passwort", user.Nutzer_Passwort);
+                SqlCommand command = new SqlCommand("INSERT INTO Nutzer ( Username, Password, Email) VALUES ( @Username, @Password, @Email)", _connection);
+               
+                command.Parameters.AddWithValue("@Username", user.Username);
+                command.Parameters.AddWithValue("@Password", user.Password);
                 command.Parameters.AddWithValue("@Email", user.Email);  
                 command.ExecuteNonQuery();
             }
@@ -56,21 +56,18 @@ namespace Helpplaner.Service.SqlHandling
                 _logger.Log(e.Message, "red");
             }
         }  
-        public void InsertArbeitspaket(Objects.Task task)
+        public void InsertArbeitspaket(Objects.WorkPackage task)
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Arbeitspaket (Arbeitspaket_ID, Arbeitspaket_Name, Projekt_ID, Arbeitspaket_Beschreibung, FruehestmoeglicherAnfang, FruehestmoeglichesEnde, SpaetmoeglichsterAnfang, SpaetmoeglichstesEnde, Arbeitspaket_InsgeArbeitszeit, Arbeitspaket_Zustaendiger) VALUES (@Arbeitspaket_ID, @Arbeitspaket_Name, @Projekt_ID, @Arbeitspaket_Beschreibung, @FruehestmoeglicherAnfang, @FruehestmoeglichesEnde, @SpaetmoeglichsterAnfang, @SpaetmoeglichstesEnde, @Arbeitspaket_InsgeArbeitszeit, @Arbeitspaket_Zustaendiger)", _connection);
-                command.Parameters.AddWithValue("@Arbeitspaket_ID", task.Arbeitspaket_ID);
-                command.Parameters.AddWithValue("@Arbeitspaket_Name", task.Arbeitspaket_Name);
-                command.Parameters.AddWithValue("@Projekt_ID", task.Projekt_ID);
-                command.Parameters.AddWithValue("@Arbeitspaket_Beschreibung", task.Arbeitspaket_Beschreibung);
-                command.Parameters.AddWithValue("@FruehestmoeglicherAnfang", "1905-07-11 00:00:00.000");
-                command.Parameters.AddWithValue("@FruehestmoeglichesEnde", "1905-07-11 00:00:00.000");
-                command.Parameters.AddWithValue("@SpaetmoeglichsterAnfang", "1905-07-11 00:00:00.000");
-                command.Parameters.AddWithValue("@SpaetmoeglichstesEnde", "1905-07-11 00:00:00.000");
-                command.Parameters.AddWithValue("@Arbeitspaket_InsgeArbeitszeit", "40");
-                command.Parameters.AddWithValue("@Arbeitspaket_Zustaendiger", task.Arbeitspaket_Zustaendiger);
+                SqlCommand command = new SqlCommand("INSERT INTO WorkPackage ( Name, ProjectID, Description, ExpectedTime, RealTime,  Responsible) VALUES ( @Name, @ProjectID, @Description, @ExpectedTime, @RealTime, @Responsible)", _connection);
+               
+                command.Parameters.AddWithValue("@Name", task.Name);
+                command.Parameters.AddWithValue("@ProjectID", task.ProjectID);
+                command.Parameters.AddWithValue("@Description", task.Description);
+                command.Parameters.AddWithValue("@ExpectedTime", task.ExpectedTime);
+                command.Parameters.AddWithValue("@RealTime", task.RealTime);
+                command.Parameters.AddWithValue("@Responsible", task.Responsible);
                 command.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -82,11 +79,11 @@ namespace Helpplaner.Service.SqlHandling
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Arbeitssitzung (ArbeitsSitzung_ID, Arbeitspaket_ID, Ersteller_ID,  ArbeitsSitzung_Dauer) VALUES (@ArbeitsSitzung_ID, @Arbeitspaket_ID, @Ersteller_ID,  @ArbeitsSitzung_Dauer)", _connection);
-                command.Parameters.AddWithValue("@ArbeitsSitzung_ID", workSession.Arbeitssitzung_ID);
-                command.Parameters.AddWithValue("@Arbeitspaket_ID", workSession.Arbeitspaket_ID);
-                command.Parameters.AddWithValue("@Ersteller_ID", workSession.Ersteller_ID); 
-                command.Parameters.AddWithValue("@ArbeitsSitzung_Dauer", workSession.Arbeitszeit);
+                SqlCommand command = new SqlCommand("INSERT INTO WorkSession ( WorkPackageID, CreatorID,  WorkTime) VALUES ( @WorkPackageID, @CreatorID,  @WorkTime)", _connection);
+           
+                command.Parameters.AddWithValue("@WorkPackageID", workSession.WorkPackageID);
+                command.Parameters.AddWithValue("@CreatorID", workSession.CreatorID); 
+                command.Parameters.AddWithValue("@WorkTime", workSession.WorkTime);
              
                 command.ExecuteNonQuery();
             }
@@ -95,13 +92,14 @@ namespace Helpplaner.Service.SqlHandling
                 _logger.Log(e.Message, "red");
             }
         }   
-        public void InsertProjektNutzer(Project project, User userid)
+        public void InsertProjektNutzer(Project project, User userid, bool Admin)
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO ProjektNutzer (Projekt_ID, Nutzer_ID) VALUES (@Projekt_ID, @Nutzer_ID)", _connection);
-                command.Parameters.AddWithValue("@Projekt_ID", project.Projekt_ID);
-                command.Parameters.AddWithValue("@Nutzer_ID", userid.Nutzer_ID);
+                SqlCommand command = new SqlCommand("INSERT INTO ProjektNutzer (UserID, ProjectID, Administrator ) VALUES (@UserID, @ProjectID , @Administrator)", _connection);
+                command.Parameters.AddWithValue("@ProjectID", project.ID);
+                command.Parameters.AddWithValue("@UserID", userid.ID);
+                command.Parameters.AddWithValue("@Administrator", Admin);
                 command.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -109,20 +107,7 @@ namespace Helpplaner.Service.SqlHandling
                 _logger.Log(e.Message, "red");
             }
         }  
-        public void InsertProjektAdmin(Project project, User userid)
-        {
-            try
-            {
-                SqlCommand command = new SqlCommand("INSERT INTO AdminProjekt (Projekt_ID, Nutzer_ID) VALUES (@Projekt_ID, @Nutzer_ID)", _connection);
-                command.Parameters.AddWithValue("@Projekt_ID", project.Projekt_ID);
-                command.Parameters.AddWithValue("@Nutzer_ID", userid.Nutzer_ID);
-                command.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                _logger.Log(e.Message, "red");
-            }
-        }
+   
 
         public void InsertKommentar(Comment comment)
 
@@ -130,11 +115,11 @@ namespace Helpplaner.Service.SqlHandling
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Kommentar (Kommentar_ID, Ersteller_ID, ArbeitsSitzung_ID, Kommentar_Text) VALUES (@Kommentar_ID, @Ersteller_ID, @ArbeitsSitzung_ID, @Kommentar_Text )", _connection);
-                command.Parameters.AddWithValue("@Kommentar_ID", comment.Kommentar_ID);
-                command.Parameters.AddWithValue("@Ersteller_ID", comment.Ersteller_ID);
-                command.Parameters.AddWithValue("@ArbeitsSitzung_ID", comment.Arbeitspaket_ID);
-                command.Parameters.AddWithValue("@Kommentar_Text", comment.Inhalt);
+                SqlCommand command = new SqlCommand("INSERT INTO Comment ( CreatorID, WorkPackageID, Text) VALUES ( @CreatorID, @WorkPackageID, @Text )", _connection);
+             
+                command.Parameters.AddWithValue("@CreatorID", comment.CreatorID);
+                command.Parameters.AddWithValue("@WorkPackageID", comment.WorkPackageID);
+                command.Parameters.AddWithValue("@Text", comment.Text);
                 command.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -143,12 +128,12 @@ namespace Helpplaner.Service.SqlHandling
             }
         }
 
-        public void InsertKategorie(Kategorie kategorie)
+        public void InsertKategorie(Category kategorie)
         {             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Kategorie (Kategorie_ID, Name) VALUES (@Kategorie_ID, @Kategorie_Name)", _connection);
-                command.Parameters.AddWithValue("@Kategorie_ID", kategorie.Kategorie_ID);
-                command.Parameters.AddWithValue("@Kategorie_Name", kategorie.Name);
+                SqlCommand command = new SqlCommand("INSERT INTO Category ( Name) VALUES ( @Name)", _connection);
+              
+                command.Parameters.AddWithValue("@Name", kategorie.Name);
                 command.ExecuteNonQuery();
             }
                        catch (Exception e)
@@ -157,13 +142,13 @@ namespace Helpplaner.Service.SqlHandling
             }
         }  
         
-        public void InsertArbeitspaketKategorie(Objects.Task task, Kategorie kategorie)
+        public void InsertArbeitspaketKategorie(Objects.WorkPackage task, Category kategorie)
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO ArbeitspaketKategorie (Arbeitspaket_ID, Kategorie_ID) VALUES (@Arbeitspaket_ID, @Kategorie_ID)", _connection);
-                command.Parameters.AddWithValue("@Arbeitspaket_ID", task.Arbeitspaket_ID);
-                command.Parameters.AddWithValue("@Kategorie_ID", kategorie.Kategorie_ID);
+                SqlCommand command = new SqlCommand("INSERT INTO WorkpackageCategory (WorkPackageID, Kategorie_ID) VALUES (@WorkPackageID, @CategoryID)", _connection);
+                command.Parameters.AddWithValue("@WorkPackageID", task.ID);
+                command.Parameters.AddWithValue("@CategoryID", kategorie.ID);
                 command.ExecuteNonQuery();
             }
             catch (Exception e)
@@ -172,13 +157,13 @@ namespace Helpplaner.Service.SqlHandling
             }
         }   
 
-       public void InsertRelation(Objects.Task Pre, Objects.Task After )
+       public void InsertRelation(Objects.WorkPackage Pre, Objects.WorkPackage After )
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Relation (Vorgaenger_ID, Nachfolger_ID) VALUES (@Vorgaenger_ID, @Nachfolger_ID)", _connection);
-                command.Parameters.AddWithValue("@Vorgaenger_ID", Pre.Arbeitspaket_ID);
-                command.Parameters.AddWithValue("@Nachfolger_ID", After.Arbeitspaket_ID);
+                SqlCommand command = new SqlCommand("INSERT INTO WorkpackageRelation (PredecessorID, SuccessorID) VALUES (@PredecessorID, @SuccessorID)", _connection);
+                command.Parameters.AddWithValue("@PredecessorID", Pre.ID);
+                command.Parameters.AddWithValue("@SuccessorID", After.ID);
                 command.ExecuteNonQuery();
             }
             catch (Exception e)
