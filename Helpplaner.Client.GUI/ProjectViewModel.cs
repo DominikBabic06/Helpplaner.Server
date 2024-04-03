@@ -24,17 +24,6 @@ namespace Helpplaner.Client.GUI
         public IEnumerable<User> users { get; set; }
 
         
-        public int getFirstFreeIDForTask()
-        {
-            int id = 0;
-            foreach (var task in Tasks)
-            {
-                if (Convert.ToInt32(task.ID) > id)
-                {
-                    id = Convert.ToInt32(task.ID);
-                }
-            }
-            return id + 1;
-        }   
+     
     }
 }

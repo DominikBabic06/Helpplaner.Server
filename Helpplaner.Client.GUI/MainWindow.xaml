@@ -12,15 +12,15 @@
          
         Background="Transparent"  ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen" >
 
-    
 
-      <Window.Resources>
+
+    <Window.Resources>
         <ResourceDictionary>
-            
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes\DarkMode.xaml"/>
 
-             
+
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Label">
@@ -37,7 +37,7 @@
 
             <Style TargetType="Button">
                 <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
-                <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>  
+                <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>
             </Style>
 
             <Style TargetType="Menu">
@@ -128,13 +128,13 @@
                 <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
                 <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}"/>
                 <Setter Property="BorderThickness" Value="0">
-                    
-                    
+
+
 
                 </Setter>
-                
-                    
-                
+
+
+
             </Style>
             <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
             <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
@@ -157,6 +157,7 @@
                     <Trigger Property="IsPressed" Value="true">
                         <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
                         <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                       
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="false">
                         <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
@@ -170,7 +171,7 @@
 
 
         </ResourceDictionary>
-        </Window.Resources>
+    </Window.Resources>
 
     <Border Background="{DynamicResource BackgroundColorMain}">
 
@@ -178,7 +179,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="12*" />
                 <ColumnDefinition Width="90*"/>
-                
+
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
@@ -193,13 +194,13 @@
             
               FontSize="20" 
               Margin="12,0,0,0"/>
-        </Grid>
-        <Grid Grid.Row="0"  Grid.Column="1" >
+            </Grid>
+            <Grid Grid.Row="0"  Grid.Column="1" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="90*"/>
                         <ColumnDefinition Width="12*" />
-                        
+
                     </Grid.ColumnDefinitions>
                     <Menu Background="{DynamicResource  BackgroundColorSecondary}">
 
@@ -210,50 +211,63 @@
 
                         </MenuItem>
                     </Menu>
-                   
+
                     <Grid Grid.Column="1" Background="{DynamicResource  BackgroundColorSecondary}">
                         <Frame   x:Name ="ConnectionEstablished"  HorizontalAlignment="Right"  Margin="0,0,20,0" NavigationUIVisibility="Hidden"></Frame>
-                        
-                          
+
+
 
                     </Grid>
 
 
                 </Grid>
-                
+
             </Grid>
-           
+
             <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
 
                 <Grid Height="539">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50*"/>
-                       
-                        <RowDefinition Height="50*"/>    
-                    </Grid.RowDefinitions>  
+
+                        <RowDefinition Height="50*"/>
+                    </Grid.RowDefinitions>
                     <StackPanel VerticalAlignment="Top" Grid.Row="0">
 
                         <Button x:Name="Dia"        
-Height= "50    "
-    Template="{DynamicResource ReloadButton}" Visibility="Hidden">
-                            <Frame x:Name="DiagrammIcon"></Frame>
+                            Height= "50    "
+                            Template="{DynamicResource ReloadButton}" Visibility="Hidden" MouseEnter="Dia_MouseEnter" MouseLeave="Dia_MouseLeave">
+                            <Path  x:Name="DiagramIcon"  Data="M19.5 17c-.13 0-.26 0-.39.04l-1.61-3.25a2.5 2.5 0 00-1.75-4.29c-.13 0-.25 0-.39.04l-1.63-3.25c.48-.45.77-1.08.77-1.79a2.5 2.5 0 00-5 0c0 .71.29 1.34.76 1.79L8.64 9.54c-.14-.04-.26-.04-.39-.04a2.5 2.5 0 00-1.75 4.29l-1.61 3.25C4.76 17 4.63 17 4.5 17a2.5 2.5 0 000 5A2.5 2.5 0 007 19.5c0-.7-.29-1.34-.76-1.79l1.62-3.25c.14.04.26.04.39.04s.25 0 .39-.04l1.63 3.25c-.47.45-.77 1.09-.77 1.79a2.5 2.5 0 005 0A2.5 2.5 0 0012 17c-.13 0-.26 0-.39.04L10 13.79c.46-.45.75-1.08.75-1.79s-.29-1.34-.75-1.79l1.61-3.25c.13.04.26.04.39.04s.26 0 .39-.04L14 10.21c-.45.45-.75 1.09-.75 1.79a2.5 2.5 0 002.5 2.5c.13 0 .25 0 .39-.04l1.63 3.25c-.47.45-.77 1.09-.77 1.79a2.5 2.5 0 005 0 2.5 2.5 0 00-2.5-2.5z" StrokeThickness="0.11" Stroke="{DynamicResource BackgroundColorTextHighlight}" Fill="{DynamicResource BackgroundColorTextHighlight}" >
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </Path.RenderTransform>
+                            </Path>
                         </Button>
 
                         <Button x:Name="Pro" Height= "50    "
-     Template="{DynamicResource ReloadButton}" Visibility="Hidden">
-                            <Frame x:Name="StatsIcon"></Frame>
+                             Template="{DynamicResource ReloadButton}" Visibility="Hidden">
+                            <Path  x:Name="StatsIcon"  Data="M0 0h1v15h15v1H0V0zm14.817 3.113a.5.5 0 01.07.704l-4.5 5.5a.5.5 0 01-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 01-.808-.588l4-5.5a.5.5 0 01.758-.06l2.609 2.61 4.15-5.073a.5.5 0 01.704-.07z" StrokeThickness="0.11" Stroke="{DynamicResource BackgroundColorTextHighlight}" Fill="{DynamicResource BackgroundColorTextHighlight}" >
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </Path.RenderTransform>
+                            </Path>
                         </Button>
 
                         <Button 
-            x:Name="APu"
-       Height= "50    "
-     Template="{DynamicResource ReloadButton}" Visibility="Hidden" Click="ApOverView_Click">
-                            <Frame x:Name="APIcon"></Frame>
+                             x:Name="APu"
+                              Height= "50    "
+                            Template="{DynamicResource ReloadButton}" Visibility="Hidden" Click="ApOverView_Click">
+                            <Path  x:Name="Database1"  Data="M21 5 A9 3 0 0 1 12 8 A9 3 0 0 1 3 5 A9 3 0 0 1 21 5 z M21 12c0 1.66-4 3-9 3s-9-1.34-9-3 M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" StrokeThickness="1.4" Stroke="{DynamicResource BackgroundColorTextHighlight}"  >
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </Path.RenderTransform>
+                            </Path>
+                          
                         </Button>
                     </StackPanel>
-                    
-                    
-                    
+
+
+
                     <StackPanel VerticalAlignment="Bottom" Grid.Row="2"  >
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -264,32 +278,41 @@ Height= "50    "
                             <Button  x:Name="LogoutButton" Template="{DynamicResource ReloadButton}" Grid.Column="0" 
                                   Height="100" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
                                   Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="Logout_Click" >
-                                <Frame   x:Name ="UserIconu"  HorizontalAlignment="Stretch"  Margin="0,0,0,20" NavigationUIVisibility="Hidden" VerticalAlignment="Top" ></Frame>
+                                <Path   x:Name ="Leave"  HorizontalAlignment="Stretch"  Margin="0,0,0,20"  VerticalAlignment="Top" Data="M19 3H5c-1.11 0-2 .89-2 2v4h2V5h14v14H5v-4H3v4a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2m-8.92 12.58L11.5 17l5-5-5-5-1.42 1.41L12.67 11H3v2h9.67l-2.59 2.58z" StrokeThickness="0.11" Stroke="{DynamicResource BackgroundColorTextHighlight}" Fill="{DynamicResource BackgroundColorTextHighlight}" >
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                    </Path.RenderTransform>
+                                </Path>
                                 
+
                             </Button>
 
                             <Button  x:Name="UserInfo" Template="{DynamicResource ReloadButton}" Grid.Column="1" 
                          Height="100" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
                             Background="{StaticResource BackgroundColorSecondary}" FontSize="19" Click="NotImplemented_Click" >
-                                <Frame   x:Name ="Leave"  HorizontalAlignment="Stretch"  Margin="0,0,20,20" NavigationUIVisibility="Hidden" VerticalAlignment="Top" ></Frame>
+                                <Path   x:Name ="UserIconu"  HorizontalAlignment="Stretch"  Margin="0,0,0,20"  VerticalAlignment="Top" Data="M12 2a5 5 0 105 5 5 5 0 00-5-5zm0 8a3 3 0 113-3 3 3 0 01-3 3zm9 11v-1a7 7 0 00-7-7h-4a7 7 0 00-7 7v1h2v-1a5 5 0 015-5h4a5 5 0 015 5v1z" StrokeThickness="0.11" Stroke="{DynamicResource BackgroundColorTextHighlight}" Fill="{DynamicResource BackgroundColorTextHighlight}" >
+                                    <Path.RenderTransform>
+                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                    </Path.RenderTransform>
+                                </Path>
 
                             </Button>
                         </Grid>
                     </StackPanel>
-               
-                
+
+
                 </Grid>
             </StackPanel>
-        
-        <Frame x:Name="Main" Grid.Row="1" Grid.Column="1"  NavigationUIVisibility="Hidden" />
-        
+
+            <Frame x:Name="Main" Grid.Row="1" Grid.Column="1"  NavigationUIVisibility="Hidden" />
+
 
         </Grid>
-      
 
-        
-        
+
+
+
     </Border>
-    
-    
+
+
 </Window>

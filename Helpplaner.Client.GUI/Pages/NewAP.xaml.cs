@@ -51,6 +51,8 @@ namespace Helpplaner.Client.GUI.Pages
                 task.ProjectID = Project.ID;
                 task.Name = Name.Text;
                 task.Description = Beschreibung.Text;
+                task.RealTime = "1";
+                task.ExpectedTime = "1"; 
 
                 User user = (User)Zuständiger.SelectedItem;
                 task.Responsible = user.ID;
