@@ -122,23 +122,9 @@ namespace Helpplaner.Client.GUI
             List<User> users = new List<User>();
             string input = "";
             _writer.Send("getusersforproject;" + id);
-
             Object user = null;
-            try
-            {
-                do
-                {
-                    user = _reader.ReadObject();
-                    _writer.Send("done");
-                    users.Add((User)user);
-                } while (true);
-            }
-            catch (Exception ex)
-            {
-
-                input = (string)user;
-            }
-
+            user =  _reader.ReadObject();
+            users.AddRange((User[])user);   
             skipconnection = false;
             return users.ToArray();
         }
@@ -151,22 +137,8 @@ namespace Helpplaner.Client.GUI
             string input = "";
             _writer.Send("getalltasks;" + id);   
             Object task = null;
-            try
-            {
-                do
-                {
-                    task = _reader.ReadObject();
-                    _writer.Send("done");
-                    tasks.Add((Helpplaner.Service.Objects.WorkPackage)task);
-                } while (true);
-            }
-            catch (Exception ex)
-            {
-
-                input = (string)task;
-            }
-            
-
+            task = _reader.ReadObject();
+            tasks.AddRange((Helpplaner.Service.Objects.WorkPackage[])task);
             skipconnection = false;
             return tasks.ToArray();
 
@@ -185,7 +157,7 @@ namespace Helpplaner.Client.GUI
         public User TryLogin(string username, string password)
         {
             skipconnection = true;
-            Thread.Sleep(1000);
+      
             _writer.Send("login;" + username + ";" + password);
           
             string input = _reader.Read();
@@ -210,29 +182,9 @@ namespace Helpplaner.Client.GUI
             List<Project> projects = new List<Project>();
             string input = "";
             _writer.Send("getallprojects");
-
             Object proj = null;
-            try
-            {
-                do
-                {
-                    proj = _reader.ReadObject();
-                    _writer.Send("done");
-                    projects.Add((Project)proj);
-                } while (true);
-               
-
-               
-            }
-            catch (Exception ex)
-            {
-
-                input = (string)proj;
-            }
-
-
-
-
+            proj = _reader.ReadObject();
+            projects.AddRange((Project[])proj);
             return projects.ToArray();
         }
         public void Logout()
@@ -246,24 +198,9 @@ namespace Helpplaner.Client.GUI
             List<Project> projects = new List<Project>();
             string input = "";
             _writer.Send("getadminprojects");
-
             Object proj = null;
-            try
-            {
-                do
-                {
-                    proj = _reader.ReadObject();
-                    _writer.Send("done");
-                    projects.Add((Project)proj);
-                } while (true);
-            }
-            catch (Exception ex)
-            {
-
-                input = (string)proj;
-            }
-
-
+            proj = _reader.ReadObject();
+            projects.AddRange((Project[])proj);
             return projects.ToArray();
         }
 

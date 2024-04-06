@@ -30,7 +30,6 @@
            
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _logger = logger;
-            _connection = new SqlConnection("####Hier Dein Connection String Reingeben");
            
           
             _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
@@ -42,15 +41,20 @@
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);  
             _socket.Bind(_endPoint);
             _socket.Listen(100);
-            _logger.Log("Server started", "green"); 
-            _logger.Log($"Listening on {_ipAddress}:{_port}", "green");
+            lock (_logger)
+            {
+                _logger.Log("Server started", "green");
+                _logger.Log($"Listening on {_ipAddress}:{_port}", "green");
+            }
             isRunning = true;
            clientHandler = new ClientHandler(_socket, _logger);  
             Thread thread = new Thread(clientHandler.AcceptClients);    
             thread.IsBackground = true; 
             thread.Start();
             _connection.Open();
+            lock (_logger) { 
             _logger.Log("Connection to database opened", "green");  
+            }
             isRunning = true;   
          
           
@@ -64,19 +68,30 @@
                clientHandler.PostMessage("Shutdown");
 
                 Thread.Sleep(5000);
-                _logger.Log("Server stopping", "red");
+                lock (_logger)
+                {
+                    _logger.Log("Server stopping", "red");
+                }   
+               
                 _socket.Close();
-                _logger.Log("Socket closed", "red");
+                lock (_logger)
+                {
+                    _logger.Log("Socket closed", "red");
+                }
                 clientHandler.Close();
-                _logger.Log("All sessions closed", "red");
+                lock (_logger)
+                {
+                    _logger.Log("All sessions closed", "red");
+                }
+           
                
               
 
             }
             catch (Exception e)
             {
-
-                _logger.Log(e.Message, "red");
+                lock (_logger) { _logger.Log(e.Message, "red"); }
+              
             }
                 
                 _logger.Log("Server stopped", "red");   

@@ -53,7 +53,7 @@ namespace Helpplaner.Service.Shared
             {
                 Message Message = new Message();
 
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[10000];
                 Message = new Message();
                 Message.Type = obj.GetType().ToString();
                 Message.Content = JsonSerializer.Serialize(obj);

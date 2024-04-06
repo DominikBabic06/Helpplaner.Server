@@ -58,7 +58,7 @@ namespace Helpplaner.Service.Shared
             Message message;
 
             string re;
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[10000];
             try
             {
                 socket.Receive(buffer);
@@ -83,7 +83,22 @@ namespace Helpplaner.Service.Shared
                     case "Helpplaner.Service.Objects.WorkPackage":
                         Helpplaner.Service.Objects.WorkPackage task = JsonSerializer.Deserialize<Helpplaner.Service.Objects.WorkPackage>(message.Content);
                         return task;
-                        break;  
+                        break; 
+                    case "Helpplaner.Service.Objects.WorkPackage[]":
+                        Helpplaner.Service.Objects.WorkPackage[] tasks = JsonSerializer.Deserialize<Helpplaner.Service.Objects.WorkPackage[]>(message.Content);
+                        return tasks;
+                        break;
+                    case "Helpplaner.Service.Objects.User[]":
+                        Helpplaner.Service.Objects.User[] users = JsonSerializer.Deserialize<Helpplaner.Service.Objects.User[]>(message.Content);
+                        return users;
+                        break;
+                    case "Helpplaner.Service.Objects.Project[]":
+                        Helpplaner.Service.Objects.Project[] projects = JsonSerializer.Deserialize<Helpplaner.Service.Objects.Project[]>(message.Content);
+                        return projects;
+                        break;
+
+
+
 
                     case "SERVERAsync":
 
