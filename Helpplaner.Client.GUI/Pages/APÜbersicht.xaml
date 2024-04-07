@@ -22,6 +22,41 @@
                 <!-- You can include a default theme here -->
             </ResourceDictionary.MergedDictionaries>
 
+            <Style TargetType="TextBox" x:Key="WatermarkTextBoxStyle">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <Grid>
+                                <!-- TextBox -->
+                                <TextBox Text="{TemplateBinding Text}" 
+                           BorderThickness="{TemplateBinding BorderThickness}"
+                           BorderBrush="{TemplateBinding BorderBrush}" />
+                                <!-- Watermark TextBlock -->
+                                <TextBlock Text="Enter text here..." 
+                             Foreground="Gray" 
+                             Margin="5,0,0,0"
+                             VerticalAlignment="Center"
+                             Visibility="Collapsed">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <!-- Show Watermark when TextBox is empty -->
+                                                <DataTrigger Binding="{Binding Text.Length, RelativeSource={RelativeSource TemplatedParent}}" Value="0">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <!-- Hide Watermark when TextBox has text -->
+                                                <DataTrigger Binding="{Binding Text.Length, RelativeSource={RelativeSource TemplatedParent}}" Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style TargetType="Button" >
 
             </Style>
@@ -106,9 +141,12 @@
                 </Setter>
             </Style>
         </ResourceDictionary>
+      
     </Page.Resources>
 
+    
     <Grid>
+        
         <Grid.ColumnDefinitions>
            
             <ColumnDefinition Width="*"/>
@@ -137,7 +175,8 @@
            
             
             <!-- Datagrid-->
-            <DataGrid  x:Name="AP" Grid.Row="1" Background="{DynamicResource BackgroundColorMain}" AutoGenerateColumns="False"  ItemsSource="{Binding Tasks }" IsEnabled="True"   >
+
+            <DataGrid  x:Name="AP" Grid.Row="1" Background="{DynamicResource BackgroundColorMain}" AutoGenerateColumns="False"  ItemsSource="{Binding Tasks }" IsEnabled="True" Margin="20,10,20,0"  >
                 <DataGrid.Resources>
                     <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}" />
@@ -145,27 +184,18 @@
                         <Setter Property="BorderThickness" Value="0"/>
                     </Style>
                 </DataGrid.Resources>
-
-
                 <DataGrid.CellStyle>
-                    
                     <Style TargetType="DataGridCell">
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Padding" Value="10"/>
                         <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
-                        <Setter Property="Background" Value="{DynamicResource BackgroundColorMain}"/>
-                       </Style>
-                        
-
-                   
-                 
+                    </Style>
                 </DataGrid.CellStyle>
+ 
                 <DataGrid.Columns >
-                   
+
                     <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="10*" IsReadOnly="True" />
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="10*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}" Width="10*" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Zuständiger" Binding="{Binding Responsible}" Width="10*" IsReadOnly="True"/>    
+                    <DataGridTextColumn Header="Zuständiger" Binding="{Binding Responsible}" Width="10*" IsReadOnly="True"/>
 
 
                 </DataGrid.Columns>

@@ -5,40 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Helpplaner.Client.GUI.Pages"
         mc:Ignorable="d"
-        Title="NewAP" Height="450" Width="400">
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        Title="NewAP" Height="450" Width="400"
+         Style="{StaticResource MaterialDesignWindow}" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="..\Themes\DarkMode.xaml"/>
-
-
-                <!-- You can include a default theme here -->
+                                <!-- You can include a default theme here -->
             </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
     </Window.Resources>
     <Grid Background="{DynamicResource BackgroundColorSecondary}">
 
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
 
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            
-        </Grid.RowDefinitions>
-
-
-        <Label x:Name="Hinzufügen" Foreground="{DynamicResource BackgroundColorTextHighlight}" Content="Hinzufügen">
-            
-        </Label>
-        <TextBox x:Name="Name" Grid.Row="1" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" Text="Name"></TextBox>
-        <TextBox x:Name="Beschreibung" Grid.Row="2" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" Text="Beschreibung"></TextBox>
-        <ListBox x:Name="Zuständiger" Grid.Row="3" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" SelectionMode="Single" ItemsSource="{Binding Kategorien}"></ListBox>
-       
-        <Button x:Name="Speichern" Grid.Row="6" Margin="10" Background="{DynamicResource BackgroundColorMain}" Foreground="{DynamicResource ColorText}" BorderBrush="{DynamicResource ColorText}" BorderThickness="1" Content="Speichern" Click="Speichern_Click"></Button>
+        <StackPanel>
         
+        <TextBox x:Name="Name" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" materialDesign:HintAssist.Hint="Name" Foreground="{DynamicResource ColorText}"   />
+            <TextBox x:Name="Beschreibung" Height="80"
+                 MinWidth="280"
+                 VerticalAlignment="Stretch"
+                 materialDesign:HintAssist.Hint="Multiline text"
+                 AcceptsReturn="True"
+                 SpellCheck.IsEnabled="True" 
+               
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"  Foreground="{DynamicResource ColorText}" Margin="10,10,0,0" />
+            <ComboBox x:Name="Zuständiger" Margin="10,10,20,0" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}" >
+                
+           </ComboBox>
+        </StackPanel>
+
+
+
+
 
 
     </Grid>

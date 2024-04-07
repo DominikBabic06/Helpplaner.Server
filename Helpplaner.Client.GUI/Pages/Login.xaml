@@ -6,7 +6,10 @@
       xmlns:local="clr-namespace:Helpplaner.Client.GUI.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Login">
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Login" >
+      
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -53,7 +56,7 @@
     <Grid Background="{DynamicResource  BackgroundColorMain}">
 
        
-        <Border CornerRadius="20" Background="{DynamicResource BackgroundColorTextHighlight}" Width="400" Height="400">
+        <Border CornerRadius="20" Background="{DynamicResource BackgroundColorSecondary}" Width="400" Height="400">
 
             
             <Grid  Height="400" VerticalAlignment="Bottom"  >
@@ -72,20 +75,12 @@
                     <Label Content="Helpplaner" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="40"/>
                 </Grid>
                 <Grid Grid.Row="2" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Benutzername:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Foreground="{DynamicResource ColorText}" FontSize="20"/>
-                    <TextBox Grid.Column="1" x:Name="User" HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Margin="0,0,40,0" Width="149" FontSize="20" ></TextBox>
+
+                    <TextBox Grid.Column="1" x:Name="User" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="30"  Width="200" FontSize="20" materialDesign:HintAssist.Hint="Username" ></TextBox>
                 </Grid>
                 <Grid Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="Passwort:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Foreground="{DynamicResource ColorText}" FontSize="20"/>
-                    <PasswordBox Grid.Column="1" x:Name ="Password"  HorizontalAlignment="Right" VerticalAlignment="Center"  Height="30" Margin="0,0,40,0" Width="149" FontSize="20"></PasswordBox>
+                    
+                    <PasswordBox Grid.Column="1" x:Name ="Password"  HorizontalAlignment="Center" VerticalAlignment="Center"  Height="30"  Width="200" FontSize="20" materialDesign:HintAssist.Hint="Password"></PasswordBox>
                 </Grid>
               
                 <Grid Grid.Row="4" >

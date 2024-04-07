@@ -5,6 +5,7 @@
     using System.Data.SqlClient;
     using System.Data.SqlTypes;
     using System.Net.Security;
+    using System.Threading.Tasks;
     using Helpplaner.Service.Objects;
     using Helpplaner.Service.Shared;
 
@@ -247,6 +248,25 @@
                         }
                     }
                 }
+              
+                    string Dependecys = "";
+                    string Successors = "";
+                    foreach (WorkPackage item2 in GetDependecys(task))
+                    {
+                        Dependecys += item2.ID + "";
+                    }
+                    foreach (WorkPackage item2 in GetSuccessors(task))
+                    {
+                        Successors += item2.ID + " ";
+                    }
+                    task.Dependecy = Dependecys;
+                    task.Successor = Successors;
+
+
+
+               
+
+
             }
             catch (Exception ex)
             {
@@ -280,6 +300,26 @@
 
                         }
                     }
+                    
+                }
+
+                foreach (WorkPackage item in tasks)
+                {
+                       string Dependecys =  ""; 
+                       string Successors = "";  
+                        foreach (WorkPackage item2 in GetDependecys(item))
+                         {
+                            Dependecys += item2.ID + ""; 
+                        }   
+                        foreach (WorkPackage item2 in GetSuccessors(item))
+                          {
+                            Successors += item2.ID + " "; 
+                        }   
+                        item.Dependecy = Dependecys;
+                         item.Successor = Successors;    
+
+                      
+                    
                 }
             }
             catch (Exception ex)
@@ -596,7 +636,7 @@
             List<string> taskIDs = new List<string>();
             try
             {
-                using (SqlCommand command = new SqlCommand("Select * from ArbeitspaketRelation where PredecessorID = @PredecessorID", _connection))
+                using (SqlCommand command = new SqlCommand("Select * from WorkpackageRelation where PredecessorID = @PredecessorID", _connection))
                 {
                     command.Parameters.AddWithValue("@PredecessorID", task.ID);
                     using (SqlDataReader reader = command.ExecuteReader())

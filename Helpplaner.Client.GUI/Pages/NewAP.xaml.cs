@@ -70,5 +70,11 @@ namespace Helpplaner.Client.GUI.Pages
 
 
         }
+
+        private void Name_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            tb.Text = "";   
+        }
     }
 }
