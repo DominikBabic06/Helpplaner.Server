@@ -53,8 +53,11 @@ namespace Helpplaner.Client.GUI.Pages
                 task.Description = Beschreibung.Text;
                 task.RealTime = "1";
                 task.ExpectedTime = "1"; 
+               
+                    User user = (User)Zuständiger.SelectedItem;
+                
+           
 
-                User user = (User)Zuständiger.SelectedItem;
                 task.Responsible = user.ID;
 
                 sr.AddTaskToProject(task, Convert.ToInt32(Project.ID));
@@ -71,10 +74,42 @@ namespace Helpplaner.Client.GUI.Pages
 
         }
 
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void EnableButton()
+        {
+            if (Name.Text != "" && Beschreibung.Text != "" && Zuständiger.SelectedItem != null)
+            {
+                Save.IsEnabled = true;
+            }
+            else
+            {
+                Save.IsEnabled = false;
+            }
+        }
+
         private void Name_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TextBox tb = (TextBox)sender;
             tb.Text = "";   
+        }
+
+        private void Name_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EnableButton();
+        }
+
+        private void Beschreibung_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EnableButton();
+        }
+
+        private void Zuständiger_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnableButton();
         }
     }
 }

@@ -23,7 +23,7 @@
 
         <StackPanel>
         
-        <TextBox x:Name="Name" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" materialDesign:HintAssist.Hint="Name" Foreground="{DynamicResource ColorText}"   />
+        <TextBox x:Name="Name" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" materialDesign:HintAssist.Hint="Name" Foreground="{DynamicResource ColorText}" TextChanged="Name_TextChanged"   />
             <TextBox x:Name="Beschreibung" Height="80"
                  MinWidth="280"
                  VerticalAlignment="Stretch"
@@ -32,10 +32,13 @@
                  SpellCheck.IsEnabled="True" 
                
                  TextWrapping="Wrap"
-                 VerticalScrollBarVisibility="Auto"  Foreground="{DynamicResource ColorText}" Margin="10,10,0,0" />
-            <ComboBox x:Name="Zuständiger" Margin="10,10,20,0" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}" >
+                 VerticalScrollBarVisibility="Auto"  Foreground="{DynamicResource ColorText}" Margin="10,10,0,0" TextChanged="Beschreibung_TextChanged" />
+            <ComboBox x:Name="Zuständiger" Margin="10,10,20,0" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}" SelectionChanged="Zuständiger_SelectionChanged" >
                 
            </ComboBox>
+            
+            <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Speichern_Click" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}" IsEnabled="False"/>
+            <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Cancel_Click" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}"/>
         </StackPanel>
 
 

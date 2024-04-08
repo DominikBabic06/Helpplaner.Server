@@ -30,7 +30,7 @@
            
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _logger = logger;
-            _connection = new SqlConnection("Data Source=LAPTOP-ZARICBOR;Initial Catalog=HELPPLANER;Integrated Security=True;Encrypt=False");
+            _connection = new SqlConnection("Data Source=LAPTOP-M4DNH0BR\\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True");
            
           
             _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
