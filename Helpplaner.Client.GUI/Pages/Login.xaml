@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Title="Login" >
-      
+
 
     <Page.Resources>
         <ResourceDictionary>
@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Button" >
-                
+
             </Style>
             <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
             <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
@@ -55,43 +55,52 @@
     </Page.Resources>
     <Grid Background="{DynamicResource  BackgroundColorMain}">
 
-       
-        <Border CornerRadius="20" Background="{DynamicResource BackgroundColorSecondary}" Width="400" Height="400">
 
-            
-            <Grid  Height="400" VerticalAlignment="Bottom"  >
+        <Border CornerRadius="20" Background="{DynamicResource BackgroundColorSecondary}" Width="630" Height="260">
+
+
+            <Grid  Height="260" VerticalAlignment="Center"  >
 
                 <Grid.RowDefinitions>
                     <RowDefinition/>
+                    <RowDefinition Height="22*" />
                     <RowDefinition Height="20*" />
-                    <RowDefinition Height="20*" />
-                    <RowDefinition Height="20*"/>
-                    <RowDefinition Height="20*"/>
-                   
+                    <RowDefinition Height="15*"/>
+                    <RowDefinition Height="25*"/>
+
 
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="1" >
 
-                    <Label Content="Helpplaner" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="40"/>
+
                 </Grid>
                 <Grid Grid.Row="2" >
-
-                    <TextBox Grid.Column="1" x:Name="User" HorizontalAlignment="Center" VerticalAlignment="Center"  Height="30"  Width="200" FontSize="20" materialDesign:HintAssist.Hint="Username" ></TextBox>
+                    <Label Content="Helpplaner" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="40" Margin="41,0,0,0"/>
+                    <TextBox x:Name="User" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="30"  Width="200" FontSize="20" materialDesign:HintAssist.Hint="Benutzername" Margin="366,0,0,0" />
                 </Grid>
                 <Grid Grid.Row="3">
-                    
-                    <PasswordBox Grid.Column="1" x:Name ="Password"  HorizontalAlignment="Center" VerticalAlignment="Center"  Height="30"  Width="200" FontSize="20" materialDesign:HintAssist.Hint="Password"></PasswordBox>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="167*"/>
+                        <ColumnDefinition Width="43*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="anmelden um fortzufahren" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource ColorText}" FontSize="18" Margin="45,-8,0,0"/>
+                    <Label  x:Name="Warning" Foreground="Red" FontSize="15" Margin="80,23,49,-25" Grid.ColumnSpan="2"></Label>
+                    <PasswordBox x:Name ="Password"  HorizontalAlignment="Left" VerticalAlignment="Top"  Height="30"  Width="201" FontSize="20" materialDesign:HintAssist.Hint="Passwort" Margin="365,0,0,0" Grid.ColumnSpan="2"/>
                 </Grid>
-              
+
                 <Grid Grid.Row="4" >
-                    <Label  x:Name="Warning" Foreground="Red" FontSize="20"></Label>
-                    <Label Content="Remember me" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="20" Margin="40,0,0,0"/>
-                    <CheckBox x:Name="RememberMe" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" IsChecked="True" />   
-                    <Button x:Name="LoginButton" Template="{DynamicResource RoundetButton}" Content="Login" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="100" Height="40" Margin="0,0,40,0" FontSize="20"   Foreground="{DynamicResource ColorText}" Click="Button_Click" />    
+                    
+                    <Label Content="eingeloggt bleiben" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource ColorText}" FontSize="15" Margin="402,-1,0,0"/>
+                    <CheckBox x:Name="RememberMe" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="379,4,0,0" IsChecked="True" />
+                    <Button x:Name="LoginButton" Template="{DynamicResource RoundetButton}" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{DynamicResource BackgroundColorSecondary}" Width="75" Height="28" Margin="431,39,0,0" FontSize="18"   Foreground="{DynamicResource ColorText}" Click="Button_Click" />
                 </Grid>
+
+
 
 
             </Grid>
+
+
         </Border>
     </Grid>
 
