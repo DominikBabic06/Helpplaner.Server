@@ -105,10 +105,14 @@ namespace Helpplaner.Client.GUI
                 {
                     pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.ID));
                     pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.ID));
-                        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { aPÜbersicht.Reload(); });  
-                        
+                        if (aPÜbersicht != null)
+                        {
+                            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { aPÜbersicht.Reload(); });
 
-                } 
+                        }
+
+
+                    } 
 
                 
             }
