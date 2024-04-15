@@ -70,5 +70,20 @@ namespace Helpplaner.Client.GUI.Pages
             AP.ItemsSource = pvm.Tasks;
            
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            WorkPackage[] temp = pvm.Tasks.ToArray(); 
+            if (SearchBox.Text != "")
+            {
+                temp = temp.Where(x => x.Name.Contains(SearchBox.Text)).ToArray(); 
+                AP.ItemsSource = temp;  
+            }   
+
+            else
+            {
+               AP.ItemsSource = pvm.Tasks;  
+            }
+        }
     }
 }
