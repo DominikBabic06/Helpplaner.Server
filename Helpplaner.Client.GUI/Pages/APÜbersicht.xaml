@@ -202,8 +202,8 @@
 
             </DataGrid>
 
-            <Button Template="{StaticResource RoundetButton}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="+" FontSize="20" Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="0,15,20,0" Click="Button_Click" ></Button>
-            <Button Template="{StaticResource RoundetButton}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="-" FontSize="20" Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="0,15,60,0" Click="Button_Click" ></Button>
+            <Button Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="+" FontSize="20" Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="0,15,20,0" Click="Button_Click" ></Button>
+            <Button Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="-" FontSize="20" Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="0,15,60,0" Click="Button_Click" ></Button>
             <!-- Pagination Section-->
 
 
