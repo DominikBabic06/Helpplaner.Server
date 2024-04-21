@@ -7,7 +7,8 @@ CREATE TABLE "User"
     "ID" INT IDENTITY(1,1) PRIMARY KEY,
     "Password"  VARCHAR(255),
     "Username" VARCHAR(100),
-    "Email" VARCHAR(150)
+    "Email" VARCHAR(150),
+	"IsSysAdmin" BIT  ,
 );
 
 -- Projekt-Tabelle
@@ -27,7 +28,8 @@ CREATE TABLE WorkPackage
     "Description" TEXT,
     "ExpectedTime" INT, 
 	"RealTime" INT,
-    "Responsible" INT, -- Verweis auf Nutzer-ID
+    "Responsible" INT, -- Verweis auf Nutzer-ID, 
+    "Status" TEXT
      FOREIGN KEY ("ProjectID") REFERENCES "Project"(ID),
 	 FOREIGN KEY ("Responsible") REFERENCES "User"(ID) 
 );

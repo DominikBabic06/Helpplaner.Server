@@ -32,6 +32,7 @@ namespace Helpplaner.Client.GUI
         Plug plug = new Plug();
         APÜbersicht aPÜbersicht;
         ProjectViewModel pvm;
+        ProjektOverview ProjektOverview;
 
         
         public MainWindow()

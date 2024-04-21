@@ -17,6 +17,7 @@ using Helpplaner.Service.Shared;
 using System.Security.Cryptography;
 using System.IO;
 
+
 namespace Helpplaner.Client.GUI.Pages
 {
     /// <summary>
@@ -29,29 +30,35 @@ namespace Helpplaner.Client.GUI.Pages
         string username;
         string password;
         User user;
-        string remeber;
+        string[] remeber;
+        Aes Crypt;
         public Login( ServerCommunicator server , ref User user)
         {
             InitializeComponent();
             this.server  = server;
+            Crypt  = Aes.Create();
             if (!File.Exists("UserData/remember.txt"))
             {
              
                 Directory.CreateDirectory("UserData");
-                File.Create("UserData/remember.txt");
+                File.Create("UserData/remember.txt").Close();
                 Console.WriteLine("Ordner erstellt: " + "UserData/remember.txt");
             }
             else
             {
                 Console.WriteLine("Ordner existiert bereits: " + "UserData/remember.txt");
             }
-            StreamReader sr = new StreamReader("UserData/remember.txt");
-            remeber = sr.ReadLine();  
-            sr.Close(); 
-            if(!String.IsNullOrEmpty(remeber))
+
+            remeber = File.ReadLines("UserData/remember.txt").ToArray();
+
+            if (!String.IsNullOrEmpty(remeber[0]))
             {
-                Password.Password = remeber.Split(";")[1];
-                User.Text = remeber.Split(";")[0];  
+                if (remeber[1].Contains("hashed:"))
+                {
+                    User.Text = remeber[0];
+                    Password.Password = "DummyPassowrd";
+                    RememberMe.IsChecked = true;
+                }
 
             }   
 
@@ -60,12 +67,18 @@ namespace Helpplaner.Client.GUI.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            password = Password.Password;   
+
+            if (!string.IsNullOrEmpty(remeber[1]))
+                password = HashPassword(Password.Password);
+            else
+                password = remeber[1].Replace("hashed:","").Trim(' ');
+            
             username = User.Text;
             if(RememberMe.IsChecked == true)
             {
                 StreamWriter sw = new StreamWriter("UserData/remember.txt");
-                sw.WriteLine(username + ";" + password);
+                sw.WriteLine(username);
+                sw.WriteLine("hashed: " + password);
                 sw.Close();  
             }
             else
@@ -84,6 +97,23 @@ namespace Helpplaner.Client.GUI.Pages
             user = userlog;    
             OnUserfound();  
 
+        }
+
+        public string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Convert byte array to a string
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
 
         public event EventHandler Userfound;

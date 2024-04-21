@@ -23,9 +23,11 @@ namespace Helpplaner.Service.Core
         SelectSqlCommandHandler _selectSqlCommandHandler;
         User user;
         string info;
+        Config config;  
 
         public SessionHandler(Socket client, IServiceLogger logger, Guid id)
         {
+            config = new Config();
             _logger = logger;
             _clientSocket = client;
             _sessionId = id;
@@ -34,7 +36,7 @@ namespace Helpplaner.Service.Core
             info = "None";
 
 
-            _connection = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True");
+            _connection = new SqlConnection(config.ConnectionString);
             _insertSqlCommandHandler = new InsertSqlCommandHandler(_connection, _logger);
             _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
 
@@ -201,7 +203,7 @@ namespace Helpplaner.Service.Core
             try
             {
                 User trueUser = _selectSqlCommandHandler.GiveUser(text.Split(';')[0].Trim());
-                if (trueUser.Password == text.Split(';')[1].Trim())
+                if (trueUser.Password.Trim() == text.Split(';')[1].Trim())
                 {
                     user = trueUser;
                     writer.Send("done");

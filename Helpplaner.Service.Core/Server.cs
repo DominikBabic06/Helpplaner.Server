@@ -30,7 +30,9 @@
            
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _logger = logger;
-            _connection = new SqlConnection("Data Source=LAPTOP-M4DNH0BR\\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True");
+            Config config = new Config();
+
+            _connection = new SqlConnection(config.ConnectionString);
            
           
             _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
@@ -38,25 +40,42 @@
         
         public void Start()
         {
-            _endPoint = new IPEndPoint(_ipAddress, _port);
-            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);  
-            _socket.Bind(_endPoint);
-            _socket.Listen(100);
-            lock (_logger)
+            try
             {
-                _logger.Log("Server started", "green");
-                _logger.Log($"Listening on {_ipAddress}:{_port}", "green");
+                _connection.Open();
+                lock (_logger)
+                {
+                    _logger.Log("Connection to database opened", "green");
+                }
+                _endPoint = new IPEndPoint(_ipAddress, _port);
+                _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                _socket.Bind(_endPoint);
+                _socket.Listen(100);
+                lock (_logger)
+                {
+                    _logger.Log("Server started", "green");
+                    _logger.Log($"Listening on {_ipAddress}:{_port}", "green");
+                }
+                isRunning = true;
+                clientHandler = new ClientHandler(_socket, _logger);
+                Thread thread = new Thread(clientHandler.AcceptClients);
+                thread.IsBackground = true;
+                thread.Start();
+                isRunning = true;
             }
-            isRunning = true;
-           clientHandler = new ClientHandler(_socket, _logger);  
-            Thread thread = new Thread(clientHandler.AcceptClients);    
-            thread.IsBackground = true; 
-            thread.Start();
-            _connection.Open();
-            lock (_logger) { 
-            _logger.Log("Connection to database opened", "green");  
+            catch (Exception e)
+            {
+                _logger.Log(e.Message, "red"); 
+               
+                _logger.Log("Server could not be started", "red");
+                isRunning = false;
+
+
             }
-            isRunning = true;   
+           
+         
+            
+            
          
           
 
