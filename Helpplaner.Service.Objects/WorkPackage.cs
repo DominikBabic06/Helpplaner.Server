@@ -22,10 +22,15 @@ namespace Helpplaner.Service.Objects
 
         public string Responsible { get; set; }
 
+        public string ReponsibleName { get; set; }  
+
         public string Dependecy { get; set; }
 
         public string Successor { get; set; }   
 
+        public string Status { get; set; }
+
+        public string colorStatus { get; set; } 
          
         public List<WorkSession> ArbeitsSitzungs { get; set; } = new List<WorkSession>();
 

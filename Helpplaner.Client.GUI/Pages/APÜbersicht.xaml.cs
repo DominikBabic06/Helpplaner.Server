@@ -68,22 +68,53 @@ namespace Helpplaner.Client.GUI.Pages
            
             AP.ItemsSource = null;
             AP.ItemsSource = pvm.Tasks;
-           
+            TextBox_TextChanged(null, null); 
+
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            WorkPackage[] temp = pvm.Tasks.ToArray(); 
-            if (SearchBox.Text != "")
+            string cat;
+            WorkPackage[] temp = pvm.Tasks.ToArray();
+            if(SearchCategory.SelectedValue == null)
             {
-                temp = temp.Where(x => x.Name.Contains(SearchBox.Text)).ToArray(); 
-                AP.ItemsSource = temp;  
-            }   
-
+              cat = "Name";
+            }
             else
             {
-               AP.ItemsSource = pvm.Tasks;  
+                cat = SearchCategory.SelectedValue.ToString();
+             }
+            switch (cat)
+            {
+                case "ID":
+                    temp = temp.Where(x => x.ID.ToString().Contains(SearchBox.Text)).ToArray(); 
+                    break;
+                case "Name":
+                    temp = temp.Where(x => x.Name.Contains(SearchBox.Text)).ToArray(); 
+                    break;
+                case "Beschreibung":
+                    temp = temp.Where(x => x.Description.Contains(SearchBox.Text)).ToArray(); 
+                    break;
+                case "Zuständiger":
+                    temp = temp.Where(x => x.ReponsibleName.Contains(SearchBox.Text)).ToArray(); 
+                    break;
+                default:
+                    temp = temp.Where(x => x.Name.ToString().Contains(SearchBox.Text)).ToArray();
+                    break;
+
+
+
             }
+
+            if(SearchBox.Text == "")
+            {
+                AP.ItemsSource = pvm.Tasks; 
+            }
+            else
+            {
+                AP.ItemsSource = temp; 
+            }
+            
         }
     }
 }

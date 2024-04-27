@@ -106,6 +106,7 @@ namespace Helpplaner.Client.GUI
                 {
                     pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.ID));
                     pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.ID));
+                        pvm.BindUsersToTasks();
                         if (aPÜbersicht != null)
                         {
                             Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { aPÜbersicht.Reload(); });
@@ -192,7 +193,7 @@ namespace Helpplaner.Client.GUI
 
             pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.ID));
             pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.ID));
-
+            pvm.BindUsersToTasks();
             Useroverview useroverview = new Useroverview(selectetProj, sc, pvm  );
 
             APu.Visibility = Visibility.Visible;

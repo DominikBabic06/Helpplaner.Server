@@ -16,7 +16,8 @@ CREATE TABLE Project
 (
     "ID" INT IDENTITY(1,1) PRIMARY KEY,
     "Name" VARCHAR(100),
-    "Description" TEXT
+    "Description" TEXT,
+	"IsRunning" Bit 
 );
 
 -- Arbeitspaket-Tabelle

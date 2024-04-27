@@ -53,7 +53,7 @@ namespace Helpplaner.Client.GUI.Pages
 
             if (!String.IsNullOrEmpty(remeber[0]))
             {
-                if (remeber[1].Contains("hashed:"))
+                if (!String.IsNullOrEmpty(remeber[1]))
                 {
                     User.Text = remeber[0];
                     Password.Password = "DummyPassowrd";
@@ -68,17 +68,23 @@ namespace Helpplaner.Client.GUI.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            if (!string.IsNullOrEmpty(remeber[1]))
-                password = HashPassword(Password.Password);
-            else
-                password = remeber[1].Replace("hashed:","").Trim(' ');
+            password  = HashPassword(Password.Password);
+            try
+            {
+               password = remeber[1];
+            }
+            catch (Exception)
+            {
+
+              
+            }
             
             username = User.Text;
             if(RememberMe.IsChecked == true)
             {
                 StreamWriter sw = new StreamWriter("UserData/remember.txt");
                 sw.WriteLine(username);
-                sw.WriteLine("hashed: " + password);
+                sw.WriteLine( password);
                 sw.Close();  
             }
             else

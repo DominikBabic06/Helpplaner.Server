@@ -23,7 +23,19 @@ namespace Helpplaner.Client.GUI
 
         public IEnumerable<User> users { get; set; }
 
-        
-     
+        internal void BindUsersToTasks()
+        {
+            foreach (var task in Tasks)
+            {
+                task.ReponsibleName = users.FirstOrDefault(u => u.ID == task.Responsible)?.Username;
+                task.colorStatus = task.Status switch
+                {
+                    "Beendet" => "Yellow",
+                    "Aktiv" => "Green",
+                    "Inaktiv" => "Red",
+                    _ => "White"
+                };  
+            }   
+        }
     }
 }

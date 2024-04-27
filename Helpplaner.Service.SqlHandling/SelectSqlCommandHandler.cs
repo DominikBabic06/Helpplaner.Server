@@ -244,6 +244,7 @@
                             task.ExpectedTime = reader["ExpectedTime"].ToString();
                             task.RealTime = reader["RealTime"].ToString();  
                             task.Responsible = reader["Responsible"].ToString();
+                            task.Status = reader["Status"].ToString();
 
                         }
                     }
@@ -296,6 +297,7 @@
                  
                             task.ExpectedTime = reader["ExpectedTime"].ToString();
                             task.Responsible = reader["Responsible"].ToString();
+                            task.Status = reader["Status"].ToString();
                             tasks.Add(task);
 
                         }
