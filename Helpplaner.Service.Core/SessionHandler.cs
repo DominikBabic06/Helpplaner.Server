@@ -21,10 +21,11 @@ namespace Helpplaner.Service.Core
         SqlConnection _connection;
         InsertSqlCommandHandler _insertSqlCommandHandler;
         SelectSqlCommandHandler _selectSqlCommandHandler;
+        AlterSqlCommandHandler _alterSqlCommandHandler;
         User user;
         string info;
-        Config config;  
-
+        Config config;
+        Project currentProj;
         public SessionHandler(Socket client, IServiceLogger logger, Guid id)
         {
             config = new Config();
@@ -39,6 +40,8 @@ namespace Helpplaner.Service.Core
             _connection = new SqlConnection(config.ConnectionString);
             _insertSqlCommandHandler = new InsertSqlCommandHandler(_connection, _logger);
             _selectSqlCommandHandler = new SelectSqlCommandHandler(_connection, _logger);
+            _alterSqlCommandHandler = new AlterSqlCommandHandler(_connection, _logger); 
+
 
         }
 
@@ -58,6 +61,7 @@ namespace Helpplaner.Service.Core
                     User[] users;
                     Project[] projects;
                     int id;
+                    int ProjectId;
                     string check;
                     if (!text.Contains("info"))
                         if (user != null)
@@ -74,7 +78,7 @@ namespace Helpplaner.Service.Core
                                 _logger.Log(info, "green");
                             info = "None";
                             break;
-
+                        
 
                         case "getallusers":
                             OpenConnection();
@@ -94,6 +98,7 @@ namespace Helpplaner.Service.Core
 
                             OpenConnection();
                             project = _selectSqlCommandHandler.GiveProjekt(id);
+                            currentProj = project;  
                             tasks = _selectSqlCommandHandler.GetAllTasks(project);
                             CloseConnection();
                             writer.SendObject(tasks);
@@ -123,6 +128,7 @@ namespace Helpplaner.Service.Core
 
                             OpenConnection();
                             project = _selectSqlCommandHandler.GiveProjekt(id);
+                            currentProj = project;  
                             users = _selectSqlCommandHandler.GetAllUsers(project);
                             CloseConnection();
                             writer.SendObject(users);
@@ -142,10 +148,33 @@ namespace Helpplaner.Service.Core
                             task.ID = getFirstFreeTaskIDFromProject(project);
                             _insertSqlCommandHandler.InsertArbeitspaket(task);
                             CloseConnection();
-                            writer.Send("done");
-                            id = Convert.ToInt32(project.ID);
+                            writer.Send(task.ID);
+                            id = Convert.ToInt32(currentProj.ID);
                             TriggererServerMessage(this, "tr;" + id);
                             break;
+                        case "addDependency":
+                                                       
+                            writer.Send("ok");
+                            Objects.WorkPackage pre = (Objects.WorkPackage)reader.ReadObject(); 
+
+                            Objects.WorkPackage[] tasks2 = (Objects.WorkPackage[])reader.ReadObject();
+
+                            OpenConnection();
+                            foreach (Objects.WorkPackage task2 in tasks2)
+                            {
+                                _insertSqlCommandHandler.InsertRelation(task2, pre);
+                            }
+                           
+                            CloseConnection();
+                            writer.Send("done");
+                            id = Convert.ToInt32(currentProj.ID);
+                            TriggererServerMessage(this, "tr;" + id);
+                            break;
+                        case "lastAddWorkSessionID":
+                            OpenConnection();
+                            writer.Send(""+_selectSqlCommandHandler.GetLastAddedWorkPackageID());
+                            CloseConnection();
+                            break;  
                         case "logout":
                             user = null;
                             writer.Send("done");
@@ -155,6 +184,22 @@ namespace Helpplaner.Service.Core
                             OpenConnection();
                             CheckPassword(text);
                             CloseConnection();
+                            break;
+
+                        case "DeleteTask":
+                            //parameter1 is task id
+                            OpenConnection();
+                             WorkPackage wp =    _selectSqlCommandHandler.GetTask(Convert.ToInt32(text.Split(';')[1].Trim()));
+                            foreach (string item in _selectSqlCommandHandler.GetDependecys(wp))
+                            {
+                                _alterSqlCommandHandler.DeleteDependency(_selectSqlCommandHandler.GetTask(Convert.ToInt32(item)),wp);
+                            }
+                            
+                            _alterSqlCommandHandler.DeleteWorkTask((_selectSqlCommandHandler.GetTask(Convert.ToInt32(text.Split(';')[1].Trim()))));
+                            CloseConnection();
+                            writer.Send("done");
+                            id = Convert.ToInt32(currentProj.ID);
+                            TriggererServerMessage(this, "tr;" + id);
                             break;
                         case "exit":
                             Close();
@@ -256,13 +301,13 @@ namespace Helpplaner.Service.Core
         public string getFirstFreeTaskIDFromProject(Project pr)
         {
             Objects.WorkPackage[] tasks = _selectSqlCommandHandler.GetAllTasks(pr);
-            int i = 0;
+            int i = 1;
             while (true)
             {
                 bool found = false;
                 foreach (Objects.WorkPackage task in tasks)
                 {
-                    if (task.ID == i.ToString())
+                    if (task.ID == i.ToString() )
                     {
                         found = true;
                         break;

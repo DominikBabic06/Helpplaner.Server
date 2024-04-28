@@ -142,7 +142,9 @@ namespace Helpplaner.Client.GUI
             skipconnection = false;
             return tasks.ToArray();
 
-        }   
+        }  
+        
+     
 
         public string Send(string message)
         {
@@ -213,7 +215,7 @@ namespace Helpplaner.Client.GUI
         }   
 
 
-        public void AddTaskToProject(Helpplaner.Service.Objects.WorkPackage task, int projectid)
+        public string AddTaskToProject(Helpplaner.Service.Objects.WorkPackage task, int projectid)
         {
         
             _writer.Send("addTask;" + projectid);
@@ -222,9 +224,30 @@ namespace Helpplaner.Client.GUI
                 _writer.SendObject(task);
             }   
 
-            _reader.Read(); 
+           _reader.Read();
+            _writer.Send("lastAddWorkSessionID");
+            return _reader.Read();
 
 
+        }
+        public void addDependency(WorkPackage[] tasks, WorkPackage task)
+        {
+            _writer.Send("addDependency;");
+            if (_reader.Read() == "ok")
+            {
+                _writer.SendObject(task);
+                _writer.SendObject(tasks);  
+            }
+
+            _reader.Read();
+        }
+
+
+        public void DeleteTask(Helpplaner.Service.Objects.WorkPackage task)
+        {
+            _writer.Send("DeleteTask;" + task.ID);
+
+            _reader.Read();
         }
     }
 }

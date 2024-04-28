@@ -7,12 +7,14 @@
         mc:Ignorable="d"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        Title="NewAP" Height="450" Width="400"
+        
+        Title="NewAP" Height="600" Width="400"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" 
          Style="{StaticResource MaterialDesignWindow}" >
     <Window.Resources>
-        <ResourceDictionary>
+        <ResourceDictionary x:Name="MainDict">
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="..\Themes\DarkMode.xaml"/>
+                <ResourceDictionary Source="..\Themes\DarkMode.xaml" x:Name="ColorRes"/>
                                 <!-- You can include a default theme here -->
             </ResourceDictionary.MergedDictionaries>
             
@@ -21,9 +23,12 @@
     <Grid Background="{DynamicResource BackgroundColorSecondary}">
 
 
-        <StackPanel>
-        
-        <TextBox x:Name="Name" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" materialDesign:HintAssist.Hint="Name" Foreground="{DynamicResource ColorText}" TextChanged="Name_TextChanged"   />
+        <StackPanel Cursor="">
+
+            <StackPanel Orientation="Horizontal" Width="Auto">
+                <TextBox x:Name="Name" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" materialDesign:HintAssist.Hint="Name" Foreground="{DynamicResource ColorText}" TextChanged="Name_TextChanged"   />
+                <TextBox x:Name="Dauer" HorizontalAlignment="Right" Height="23" Margin="140,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"  Width="120" materialDesign:HintAssist.Hint="Dauer" Foreground="{DynamicResource ColorText}" TextChanged="Dauer_TextChanged"  /> 
+            </StackPanel>
             <TextBox x:Name="Beschreibung" Height="80"
                  MinWidth="280"
                  VerticalAlignment="Stretch"
@@ -33,12 +38,44 @@
                
                  TextWrapping="Wrap"
                  VerticalScrollBarVisibility="Auto"  Foreground="{DynamicResource ColorText}" Margin="10,10,0,0" TextChanged="Beschreibung_TextChanged" />
-            <ComboBox x:Name="Zuständiger" Margin="10,10,20,0" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}" SelectionChanged="Zuständiger_SelectionChanged" >
-                
-           </ComboBox>
-            
-            <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Speichern_Click" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}" IsEnabled="False"/>
-            <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Cancel_Click" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}"/>
+    
+             
+                      
+                            <StackPanel Margin="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                             
+
+                                <RadioButton Margin="4"
+                           Content="Zuständige"
+                           IsChecked="False"
+                            x:Name="Zubutton"
+                                Foreground="{DynamicResource ColorText}"             
+                           Style="{StaticResource MaterialDesignTabRadioButton}" Click="Zubutton_Click" />
+
+                                <RadioButton Margin="4"
+                           Content="Abhängigkeiten"
+                           IsChecked="False"
+                         x:Name="AbButton"
+                                                Foreground="{DynamicResource ColorText}"    
+                           Style="{StaticResource MaterialDesignTabRadioButton}" Click="AbButton_Click" />
+                            </StackPanel>
+
+
+
+            <TextBox x:Name="Search" TextChanged="Search_TextChanged" materialDesign:HintAssist.Hint="Suchen.." Margin="10,10,0,0"></TextBox>
+            <ListBox x:Name="Zuständiger" SelectionChanged="Zuständiger_SelectionChanged" ItemsSource="{Binding users}"   Visibility="Collapsed" Height="200"/>
+            <ListBox x:Name="Dependants" SelectionChanged="Dependants_SelectionChanged" ItemsSource="{Binding Tasks}" Visibility="Collapsed"   SelectionMode="Multiple" Height="200">
+                </ListBox>
+
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Speichern_Click" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}" IsEnabled="False"/>
+                    <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="Cancel_Click" Foreground="{DynamicResource ColorText}" Background="{DynamicResource BackgroundColorTextHighlight}"/>
+                </StackPanel>
+                <Label x:Name="Waring" Foreground="Red"></Label>
+            </StackPanel>
+           
+           
         </StackPanel>
 
 

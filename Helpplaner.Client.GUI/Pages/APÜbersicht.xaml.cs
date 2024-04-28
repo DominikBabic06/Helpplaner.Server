@@ -27,6 +27,8 @@ namespace Helpplaner.Client.GUI.Pages
         ServerCommunicator sr;
 
         ProjectViewModel pvm;   
+
+        WorkPackage selectedTask;   
         
 
 
@@ -115,6 +117,19 @@ namespace Helpplaner.Client.GUI.Pages
                 AP.ItemsSource = temp; 
             }
             
+        }
+
+        private void AP_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            selectedTask = (WorkPackage)AP.SelectedItem;    
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (selectedTask.Successor == "")
+            {
+                sr.DeleteTask(selectedTask);
+            }
         }
     }
 }

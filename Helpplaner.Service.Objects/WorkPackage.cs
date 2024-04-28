@@ -37,13 +37,7 @@ namespace Helpplaner.Service.Objects
         public override string ToString()
         {
             return
-             "Arbeitspaket_ID: " + ID + "\n" +
-             "Arbeitspaket_Name: " + Name + "\n" +
-             "Projekt_ID: " + ProjectID + "\n" +
-             "Arbeitspaket_Beschreibung: " + Description + "\n" +
-     
-             "Arbeitspaket_InsgeArbeitszeit: " + ExpectedTime + "\n" +
-             "Arbeitspaket_Zustaendiger: " + Responsible + "\n"; 
+             Name + $"({ID})";  
         
                 
         }

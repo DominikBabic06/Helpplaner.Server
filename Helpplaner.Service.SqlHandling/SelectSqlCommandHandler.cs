@@ -21,7 +21,33 @@
 
         }
 
+        public int GetLastAddedWorkPackageID()
+        {
+            int id = 0;
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SELECT TOP 1 *  FROM WorkPackage ORDER    BY ID DESC;", _connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
 
+                            id = Convert.ToInt32(reader["ID"].ToString());  
+
+
+
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+            return id;
+        }
         #region User
         public User[] GiveAllUsers()
         {
@@ -248,17 +274,18 @@
 
                         }
                     }
-                }
+               }
               
                     string Dependecys = "";
                     string Successors = "";
-                    foreach (WorkPackage item2 in GetDependecys(task))
+                    foreach (string item2 in GetDependecys(task))
                     {
-                        Dependecys += item2.ID + "";
+                       
+                        Dependecys += item2 + " ";
                     }
-                    foreach (WorkPackage item2 in GetSuccessors(task))
+                    foreach (string item2 in GetSuccessors(task))
                     {
-                        Successors += item2.ID + " ";
+                        Successors += item2  + " ";
                     }
                     task.Dependecy = Dependecys;
                     task.Successor = Successors;
@@ -308,16 +335,17 @@
                 foreach (WorkPackage item in tasks)
                 {
                        string Dependecys =  ""; 
-                       string Successors = "";  
-                        foreach (WorkPackage item2 in GetDependecys(item))
-                         {
-                            Dependecys += item2.ID + ""; 
-                        }   
-                        foreach (WorkPackage item2 in GetSuccessors(item))
-                          {
-                            Successors += item2.ID + " "; 
-                        }   
-                        item.Dependecy = Dependecys;
+                       string Successors = "";
+                       foreach (string item2 in GetDependecys(item))
+                    {
+
+                        Dependecys += item2 + " ";
+                    }
+                    foreach (string item2 in GetSuccessors(item))
+                    {
+                        Successors += item2 + " ";
+                    }
+                    item.Dependecy = Dependecys;
                          item.Successor = Successors;    
 
                       
@@ -601,7 +629,7 @@
 
         #region ArbeitspaketRelations
 
-        public WorkPackage[] GetDependecys(WorkPackage task)
+        public string[] GetDependecys(WorkPackage task)
         {
             List<WorkPackage> tasks = new List<WorkPackage>();
             List<string> taskIDs = new List<string>();
@@ -624,15 +652,12 @@
             {
                 _logger.Log(ex.Message, "red");
             }
-            foreach (string item in taskIDs)
-            {
-                tasks.Add(GetTask(Convert.ToInt32(item))); 
-            }
+
           
-            return tasks.ToArray();
+            return taskIDs.ToArray();
         }  
         
-        public WorkPackage[] GetSuccessors(WorkPackage task)
+        public string[] GetSuccessors(WorkPackage task)
         {
             List<WorkPackage> tasks = new List<WorkPackage>();
             List<string> taskIDs = new List<string>();
@@ -655,12 +680,9 @@
             {
                 _logger.Log(ex.Message, "red");
             }
-            foreach (string item in taskIDs)
-            {
-                tasks.Add(GetTask(Convert.ToInt32(item))); 
-            }
-          
-            return tasks.ToArray();
+         
+
+            return taskIDs.ToArray();
         }
         #endregion
 

@@ -49,6 +49,7 @@ namespace Helpplaner.Service.SqlHandling
                 command.Parameters.AddWithValue("@Username", user.Username);
                 command.Parameters.AddWithValue("@Password", user.Password);
                 command.Parameters.AddWithValue("@Email", user.Email);  
+               
                 command.ExecuteNonQuery();
             }
                        catch (Exception e)
@@ -60,7 +61,7 @@ namespace Helpplaner.Service.SqlHandling
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO WorkPackage ( Name, ProjectID, Description, ExpectedTime, RealTime,  Responsible) VALUES ( @Name, @ProjectID, @Description, @ExpectedTime, @RealTime, @Responsible)", _connection);
+                SqlCommand command = new SqlCommand("INSERT INTO WorkPackage ( Name, ProjectID, Description, ExpectedTime, RealTime,  Responsible, Status) VALUES ( @Name, @ProjectID, @Description, @ExpectedTime, @RealTime, @Responsible, @Status)", _connection);
                
                 command.Parameters.AddWithValue("@Name", task.Name);
                 command.Parameters.AddWithValue("@ProjectID", task.ProjectID);
@@ -68,6 +69,8 @@ namespace Helpplaner.Service.SqlHandling
                 command.Parameters.AddWithValue("@ExpectedTime", task.ExpectedTime);
                 command.Parameters.AddWithValue("@RealTime", task.RealTime);
                 command.Parameters.AddWithValue("@Responsible", task.Responsible);
+                command.Parameters.AddWithValue("@Status", task.Status);    
+
                 command.ExecuteNonQuery();
             }
             catch (Exception e)

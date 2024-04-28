@@ -29,7 +29,7 @@ namespace Helpplaner.Service.Shared
             Message message;
 
             string re;
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[65535];
             try
             {
                 socket.Receive(buffer);
@@ -58,7 +58,7 @@ namespace Helpplaner.Service.Shared
             Message message;
 
             string re;
-            byte[] buffer = new byte[10000];
+            byte[] buffer = new byte[65535];
             try
             {
                 socket.Receive(buffer);
