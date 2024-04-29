@@ -50,18 +50,27 @@ namespace Helpplaner.Client.GUI.Pages
             }
 
             remeber = File.ReadLines("UserData/remember.txt").ToArray();
-
-            if (!String.IsNullOrEmpty(remeber[0]))
+            try
             {
-                if (!String.IsNullOrEmpty(remeber[1]))
+                if (!String.IsNullOrEmpty(remeber[0]))
                 {
-                    User.Text = remeber[0];
-                    Password.Password = "DummyPassowrd";
-                    RememberMe.IsChecked = true;
+                    if (!String.IsNullOrEmpty(remeber[1]))
+                    {
+                        User.Text = remeber[0];
+                        Password.Password = "DummyPassowrd";
+                        RememberMe.IsChecked = true;
+                    }
+
                 }
 
-            }   
+            }
+            catch (Exception)
+            {
 
+                
+            }
+
+          
 
         }
 

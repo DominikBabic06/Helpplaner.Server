@@ -1,4 +1,4 @@
-ConnectionString:Data Source=DESKTOP-DRJ7UCI\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True;Encrypt=False
+ConnectionString:Data Source=LAPTOP-M4DNH0BR\SQLEXPRESS;Initial Catalog=HELPPLANER;Integrated Security=True
 MaxConnections:10 
 IPAddress:127.0.0.1
 Port:5000
