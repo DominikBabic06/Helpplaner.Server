@@ -52,16 +52,17 @@ namespace Helpplaner.Client.GUI.Pages
             remeber = File.ReadLines("UserData/remember.txt").ToArray();
             try
             {
-                if (!String.IsNullOrEmpty(remeber[0]))
+                
+            if (!String.IsNullOrEmpty(remeber[0]))
+            {
+                if (!String.IsNullOrEmpty(remeber[1]))
                 {
-                    if (!String.IsNullOrEmpty(remeber[1]))
-                    {
-                        User.Text = remeber[0];
-                        Password.Password = "DummyPassowrd";
-                        RememberMe.IsChecked = true;
-                    }
-
+                    User.Text = remeber[0];
+                    Password.Password = "DummyPassowrd";
+                    RememberMe.IsChecked = true;
                 }
+
+            }   
 
             }
             catch (Exception)
@@ -161,9 +162,15 @@ namespace Helpplaner.Client.GUI.Pages
             {
                 Userfound(user, EventArgs.Empty);
             }
-        }   
+        }
 
+        private void Password_PasswordChanged(object sender, RoutedEventArgs e)
+        {if (Password.Password != "DummyPassowrd")
+            {
+                remeber[1] = HashPassword(Password.Password);
+            }
+           
 
-
+        }
     }
 }

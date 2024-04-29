@@ -30,8 +30,8 @@ namespace Helpplaner.Client.GUI
                 task.ReponsibleName = users.FirstOrDefault(u => u.ID == task.Responsible)?.Username;
                 task.colorStatus = task.Status switch
                 {
-                    "Beendet" => "Yellow",
-                    "Aktiv" => "Green",
+                    "Beendet" => "Green",
+                    "Aktiv" => "Yellow",
                     "Inaktiv" => "Red",
                     _ => "White"
                 };  

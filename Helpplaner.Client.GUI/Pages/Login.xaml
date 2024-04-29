@@ -76,7 +76,7 @@
                 </Grid>
                 <Grid Grid.Row="2" >
                     <Label Content="Helpplaner" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{DynamicResource ColorText}" FontSize="40" Margin="41,0,0,0"/>
-                    <TextBox x:Name="User" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="30"  Width="200" FontSize="20" materialDesign:HintAssist.Hint="Benutzername" Margin="366,0,0,0" />
+                    <TextBox x:Name="User" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="30"  Width="200" FontSize="20" materialDesign:HintAssist.Hint="Benutzername" Margin="366,0,0,0"  />
                 </Grid>
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
@@ -85,7 +85,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="anmelden um fortzufahren" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="{DynamicResource ColorText}" FontSize="18" Margin="45,-8,0,0"/>
                     <Label  x:Name="Warning" Foreground="Red" FontSize="15" Margin="80,23,49,-25" Grid.ColumnSpan="2"></Label>
-                    <PasswordBox x:Name ="Password"  HorizontalAlignment="Left" VerticalAlignment="Top"  Height="30"  Width="201" FontSize="20" materialDesign:HintAssist.Hint="Passwort" Margin="365,0,0,0" Grid.ColumnSpan="2"/>
+                    <PasswordBox x:Name ="Password"  HorizontalAlignment="Left" VerticalAlignment="Top"  Height="30"  Width="201" FontSize="20" materialDesign:HintAssist.Hint="Passwort" Margin="365,0,0,0" Grid.ColumnSpan="2" PasswordChanged="Password_PasswordChanged" />
                 </Grid>
 
                 <Grid Grid.Row="4" >
