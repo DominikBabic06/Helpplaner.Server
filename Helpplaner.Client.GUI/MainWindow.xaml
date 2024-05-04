@@ -8,7 +8,7 @@
         xmlns:behaviors="clr-namespace:Helpplaner.Client.GUI.Behaviours"
        
          mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1200" MinHeight="400" MinWidth="700"
+        Title="MainWindow" Height="600" Width="1200" MinHeight="600" MinWidth="700"
          
         Background="Transparent"  ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen"  
         Style="{StaticResource MaterialDesignWindow}">
@@ -179,14 +179,14 @@
            
             <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="12*" />
+                <ColumnDefinition Width="12*"  />
                 <ColumnDefinition Width="90*"/>
 
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="6*"/>
-                <RowDefinition Height="70*"/>
+                <RowDefinition Height="45" MaxHeight="45"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0"  Grid.Column="0" Background="{DynamicResource  BackgroundColorTextHighlight}">
@@ -197,7 +197,7 @@
               FontSize="20" 
               Margin="12,0,0,0"/>
             </Grid>
-            <Grid Grid.Row="0"  Grid.Column="1" >
+            <Grid Grid.Row="0"  Grid.Column="1" MaxHeight="80" >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="90*"/>
@@ -226,9 +226,9 @@
 
             </Grid>
 
-            <StackPanel Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
+            <Grid Grid.Row="1" Grid.Column="0" Background="{DynamicResource BackgroundColorSecondary}">
 
-                <Grid Height="539">
+                <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50*"/>
 
@@ -304,7 +304,7 @@
 
 
                 </Grid>
-            </StackPanel>
+            </Grid>
 
             <Frame x:Name="Main" Grid.Row="1" Grid.Column="1"  NavigationUIVisibility="Hidden" />
 

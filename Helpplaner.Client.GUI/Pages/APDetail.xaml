@@ -8,6 +8,8 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="APDetail"
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     MinHeight="300"
+      
       
 >
     <Page.Resources>
@@ -36,56 +38,90 @@
 
         <Grid Grid.Column="1"  Background="{DynamicResource BackgroundColorMain}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="10*"/>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="10*"/>
-                <RowDefinition Height="10*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
 
             </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <StackPanel Margin="0,0,0,0">
+            <Label FontSize="28" Foreground="{DynamicResource ColorText}" Grid.Row="0" Margin="15,20,0,0" FontWeight="Bold"> Arbetispaket:
+            </Label>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBlock Text="Arbeitspaketname" Grid.Row="0" FontSize="22" FontWeight="SemiBold"
-                Margin="20,15,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPName" />
-
-                <TextBlock Text="#ID" Grid.Row="0" FontSize="22" FontWeight="SemiBold"
-                    Margin="20,15,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPID" />
-
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
+                    <TextBlock Text="{Binding Name}"  FontSize="22" FontWeight="SemiBold"
+                Margin="20,20,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPName" />
+                    <Label FontSize="22" FontWeight="SemiBold"
+                    Margin="20,15,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}">(</Label>
+                    <TextBlock Text="{Binding ID}"  FontSize="22" FontWeight="SemiBold"
+                    Margin="0,20,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPID" />
+                    <Label FontSize="22" FontWeight="SemiBold"
+                Margin="0,15,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}">)</Label>
+                </StackPanel>
             </StackPanel>
+            <StackPanel Margin="100,0,0,0">
+                <Label FontSize="28" Foreground="{DynamicResource ColorText}" Grid.Row="2" Margin="15,20,0,0" FontWeight="Bold">Zuständiger:
+            </Label>
+         
+                    <StackPanel Orientation="Horizontal"  Grid.Row="3">
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,60,0">
-                <TextBlock Text="Status" Grid.Row="0" FontSize="17" FontWeight="SemiBold"
+                        <TextBlock FontSize="22" FontWeight="SemiBold" Text="{Binding ReponsibleName}" 
+                         Margin="20,20,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPResponsibleName"/>
+                        
+                        <Label FontSize="22" FontWeight="SemiBold"
+                        Margin="20,15,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}">(</Label>
+                        <TextBlock Text="{Binding Responsible}"  FontSize="22" FontWeight="SemiBold"
+                         Margin="0,20,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPResponsibleID"/>
+                        <Label FontSize="22" FontWeight="SemiBold" Margin="0,15,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}">)
+                        </Label>
+                    </StackPanel>
+
+                </StackPanel>
+              
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0,60,0" Grid.Row="0">
+                <TextBlock Text="{Binding Status}"  FontSize="17" FontWeight="SemiBold"
                 Foreground="{DynamicResource ColorText}" x:Name="WPStatus" Margin="0,20,0,0"/>
-                
-                <Button Background="Black" Margin="15,20,0,0" VerticalAlignment="Top" IsEnabled="False" Visibility="Visible"
-                        FontSize="1" Height="30" Width="40"></Button>
+
+                <Button Background="{Binding colorStatus}" Margin="15,20,0,0" VerticalAlignment="Top" IsEnabled="False" Visibility="Visible"
+             FontSize="1" Height="30" Width="40"></Button>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="ResponsibleName" Grid.Row="0" FontSize="17" FontWeight="Normal"
-                Margin="20,45,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPResponsibleName"/>
 
-                <TextBlock Text="#ResponsibleID" Grid.Row="0" FontSize="17" FontWeight="Normal"
-                Margin="20,45,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="WPResponsibleID"/>
-            </StackPanel>
-
+            <Label FontSize="28" Foreground="{DynamicResource ColorText}" Grid.Row="2" Margin="15,20,0,10" FontWeight="Bold">Beschreibung:
+            </Label>
             <TextBox x:Name="WPDescription" Height="80"
                     MinWidth="280" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Beschreibung"
                     AcceptsReturn="True" SpellCheck.IsEnabled="True" TextWrapping="Wrap"
                     VerticalScrollBarVisibility="Auto"  Foreground="{DynamicResource ColorText}" Margin="20,0,20,0" 
-                    Grid.Row="1"/>
+                    Grid.Row="5"  IsEnabled="False" Text="{Binding Description }"/>
             
-            <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,15,0,0">
+            <StackPanel Orientation="Vertical" Grid.Row="2" Margin="0,20,20,0" HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Geschätzte Zeit:" Grid.Row="0" FontSize="15" FontWeight="Normal"
                 Margin="20,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="ExpectedTimeLabel"/>
                 <TextBlock Text="0h" Grid.Row="0" FontSize="15" FontWeight="Normal"
                 Margin="10,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="ExpectedTime"/>
-                <TextBlock Text="Reale Zeit:" Grid.Row="0" FontSize="15" FontWeight="Normal"
-                Margin="30,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="RealTimeLabel"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Reale Zeit:" Grid.Row="0" FontSize="15" FontWeight="Normal"
+                Margin="20,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="RealTimeLabel"/>
                 <TextBlock Text="0h" Grid.Row="0" FontSize="15" FontWeight="Normal"
                  Margin="10,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="RealTime"/>
             </StackPanel>
+            </StackPanel>
+
         </Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,29">
+            <Button Content="Bearbeiten" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource ColorText}" Click="Edit_Click"/>
+            <Button Content="Speichern" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource ColorText}" Click="Save_Click"/>
+            <Button Content="Abbrechen" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource ColorText}" Click="Delete_Click"/>
+        </StackPanel>
 
 
     </Grid>

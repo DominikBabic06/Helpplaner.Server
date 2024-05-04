@@ -192,7 +192,7 @@
             
             <!-- Datagrid-->
 
-            <DataGrid  x:Name="AP" Grid.Row="1" Background="{DynamicResource BackgroundColorMain}" AutoGenerateColumns="False"  ItemsSource="{Binding Tasks }" IsEnabled="True" Margin="20,10,20,0" SelectedCellsChanged="AP_SelectedCellsChanged" >
+            <DataGrid  x:Name="AP" Grid.Row="1" Background="{DynamicResource BackgroundColorMain}" AutoGenerateColumns="False"  ItemsSource="{Binding Tasks }" IsEnabled="True" Margin="20,10,20,0" SelectedCellsChanged="AP_SelectedCellsChanged" MouseDoubleClick="AP_MouseDoubleClick">
               
                 
                 <DataGrid.Resources>
@@ -254,6 +254,8 @@ RelativeSource={RelativeSource Self}}"/>
            
                 <Button Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="+" FontSize="20"  Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="10,15,20,0" Click="Button_Click" ></Button>
                 <Button Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="-" FontSize="20" Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="0,15,60,0" Click="Button_Click_1" ></Button>
+                <Button Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="-" FontSize="20" Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="0,15,60,0" Click="Button_Click_2" ></Button>
+
                 <Label x:Name="Waring" Foreground="Red"></Label>
             </StackPanel>
            

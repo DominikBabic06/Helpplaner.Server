@@ -30,11 +30,13 @@ namespace Helpplaner.Client.GUI.Pages
         string username;
         string password;
         User user;
-        string[] remeber;
+        List<string> remeber;
         Aes Crypt;
         public Login( ServerCommunicator server , ref User user)
         {
             InitializeComponent();
+            remeber = new List<string>(2); 
+         
             this.server  = server;
             Crypt  = Aes.Create();
             if (!File.Exists("UserData/remember.txt"))
@@ -49,7 +51,7 @@ namespace Helpplaner.Client.GUI.Pages
                 Console.WriteLine("Ordner existiert bereits: " + "UserData/remember.txt");
             }
 
-            remeber = File.ReadLines("UserData/remember.txt").ToArray();
+            remeber.AddRange( File.ReadLines("UserData/remember.txt").ToArray());
             try
             {
                 
@@ -167,7 +169,16 @@ namespace Helpplaner.Client.GUI.Pages
         private void Password_PasswordChanged(object sender, RoutedEventArgs e)
         {if (Password.Password != "DummyPassowrd")
             {
-                remeber[1] = HashPassword(Password.Password);
+                try
+                {
+                    remeber[1] = HashPassword(Password.Password);
+                }
+                catch (Exception)
+                {
+
+                    remeber.Add(HashPassword(Password.Password));
+                }
+               
             }
            
 

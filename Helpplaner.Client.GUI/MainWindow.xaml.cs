@@ -265,7 +265,7 @@ namespace Helpplaner.Client.GUI
 
         private void ApOverView_Click(object sender, RoutedEventArgs e)
         {
-             aPÜbersicht = new APÜbersicht(selectetProj, sc, pvm);    
+             aPÜbersicht = new APÜbersicht(selectetProj, sc, pvm, this);    
 
             Main.Content = aPÜbersicht;
         }
@@ -281,5 +281,10 @@ namespace Helpplaner.Client.GUI
             DiagramIcon.Stroke = Brushes.Black;
                 DiagramIcon.Fill = Brushes.Black;
         }
+
+        public void changeShowPage(Page page)
+        {
+           Dispatcher.Invoke( System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { Main.Content = page; });
+        }   
     }
 }

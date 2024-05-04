@@ -1,4 +1,5 @@
 ﻿using Helpplaner.Service.Objects;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,16 +30,23 @@ namespace Helpplaner.Client.GUI.Pages
         ProjectViewModel pvm;   
 
         WorkPackage selectedTask;   
+        MainWindow main;
+        APÜbersicht aPÜbersicht;   
+        
+
         
 
 
-        public APÜbersicht(Project proj, ServerCommunicator sr , ProjectViewModel pvm)
+        public APÜbersicht(Project proj, ServerCommunicator sr , ProjectViewModel pvm, MainWindow main )
         {
             InitializeComponent();
             Project = proj;
             this.sr = sr;
             this.DataContext = pvm; 
             this.pvm = pvm; 
+            this.main = main;   
+           
+
 
            
             
@@ -54,15 +62,7 @@ namespace Helpplaner.Client.GUI.Pages
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            NewAP newAP = new NewAP(Project, sr, pvm);
-
-            newAP.Activate();   
-            newAP.ShowDialog(); 
-
-
-        }
+     
         public void Reload()
         {
 
@@ -123,13 +123,49 @@ namespace Helpplaner.Client.GUI.Pages
         {
             selectedTask = (WorkPackage)AP.SelectedItem;    
         }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            NewAP newAP = new NewAP(Project, sr, pvm);
 
+            newAP.Activate();
+            newAP.ShowDialog();
+
+
+        }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (selectedTask.Successor == "")
+            if (selectedTask == null)
             {
-                sr.DeleteTask(selectedTask);
+                Waring.Content = "Bitte wählen Sie eine Aufgabe aus";
+                return;
             }
+            if (selectedTask.Successor == "" )
+            {
+                Waring.Content = "";
+                sr.DeleteTask(selectedTask);
+
+            }
+            else
+            {
+                Waring.Content = "Die Aufgabe hat Nachfolger, bitte löschen Sie diese zuerst";
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            APDetail aPDetail = new APDetail(pvm, selectedTask, sr, main, this);   
+            main.changeShowPage(aPDetail);
+         
+        }
+
+        private void AP_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (selectedTask != null)
+            {
+                APDetail aPDetail = new APDetail(pvm, selectedTask, sr, main, this);
+                main.changeShowPage(aPDetail);
+            }
+           
         }
     }
 }
