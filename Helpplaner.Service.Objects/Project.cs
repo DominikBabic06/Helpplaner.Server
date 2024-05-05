@@ -23,12 +23,12 @@ namespace Helpplaner.Service.Objects
                       
         public List<WorkPackage> Tasks{ get; set; } = new List<WorkPackage>();
 
+        public bool Active { get; set; }
+
         public 
          override string ToString()
         {
-            return "Projekt_ID: " + ID + "\n" +
-                    "Projekt_Name: " + Name + "\n" +
-                    "Projekt_Beschreibung: " + Description + "\n";
+            return Name;
         }
         public  Project() { 
         

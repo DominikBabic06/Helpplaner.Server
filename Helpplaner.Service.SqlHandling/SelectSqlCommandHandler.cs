@@ -191,6 +191,7 @@
                             proj.ID = reader["ID"].ToString();
                             proj.Name = reader["Name"].ToString();
                             proj.Description = reader["Description"].ToString();
+                            proj.Active  = reader["IsRunning"].ToString() == "True" ? true : false;
 
                             _logger.Log(proj.ToString(), "green");
 

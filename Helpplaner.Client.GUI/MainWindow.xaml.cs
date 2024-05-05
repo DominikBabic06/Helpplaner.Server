@@ -33,6 +33,7 @@ namespace Helpplaner.Client.GUI
         APÜbersicht aPÜbersicht;
         ProjectViewModel pvm;
         ProjektOverview ProjektOverview;
+        ProjectHub ProjektHub;
 
         
         public MainWindow()
@@ -140,14 +141,18 @@ namespace Helpplaner.Client.GUI
         }
         private void Login_Userfound(object sender, EventArgs e)
         {
-            Main.Content = null;
+            projects = sc.GetProjectsforUser();
+            adminprojects = sc.GetAdminProjekts();
+            pvm.projects = projects;
+
+            ProjektHub = new ProjectHub(sc, pvm, this);
+            Main.Content = ProjektHub;
             user = (User)sender;    
 
             Username.Text = user.Username;
 
 
-            projects = sc.GetProjectsforUser();
-            adminprojects = sc.GetAdminProjekts();  
+           
           
 
 
@@ -273,14 +278,40 @@ namespace Helpplaner.Client.GUI
         private void Dia_MouseEnter(object sender, MouseEventArgs e)
         {
                DiagramIcon.Stroke = Brushes.Black;  
-               DiagramIcon.Fill = Brushes.Red;
+               DiagramIcon.Fill = FindResource("BackgroundColorTextHighlight") as Brush;    
         }
 
         private void Dia_MouseLeave(object sender, MouseEventArgs e)
         {
             DiagramIcon.Stroke = Brushes.Black;
-                DiagramIcon.Fill = Brushes.Black;
+                DiagramIcon.Fill = FindResource("ColorText") as Brush;
         }
+
+
+        private void Pro_MouseEnter(object sender, MouseEventArgs e)
+        {
+            StatsIcon.Stroke = Brushes.Black;
+            StatsIcon.Fill = FindResource("BackgroundColorTextHighlight") as Brush;
+        }
+
+        private void Pro_MouseLeave(object sender, MouseEventArgs e)
+        {
+            StatsIcon.Stroke = Brushes.Black;
+            StatsIcon.Fill = FindResource("ColorText") as Brush;
+        }
+
+        private void AB_MouseEnter(object sender, MouseEventArgs e)
+        {
+            DiagramIcon.Stroke = FindResource("BackgroundColorTextHighlight") as Brush;
+            
+        }
+
+        private void Ab_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Database1.Stroke = FindResource("ColorText") as Brush;
+          
+        }
+
 
         public void changeShowPage(Page page)
         {

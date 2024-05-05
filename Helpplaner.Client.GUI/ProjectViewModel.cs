@@ -23,6 +23,8 @@ namespace Helpplaner.Client.GUI
 
         public IEnumerable<User> users { get; set; }
 
+        public IEnumerable<Project> projects { get; set; }
+
         internal void BindUsersToTasks()
         {
             foreach (var task in Tasks)
