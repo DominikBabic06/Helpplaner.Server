@@ -212,9 +212,9 @@
                 </DataGrid.CellStyle>
           
                     <DataGrid.Columns >
-                  
-            
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="1*" IsReadOnly="True" />
+
+
+                    <DataGridTextColumn Header="ID" Binding="{Binding IdInProject}" Width="1*" IsReadOnly="True" />
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*" IsReadOnly="True"/>
                   
                  
@@ -224,7 +224,7 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
                                 <Setter Property="ToolTip" Value="{Binding Text, 
-               RelativeSource={RelativeSource Self}}"/>
+                              RelativeSource={RelativeSource Self}}"/>
 
                             </Style>
                         </DataGridTextColumn.ElementStyle>
@@ -251,7 +251,7 @@ RelativeSource={RelativeSource Self}}"/>
 
             </DataGrid>
             <StackPanel Orientation="Horizontal" Grid.Row="2">
-                <Button  x:Name="PopupButton"  Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="+" FontSize="20"  Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="10,15,15,0" Click="PopupButton_Click" ></Button>
+                <Button  x:Name="PopupButton"  Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35"  FontSize="20"  Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="10,15,15,0" Click="PopupButton_Click" ></Button>
                 <Button Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="+" FontSize="20"  Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="10,15,20,0" Click="Button_Click" ></Button>
                 <Button Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="-" FontSize="20" Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Right" Margin="0,15,60,0" Click="Button_Click_1" ></Button>
 

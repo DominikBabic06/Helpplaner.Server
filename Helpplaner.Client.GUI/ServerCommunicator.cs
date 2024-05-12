@@ -22,7 +22,8 @@ namespace Helpplaner.Client.GUI
         bool isconnected = false;   
        bool needsToBeReloaded = false;  
         int projetidthatneedsreloading = 0; 
-
+       public  bool ProjectsneedtobeReloaded = false;    
+ 
        public bool needLogout = false;   
 
        public  event EventHandler<string> ServerMessage;
@@ -77,6 +78,11 @@ namespace Helpplaner.Client.GUI
                             projetidthatneedsreloading = int.Parse(input.Remove(0, 3));  
                             return true;
                         }
+                        if(input == "ReloadProjects")
+                            {
+                                ProjectsneedtobeReloaded = true;    
+                            return true;
+                        }   
 
                      
                         else
@@ -116,7 +122,45 @@ namespace Helpplaner.Client.GUI
            
         }
 
+        public void AddUserToProject(int projectid, int userid)
+        {
+            lock(this)
+            {
+            _writer.Send("addusertoproject;" + projectid + ";" + userid);
+            _reader.Read();
+            }
+        }   
+        public void RemoveUserFromProject(int projectid, int userid)
+        {
+            lock(this)
+            {
+            _writer.Send("removeuserfromproject;" + projectid + ";" + userid);
+            _reader.Read();
+            }
+        }
 
+
+        public User[] GiveAllUser()
+        {
+            lock(this)
+            {
+            _writer.Send("GiveAllUsers");
+            Object user = null;
+            user = _reader.ReadObject();
+            return (User[])user;
+            }
+        }
+        public void AddProject(Project proj)
+        {
+            lock(this)
+            {
+                _writer.Send("CreateProjekt;");
+                _reader.Read(); 
+                _writer.SendObject(proj);
+                _reader.Read();
+
+            }
+        }
         public bool NeedsToBeReloaded(int CurrentProjectId)
         {
             if(needsToBeReloaded)
@@ -221,6 +265,25 @@ namespace Helpplaner.Client.GUI
         }   
 
 
+        public WorkPackage GetTaksWithIDinProject(Project Proj, int IDinProject)
+        {
+            lock(this)
+            {
+            _writer.Send("GetTaksWithIDinProject;" + Proj.ID + ";" + IDinProject);
+            return (WorkPackage)_reader.ReadObject();
+            }
+        }
+
+        public int GetFristAvalibleIdinProject(Project Proj)
+        {
+            lock(this)
+            {
+            _writer.Send("GetFristAvalibleIdinProject;" + Proj.ID);
+            return int.Parse(_reader.Read());
+            }
+        }   
+
+
         public void LogOtherSessionOut(User user)
         {
             lock(this)
@@ -286,7 +349,7 @@ namespace Helpplaner.Client.GUI
             }   
 
            _reader.Read();
-            _writer.Send("lastAddWorkSessionID");
+            _writer.Send($"GetTaksIdWithIDinProject;{projectid};{task.IdInProject}" );
             return _reader.Read();
             }
 

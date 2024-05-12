@@ -28,10 +28,11 @@ namespace Helpplaner.Service.SqlHandling
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Project ( Name, Description) VALUES ( @Name, @Description)", _connection);
+                SqlCommand command = new SqlCommand("INSERT INTO Project ( Name, Description , IsRunning) VALUES ( @Name, @Description, @IsRunning)", _connection);
              
                 command.Parameters.AddWithValue("@Name", project.Name);
                 command.Parameters.AddWithValue("@Description", project.Description);
+                command.Parameters.AddWithValue("@IsRunning", Convert.ToInt32(project.Active));  
                 command.ExecuteNonQuery();
              
             }
@@ -61,7 +62,7 @@ namespace Helpplaner.Service.SqlHandling
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO WorkPackage ( Name, ProjectID, Description, ExpectedTime, RealTime,  Responsible, Status) VALUES ( @Name, @ProjectID, @Description, @ExpectedTime, @RealTime, @Responsible, @Status)", _connection);
+                SqlCommand command = new SqlCommand("INSERT INTO WorkPackage ( Name, ProjectID, Description, ExpectedTime, RealTime,  Responsible, Status, IDinProject) VALUES ( @Name, @ProjectID, @Description, @ExpectedTime, @RealTime, @Responsible, @Status, @IDinProject)", _connection);
                
                 command.Parameters.AddWithValue("@Name", task.Name);
                 command.Parameters.AddWithValue("@ProjectID", task.ProjectID);
@@ -69,7 +70,8 @@ namespace Helpplaner.Service.SqlHandling
                 command.Parameters.AddWithValue("@ExpectedTime", task.ExpectedTime);
                 command.Parameters.AddWithValue("@RealTime", task.RealTime);
                 command.Parameters.AddWithValue("@Responsible", task.Responsible);
-                command.Parameters.AddWithValue("@Status", task.Status);    
+                command.Parameters.AddWithValue("@Status", task.Status);   
+                command.Parameters.AddWithValue("@IDinProject", task.IdInProject);
 
                 command.ExecuteNonQuery();
             }
@@ -99,7 +101,7 @@ namespace Helpplaner.Service.SqlHandling
         {
             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO ProjektNutzer (UserID, ProjectID, Administrator ) VALUES (@UserID, @ProjectID , @Administrator)", _connection);
+                SqlCommand command = new SqlCommand("INSERT INTO ProjectUser (UserID, ProjectID, Administrator ) VALUES (@UserID, @ProjectID , @Administrator)", _connection);
                 command.Parameters.AddWithValue("@ProjectID", project.ID);
                 command.Parameters.AddWithValue("@UserID", userid.ID);
                 command.Parameters.AddWithValue("@Administrator", Admin);

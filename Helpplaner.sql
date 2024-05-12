@@ -24,13 +24,15 @@ CREATE TABLE Project
 CREATE TABLE WorkPackage 
 (
     "ID" INT IDENTITY(1,1) PRIMARY KEY,
+	"IDinProject" int, 
     "Name" VARCHAR(100),
     "ProjectID" INT,
     "Description" TEXT,
     "ExpectedTime" INT, 
-	"RealTime" INT,
+	"RealTime" time(7),
     "Responsible" INT, -- Verweis auf Nutzer-ID, 
     "Status" TEXT
+	
      FOREIGN KEY ("ProjectID") REFERENCES "Project"(ID),
 	 FOREIGN KEY ("Responsible") REFERENCES "User"(ID) 
 );
@@ -94,4 +96,6 @@ CREATE TABLE WorkpackageRelation
     FOREIGN KEY (PredecessorID) REFERENCES "WorkPackage"(ID),
     FOREIGN KEY (SuccessorID) REFERENCES "WorkPackage"(ID)
 );
+INSERT INTO [HELPPLANER].[dbo].[User] ( [Password], [Username], [Email], [IsSysAdmin])
+VALUES ( '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', 'sys', 'none', 1);
 

@@ -31,6 +31,8 @@ namespace Helpplaner.Service.Objects
         public string Status { get; set; }
 
         public string colorStatus { get; set; } 
+
+        public string IdInProject { get; set; } 
          
         public List<WorkSession> ArbeitsSitzungs { get; set; } = new List<WorkSession>();
 

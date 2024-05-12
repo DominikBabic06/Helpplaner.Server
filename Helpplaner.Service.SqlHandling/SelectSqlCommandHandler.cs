@@ -56,7 +56,7 @@
             List<User> users = new List<User>();
             try
             {
-                using (SqlCommand command = new SqlCommand("SELECT * FROM User", _connection))
+                using (SqlCommand command = new SqlCommand(@"SELECT * FROM ""User""", _connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -171,6 +171,32 @@
         #endregion
 
         #region Project
+
+
+        public int GiveLastProjectID()
+        {
+            int id = 0;
+            try
+            {
+                using (SqlCommand command = new SqlCommand("SELECT TOP 1 *  FROM Project ORDER    BY ID DESC;", _connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                            id = Convert.ToInt32(reader["ID"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }   
+
+            return id;
+        }
         public Project GiveProjekt(int id)
         {
 
@@ -272,7 +298,7 @@
                             task.RealTime = reader["RealTime"].ToString();  
                             task.Responsible = reader["Responsible"].ToString();
                             task.Status = reader["Status"].ToString();
-
+                            task.IdInProject = reader["IdInProject"].ToString();
                         }
                     }
                }
@@ -290,6 +316,7 @@
                     }
                     task.Dependecy = Dependecys;
                     task.Successor = Successors;
+                   task.ArbeitsSitzungs.AddRange(GetAllArbeitsSitzungen(task)); 
 
 
 
@@ -302,6 +329,80 @@
                 _logger.Log(ex.Message, "red");
             }
           
+            return task;
+        }
+
+
+        public int GetFirstAvaliableIdInProject(Project proj)
+        {
+            int id = 0;
+            try
+            {
+                using (SqlCommand command = new SqlCommand("Select  top 1 IDinProject +1 as FirstId from WorkPackage where ProjectID = @ProjectID order by IDinProject  DESC;  ", _connection))
+                {
+                    command.Parameters.AddWithValue("@ProjectID", proj.ID);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            id = Convert.ToInt32(reader["FirstId"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+            return id;
+        }
+
+        public WorkPackage GetTaksWithIDinProject(Project proj, string idInProject)
+        {
+            WorkPackage task = new WorkPackage();
+            try
+            {
+                using (SqlCommand command = new SqlCommand("Select * from WorkPackage where ProjectID = @ProjectID and IdInProject = @IdInProject", _connection))
+                {
+                    command.Parameters.AddWithValue("@ProjectID", proj.ID);
+                    command.Parameters.AddWithValue("@IdInProject", idInProject);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            task.ID = reader["ID"].ToString();
+                            task.Name = reader["Name"].ToString();
+                            task.ProjectID = reader["ProjectID"].ToString();
+                            task.Description = reader["Description"].ToString();
+                            task.ExpectedTime = reader["ExpectedTime"].ToString();
+                            task.RealTime = reader["RealTime"].ToString();
+                            task.Responsible = reader["Responsible"].ToString();
+                            task.Status = reader["Status"].ToString();
+                            task.IdInProject = reader["IdInProject"].ToString();
+                        }
+                    }
+                }
+
+                string Dependecys = "";
+                string Successors = "";
+                foreach (string item2 in GetDependecys(task))
+                {
+
+                    Dependecys += item2 + " ";
+                }
+                foreach (string item2 in GetSuccessors(task))
+                {
+                    Successors += item2 + " ";
+                }
+                task.Dependecy = Dependecys;
+                task.Successor = Successors;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+
             return task;
         }
         public WorkPackage[] GetAllTasks(Project proj)
@@ -322,10 +423,11 @@
                             task.Name = reader["Name"].ToString();
                             task.ProjectID = reader["ProjectID"].ToString();
                             task.Description = reader["Description"].ToString();
-                 
                             task.ExpectedTime = reader["ExpectedTime"].ToString();
+                            task.RealTime = reader["RealTime"].ToString();
                             task.Responsible = reader["Responsible"].ToString();
                             task.Status = reader["Status"].ToString();
+                            task.IdInProject = reader["IdInProject"].ToString();
                             tasks.Add(task);
 
                         }
@@ -543,6 +645,33 @@
         #endregion
 
         #region ArbeitsSitzung
+      
+
+        public string GetSumOFWorkingHours(WorkPackage package)
+        {
+            string time = "";
+            try
+            {
+                using (SqlCommand command = new SqlCommand("select Convert( time(7),DATEADD(ms, SUM(DATEDIFF(ms, '00:00:00.000', WorkTime)), '00:00:00.000')) as time from WorkSession where WorkPackageID = @WorkPackageID", _connection))
+                {
+                    command.Parameters.AddWithValue("@WorkPackageID", package.ID);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            time = reader["time"].ToString();    
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+          
+            return time;
+        }
         public WorkSession[] GetAllArbeitsSitzungen(WorkPackage task)
         {
             List<WorkSession> arbeitsSitzungen = new List<WorkSession>();

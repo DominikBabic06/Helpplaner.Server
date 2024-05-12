@@ -72,6 +72,8 @@ namespace Helpplaner.Service.Core
                     int id;
                     int ProjectId;
                     string check;
+                    int CurrentWorkedOnTask;    
+                     
                     if (!text.Contains("info"))
                         if (user != null)
                             _logger.Log(user.Username = text, "green");
@@ -105,7 +107,7 @@ namespace Helpplaner.Service.Core
                             currentWorkSession = new WorkSession(); 
                             currentWorkSession.WorkPackageID = text.Split(';')[1].Trim();
                             currentWorkSession.CreatorID = user.ID;    
-                           
+                           CurrentWorkedOnTask = Convert.ToInt32(text.Split(';')[1].Trim());    
                             writer.Send("done");
                             break;
                         case "stopWorkSession":
@@ -114,9 +116,17 @@ namespace Helpplaner.Service.Core
                             currentWorkSession.WorkTime = $"{sw.Elapsed.Hours}:{sw.Elapsed.Minutes}:{sw.Elapsed.Seconds}";
                            OpenConnection();
                              _insertSqlCommandHandler.InsertArbeitsSitzung(currentWorkSession);
+                            WorkPackage sessionPackage = _selectSqlCommandHandler.GetTask(Convert.ToInt32(currentWorkSession.WorkPackageID));
+                            sessionPackage.RealTime = _selectSqlCommandHandler.GetSumOFWorkingHours(sessionPackage);
+                            _alterSqlCommandHandler.EditWorkPackage(sessionPackage);
                             CloseConnection();
                             writer.Send("done");
+
+                           
                             TriggererServerMessage(this, "tr;" + currentProj.ID);
+                            currentWorkSession  = null;
+                            CurrentWorkedOnTask = 0;
+
 
                             break;
                         case "getWorkSessionsForTask":
@@ -266,6 +276,87 @@ namespace Helpplaner.Service.Core
                             writer.Send("done");
                             id = Convert.ToInt32(currentProj.ID);
                             TriggererServerMessage(this, "tr;" + id);
+                            break;
+
+                        case "GetTaksIdWithIDinProject":
+                        //parameter1 is ProjectId 
+                        //parameter2 is InProject
+                            OpenConnection();
+                            Project project1 = _selectSqlCommandHandler.GiveProjekt(Convert.ToInt32(text.Split(';')[1].Trim()));
+                            WorkPackage workpackage1= _selectSqlCommandHandler.GetTaksWithIDinProject(project1, text.Split(';')[2].Trim());
+
+                            CloseConnection();
+                            writer.Send(workpackage1.ID);
+                            break;
+                        case "GetFristAvalibleIdinProject":
+                            //parameter1 is ProjectId 
+                            OpenConnection();
+                            Project project2 = _selectSqlCommandHandler.GiveProjekt(Convert.ToInt32(text.Split(';')[1].Trim()));
+                            int ProjId = _selectSqlCommandHandler.GetFirstAvaliableIdInProject(project2);
+
+                            CloseConnection();
+                            writer.Send(""+ProjId);
+                            break;
+
+                        case "CreateProjekt":
+                            //parameter1 is ProjectId 
+                            writer.Send("ok");  
+                            OpenConnection();
+                            Project project3 = (Project)reader.ReadObject();
+                            _insertSqlCommandHandler.InsertProject(project3);
+                            project3.ID = ""+ _selectSqlCommandHandler.GiveLastProjectID(); 
+                            _insertSqlCommandHandler.InsertProjektNutzer(project3, user, true);
+                            _insertSqlCommandHandler.InsertArbeitspaket(new WorkPackage() { IdInProject = "1", Name = "Start", ProjectID = project3.ID, Description = "Start", RealTime = "0", Dependecy = "", Successor = "", ExpectedTime = "", Responsible = "1", Status = "Beendet", });
+
+                            CloseConnection();
+                          
+                            writer.Send("done");
+                            TriggererServerMessage(this, "ReloadProjects"); 
+                            break;
+
+                        case "GiveAllUsers":
+                            OpenConnection();
+                            writer.SendObjectArray(_selectSqlCommandHandler.GiveAllUsers());
+                            CloseConnection();
+                            break;
+                        case "CreateUser":
+                                                        //parameter1 is ProjectId 
+                            writer.Send("ok");
+                            OpenConnection();
+                            User user4 = (User)reader.ReadObject();
+                            _insertSqlCommandHandler.InsertNutzer(user4);
+                            CloseConnection();
+                            writer.Send("done");
+                            break;
+                        case "changeProject":
+                            //parameter1 is ProjectId 
+                            writer.Send("ok");
+                            OpenConnection();
+                            Project project4 = (Project)reader.ReadObject();
+                            _alterSqlCommandHandler.EditProject(project4);
+                            CloseConnection();
+                            writer.Send("done");
+                            TriggererServerMessage(this, "ReloadProjects");
+                            break;
+                        case "changeTask":
+                            //parameter1 is ProjectId 
+                            writer.Send("ok");
+                            OpenConnection();
+                            WorkPackage task3 = (WorkPackage)reader.ReadObject();
+                            _alterSqlCommandHandler.EditWorkPackage(task3);
+                            CloseConnection();
+                            writer.Send("done");
+                            id = Convert.ToInt32(currentProj.ID);
+                            TriggererServerMessage(this, "tr;" + id);
+                            break;
+                        case "changeUser":
+                            //parameter1 is ProjectId 
+                            writer.Send("ok");
+                            OpenConnection();
+                            User user5 = (User)reader.ReadObject();
+                            _alterSqlCommandHandler.EditUser(user5);
+                            CloseConnection();
+                            writer.Send("done");
                             break;
                         case "exit":
                             Close();

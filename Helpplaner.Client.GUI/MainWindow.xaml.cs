@@ -107,6 +107,19 @@ namespace Helpplaner.Client.GUI
                     Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { Logout_Click(null, null); });
                     sc.needLogout = false;  
                 }
+                if(sc.ProjectsneedtobeReloaded)
+                {
+                    projects = sc.GetProjectsforUser();
+                    adminprojects = sc.GetAdminProjekts();
+                    pvm.projects = projects;
+                    pvm.IsUserAdminInProject(adminprojects);
+
+                    if(ProjektHub != null)
+                    {
+                        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { ProjektHub.Reload(); });
+                    }   
+                    sc.ProjectsneedtobeReloaded = false;  
+                }
                 if(selectetProj != null)
                 if (sc.NeedsToBeReloaded(int.Parse(selectetProj.ID)))
                 {
@@ -147,6 +160,8 @@ namespace Helpplaner.Client.GUI
             adminprojects = sc.GetAdminProjekts();
             pvm.projects = projects;
             pvm.IsUserAdminInProject(adminprojects);   
+
+            pvm.globalUser = sc.GiveAllUser();
 
             ProjektHub = new ProjectHub(sc, pvm, this);
             Main.Content = ProjektHub;

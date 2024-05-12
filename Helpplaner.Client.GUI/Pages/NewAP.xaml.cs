@@ -59,6 +59,7 @@ namespace Helpplaner.Client.GUI.Pages
                 task.ExpectedTime = Dauer.Text; 
                 task.Responsible = responsible.ID;
                 task.Status = "Aktiv";  
+                task.IdInProject = ""+ sr.GetFristAvalibleIdinProject(Project);
                 if (dependencies.Count == 0)
                 {
                     dependencies.Add(pvm.Tasks.Where(x => x.Name == "Start").First());

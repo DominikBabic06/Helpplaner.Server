@@ -42,6 +42,10 @@ namespace Helpplaner.Client.GUI.Pages
             this.pv = pv;
             this.mw = mw;
             this.DataContext = pv;  
+            Projekts.ItemsSource = pv.projects; 
+            ProjektsUser.ItemsSource = pv.globalUser;
+
+            
             cbAktiveProjekte.IsChecked = true;  
 
         }
@@ -118,6 +122,40 @@ namespace Helpplaner.Client.GUI.Pages
                 
             }
 
+        }
+
+        private void NewProjButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewProject newProject = new NewProject(SC, pv);
+            newProject.ShowDialog();    
+
+        }
+        
+
+        public void Reload()
+        {
+
+            Projekts.ItemsSource = null;
+            Projekts.ItemsSource = pv.projects; 
+            changeShown();  
+        }
+
+        private void SearchUser_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var search = Search.Text;
+            if (search == "")
+            {
+                ProjektsUser.ItemsSource = pv.globalUser.Where(p => p.Username.Contains(search));
+
+            }
+
+            }
+
+        private void NewUser_Click(object sender, RoutedEventArgs e)
+        {
+
+            NewUser newUser = new NewUser(SC, pv);
+            newUser.ShowDialog();
         }
     }
 }
