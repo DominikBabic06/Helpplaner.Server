@@ -23,7 +23,22 @@
 
                 <!-- You can include a default theme here -->
             </ResourceDictionary.MergedDictionaries>
-
+            <Style x:Key="addButton" TargetType="Button">
+                <Setter Property="Background" Value="{DynamicResource BackgroundColorTextHighlight}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
+                <Setter Property="Width" Value="160"/>
+                <Setter Property="Height" Value="35"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Margin" Value="0 10 0 0"/>
+                <Setter Property="Grid.Row" Value="2"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="7"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <Style TargetType="TextBox" x:Key="WatermarkTextBoxStyle">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -126,31 +141,27 @@
                 </Setter>
             </Style>
 
-            <Style x:Key="addButton" TargetType="Button">
-                <Setter Property="Background" Value="{DynamicResource BackgroundColorTextHighlight}"/>
-                <Setter Property="Foreground" Value="{DynamicResource ColorText}"/>
-                <Setter Property="Width" Value="160"/>
-                <Setter Property="Height" Value="35"/>
-                <Setter Property="FontSize" Value="13"/>
-                <Setter Property="Margin" Value="0 10 0 0"/>
-                <Setter Property="Grid.Row" Value="2"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="7"/>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+           
         </ResourceDictionary>
 
     </Page.Resources>
 
+
     <Grid Background="{DynamicResource BackgroundColorMain}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="300" Height="300">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"> 
+        <StackPanel Width="400" HorizontalAlignment="Left" >
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorMain}" Width="300" Height="300" Margin="15" >
 
             <StackPanel Orientation="Horizontal">
+<<<<<<< Updated upstream
                 <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Aktive Projekte Zeigen?</Label>
+=======
+<<<<<<< HEAD
+                    <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Aktive Projekte Zeigen?</Label>
+=======
+                <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Aktive Projekte Zeigen?</Label>
+>>>>>>> 990ca2898831cac0fac4a558f9e26675abc0462a
+>>>>>>> Stashed changes
                 <CheckBox x:Name="cbAktiveProjekte" IsChecked="False" Checked="cbAktiveProjekte_Checked" Unchecked="cbAktiveProjekte_Unchecked"  />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
@@ -158,17 +169,62 @@
                 <CheckBox x:Name="cbAdmin" IsChecked="False" Checked="cbAktiveProjekte_Checked" Unchecked="cbAktiveProjekte_Unchecked"  />
             </StackPanel>
             <TextBox x:Name="Search" materialDesign:HintAssist.Hint="Suche" Margin="20,5,20,5" TextChanged="Search_TextChanged" ></TextBox>
-            <DataGrid x:Name="Projekts" AutoGenerateColumns="False" MouseDoubleClick="Projekts_MouseDoubleClick" SelectedCellsChanged="Projekts_SelectedCellsChanged" IsEnabled="true">
-                <DataGrid.Columns>
-                    
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="Auto" IsReadOnly="True"/>
+                <DataGrid x:Name="Projekts" AutoGenerateColumns="False" MouseDoubleClick="Projekts_MouseDoubleClick" SelectedCellsChanged="Projekts_SelectedCellsChanged" IsEnabled="true" Height="200" Background="{DynamicResource BackgroundColorSecondary}">
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ColorText}" />
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+
+                      
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="Auto" IsReadOnly="True"/>
 
                     <DataGridTextColumn Header="Status" Binding="{Binding Active}" IsReadOnly="True"/>
 
                     <DataGridCheckBoxColumn Header="Admin" Binding="{Binding UserIsAdmin}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
+            
+
 
         </StackPanel>
+            <StackPanel Width="300" Margin="0,0,0,20">
+                    <Button x:Name="NewProjButton"  Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="+" FontSize="20"  Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Left" Margin="10,15,20,15" Click="NewProjButton_Click" ></Button>
+
+                </StackPanel>
+        </StackPanel>
+
+
+
+            <StackPanel Width="200">
+                <TextBox x:Name="SearchUser" materialDesign:HintAssist.Hint="Suche" Margin="20,60,20,5" TextChanged="SearchUser_TextChanged" ></TextBox>
+                <DataGrid x:Name="ProjektsUser" AutoGenerateColumns="False"  IsEnabled="true" Height="200" Background="{DynamicResource BackgroundColorSecondary}">
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="{DynamicResource BackgroundColorSecondary}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ColorText}" />
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+
+
+                        <DataGridTextColumn Header="Name" Binding="{Binding Username}" Width="Auto" IsReadOnly="True"/>
+
+                       
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button x:Name="NewUser"  Template="{StaticResource RoundetButton}" Foreground="#B0BEC5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Row="2" Width="35" Height="35" Content="+" FontSize="20"  Background="{DynamicResource BackgroundColorTextHighlight}" HorizontalAlignment="Left" Margin="10,55,20,15" Click="NewUser_Click" ></Button>
+
+
+
+            </StackPanel>
+        
+        </StackPanel>
+
+        
     </Grid>
 </Page>
