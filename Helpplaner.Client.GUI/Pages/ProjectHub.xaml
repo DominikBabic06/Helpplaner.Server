@@ -150,11 +150,11 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorSecondary}" Width="300" Height="300">
 
             <StackPanel Orientation="Horizontal">
-                <Label FontSize="9">Nur Aktive Projekte Zeigen?</Label>
+                <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Aktive Projekte Zeigen?</Label>
                 <CheckBox x:Name="cbAktiveProjekte" IsChecked="False" Checked="cbAktiveProjekte_Checked" Unchecked="cbAktiveProjekte_Unchecked"  />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label FontSize="9">Nur Administrative Projekte Zeigen?</Label>
+                <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Administrative Projekte Zeigen?</Label>
                 <CheckBox x:Name="cbAdmin" IsChecked="False" Checked="cbAktiveProjekte_Checked" Unchecked="cbAktiveProjekte_Unchecked"  />
             </StackPanel>
             <TextBox x:Name="Search" materialDesign:HintAssist.Hint="Suche" Margin="20,5,20,5" TextChanged="Search_TextChanged" ></TextBox>

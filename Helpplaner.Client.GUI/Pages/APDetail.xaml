@@ -50,7 +50,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal">
             <StackPanel Margin="0,0,0,0">
-            <Label FontSize="28" Foreground="{DynamicResource ColorText}" Grid.Row="0" Margin="15,20,0,0" FontWeight="Bold"> Arbetispaket:
+            <Label FontSize="25" Foreground="{DynamicResource ColorText}" Grid.Row="0" Margin="15,20,0,0" FontWeight="SemiBold"> Arbeitspaket:
             </Label>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="1">
@@ -65,7 +65,7 @@
                 </StackPanel>
             </StackPanel>
             <StackPanel Margin="100,0,0,0">
-                <Label FontSize="28" Foreground="{DynamicResource ColorText}" Grid.Row="2" Margin="15,20,0,0" FontWeight="Bold">Zuständiger:
+                <Label FontSize="25" Foreground="{DynamicResource ColorText}" Grid.Row="2" Margin="15,20,0,0" FontWeight="SemiBold">Zuständiger:
             </Label>
          
                     <StackPanel Orientation="Horizontal"  Grid.Row="3">
@@ -93,7 +93,7 @@
             </StackPanel>
 
 
-            <Label FontSize="28" Foreground="{DynamicResource ColorText}" Grid.Row="2" Margin="15,20,0,10" FontWeight="Bold">Beschreibung:
+            <Label FontSize="25" Foreground="{DynamicResource ColorText}" Grid.Row="2" Margin="15,20,0,10" FontWeight="SemiBold">Beschreibung:
             </Label>
             <TextBox x:Name="WPDescription" Height="80"
                     MinWidth="280" VerticalAlignment="Stretch" materialDesign:HintAssist.Hint="Beschreibung"
@@ -118,9 +118,9 @@
 
         </Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,29">
-            <Button Content="Bearbeiten" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource ColorText}" Click="Edit_Click"/>
-            <Button Content="Speichern" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource ColorText}" Click="Save_Click"/>
-            <Button Content="Abbrechen" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource ColorText}" Click="Delete_Click"/>
+            <Button Content="Bearbeiten" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource SecondColorText}" Click="Edit_Click"/>
+            <Button Content="Speichern" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource SecondColorText}" Click="Save_Click"/>
+            <Button Content="Abbrechen" Margin="20,0,0,0" Background="{DynamicResource BackgroundColorTextHighlight}" Foreground="{DynamicResource SecondColorText}" Click="Delete_Click"/>
         </StackPanel>
 
 
