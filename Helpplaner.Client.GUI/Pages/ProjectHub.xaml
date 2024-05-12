@@ -153,15 +153,14 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource BackgroundColorMain}" Width="300" Height="300" Margin="15" >
 
             <StackPanel Orientation="Horizontal">
-<<<<<<< Updated upstream
+
                 <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Aktive Projekte Zeigen?</Label>
-=======
-<<<<<<< HEAD
+
+
                     <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Aktive Projekte Zeigen?</Label>
-=======
+
                 <Label FontSize="9" Foreground="{DynamicResource ColorText}">Nur Aktive Projekte Zeigen?</Label>
->>>>>>> 990ca2898831cac0fac4a558f9e26675abc0462a
->>>>>>> Stashed changes
+
                 <CheckBox x:Name="cbAktiveProjekte" IsChecked="False" Checked="cbAktiveProjekte_Checked" Unchecked="cbAktiveProjekte_Unchecked"  />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
