@@ -21,9 +21,31 @@ namespace Helpplaner.Client.GUI.Pages
     /// </summary>
     public partial class ProjektOverview : Page
     {
-        public ProjektOverview(Project proj, ServerCommunicator sr, ProjectViewModel pvm)
+
+        ProjectViewModel pvm;   
+        Project project;    
+        ServerCommunicator sr;
+        MainWindow mw;
+        
+        public ProjektOverview(Project proj, ServerCommunicator sr, ProjectViewModel pvm,MainWindow mw)
         {
             InitializeComponent();
+             this.pvm = pvm;  
+            project = proj;
+            this.sr = sr;
+            this.mw = mw;
+            this.DataContext = project; 
+
+
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Helpplaner.Service.Objects
         public List<WorkPackage> Tasks{ get; set; } = new List<WorkPackage>();
 
         public bool Active { get; set; }
+        public bool UserIsAdmin { get; set; }
 
         public 
          override string ToString()

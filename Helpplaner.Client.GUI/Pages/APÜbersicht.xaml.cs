@@ -167,5 +167,17 @@ namespace Helpplaner.Client.GUI.Pages
             }
            
         }
+
+        private void PopupButton_Click(object sender, RoutedEventArgs e)
+        {   if(selectedTask == null)
+            {
+                Waring.Content = "Bitte wählen Sie eine Aufgabe aus";
+                return;
+            }
+            Popup popup = new Popup(sr, main, selectedTask);
+            popup.Activate();
+            popup.ShowDialog();
+
+        }
     }
 }

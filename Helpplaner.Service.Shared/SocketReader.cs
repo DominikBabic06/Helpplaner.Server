@@ -59,6 +59,7 @@ namespace Helpplaner.Service.Shared
 
             string re;
             byte[] buffer = new byte[65535];
+            int Lenght = 0;
             try
             {
                 socket.Receive(buffer);
@@ -75,6 +76,9 @@ namespace Helpplaner.Service.Shared
                         Project project = JsonSerializer.Deserialize<Project>(message.Content);
                         return project;
                         break;
+                    case "System.String":
+                        return message.Content;
+                        break;
 
                     case "Helpplaner.Service.Objects.User":
                         User user = JsonSerializer.Deserialize<User>(message.Content);
@@ -85,16 +89,85 @@ namespace Helpplaner.Service.Shared
                         return task;
                         break; 
                     case "Helpplaner.Service.Objects.WorkPackage[]":
-                        Helpplaner.Service.Objects.WorkPackage[] tasks = JsonSerializer.Deserialize<Helpplaner.Service.Objects.WorkPackage[]>(message.Content);
-                        return tasks;
+                        List<WorkPackage> workPackages = new List<WorkPackage>();
+                        Lenght = int.Parse(message.Content);
+                        socket.Send(Encoding.UTF8.GetBytes("ok"));
+                        for (int i = 0; i < Lenght; i++)
+                        {
+                            socket.Receive(buffer);
+                            string obje = Encoding.UTF8.GetString(buffer);
+                            obje = obje.Trim('\0');
+                            workPackages.Add(JsonSerializer.Deserialize<WorkPackage>(obje));
+                            socket.Send(Encoding.UTF8.GetBytes("ok"));
+                            buffer = new byte[65535];
+                        }
+                        return workPackages.ToArray();
+                        break;
+
+                    case "Helpplaner.Service.Objects.WorkSession[]":
+                        List<WorkSession> workSessions = new List<WorkSession>();
+                        Lenght = int.Parse(message.Content);
+                        socket.Send(Encoding.UTF8.GetBytes("ok"));
+                        for (int i = 0; i < Lenght; i++)
+                        {
+                            socket.Receive(buffer);
+                            string obje = Encoding.UTF8.GetString(buffer);
+                            obje = obje.Trim('\0');
+                            workSessions.Add(JsonSerializer.Deserialize<WorkSession>(obje));
+                            socket.Send(Encoding.UTF8.GetBytes("ok"));
+                            buffer = new byte[65535];
+                        }
+                        return workSessions.ToArray();
+                        break;
+                    case "System.String[]":
+                        List<string> strings = new List<string>();
+                        Lenght = int.Parse(message.Content);
+                        socket.Send(Encoding.UTF8.GetBytes("ok"));
+                        for (int i = 0; i < Lenght; i++)
+                        {
+                            socket.Receive(buffer);
+                            string obje = Encoding.UTF8.GetString(buffer);
+                            obje = obje.Trim('\0');
+                            strings.Add(obje);
+                            socket.Send(Encoding.UTF8.GetBytes("ok"));
+                            buffer = new byte[65535];
+                        }
+                        return strings.ToArray();
                         break;
                     case "Helpplaner.Service.Objects.User[]":
-                        Helpplaner.Service.Objects.User[] users = JsonSerializer.Deserialize<Helpplaner.Service.Objects.User[]>(message.Content);
-                        return users;
-                        break;
+                        List<User> users = new List<User>();    
+                         Lenght = int.Parse(message.Content);
+                        socket.Send(Encoding.UTF8.GetBytes("ok"));
+                        for (int i = 0; i < Lenght; i++)
+                        {
+                            socket.Receive(buffer);
+                            string obje = Encoding.UTF8.GetString(buffer);
+                            obje = obje.Trim('\0');
+                            users.Add(JsonSerializer.Deserialize<User>(obje));
+                            socket.Send(Encoding.UTF8.GetBytes("ok"));
+                            buffer = new byte[65535];
+
+                        }
+                        return users.ToArray();
+                   
                     case "Helpplaner.Service.Objects.Project[]":
-                        Helpplaner.Service.Objects.Project[] projects = JsonSerializer.Deserialize<Helpplaner.Service.Objects.Project[]>(message.Content);
-                        return projects;
+                         Lenght = int.Parse(message.Content);
+                        List<Project> projects = new List<Project>();   
+                        socket.Send(Encoding.UTF8.GetBytes("ok"));
+                        for (int i = 0; i < Lenght; i++)
+                        {
+                           socket.Receive(buffer);
+                            string obje  = Encoding.UTF8.GetString(buffer);
+                            obje =   obje.Trim('\0');
+                            projects.Add(JsonSerializer.Deserialize<Project>(obje));
+                            socket.Send(Encoding.UTF8.GetBytes("ok"));
+                            buffer = new byte[65535];
+                        }
+                     
+                
+
+
+                        return projects.ToArray();
                         break;
 
 

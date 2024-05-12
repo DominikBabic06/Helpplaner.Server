@@ -35,7 +35,7 @@ namespace Helpplaner.Service.Core
                 {
                     Socket client = _socket.Accept();
                     Logger.Log($"Client connected: {client.RemoteEndPoint}", "green");
-                    SessionHandler session = new SessionHandler(client, Logger, GetFirstAvailableSessionId());
+                    SessionHandler session = new SessionHandler(client, Logger, GetFirstAvailableSessionId(), this);
                     session.SessionClosed += SessionHandler;
                     session.TriggererServerMessage += Session_TriggererServerMessage;
                     Thread sessionTask = new Thread(session.HandleClient);
@@ -54,6 +54,44 @@ namespace Helpplaner.Service.Core
            
         }
 
+        public bool IsUserInUse(User user,Guid senderID)
+        {
+            foreach (Guid id in _sessions.Keys)
+            {
+                if (senderID !=id)
+                {
+                    if(null != _sessions[id].user)
+                    { 
+                    if (_sessions[id].user.ID == user.ID)
+                    {
+                        return true;
+                    }
+                    }
+                }
+                
+            }
+            return false;
+        } 
+        
+
+        public Guid GetSessionIDOfUser(User user, Guid  sender)
+        {
+            foreach (Guid id in _sessions.Keys)
+            {
+                if (sender != id)
+                {
+                    if (null != _sessions[id].user)
+                    {
+                        if (_sessions[id].user.ID == user.ID)
+                        {
+                            return id;
+                        }
+                    }
+                }
+
+            }
+            return Guid.Empty;
+        }   
         private void Session_TriggererServerMessage(object? sender, string e)
         {
             PostMessage(e);
@@ -68,6 +106,11 @@ namespace Helpplaner.Service.Core
                 Logger.Log($"Sending message to session {id}", "green");
                 _sessions[id].PostMessage(message);
             }
+        }
+        public void PostMessageToSpecificSession(string message,Guid sessionId)
+        {
+            Logger.Log($"Sending message to session {sessionId}", "green");
+            _sessions[sessionId].PostMessage(message);
         }
         public void Close()
         {

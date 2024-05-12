@@ -32,7 +32,7 @@ namespace Helpplaner.Client.GUI
         Plug plug = new Plug();
         APÜbersicht aPÜbersicht;
         ProjectViewModel pvm;
-        ProjektOverview ProjektOverview;
+        ProjektOverview ProjectOverview;
         ProjectHub ProjektHub;
 
         
@@ -102,6 +102,11 @@ namespace Helpplaner.Client.GUI
                     Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { login.UnblockInput(); }); 
               
                 }
+                if(sc.needLogout)
+                {
+                    Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { Logout_Click(null, null); });
+                    sc.needLogout = false;  
+                }
                 if(selectetProj != null)
                 if (sc.NeedsToBeReloaded(int.Parse(selectetProj.ID)))
                 {
@@ -135,79 +140,49 @@ namespace Helpplaner.Client.GUI
 
         }   
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
         private void Login_Userfound(object sender, EventArgs e)
         {
             projects = sc.GetProjectsforUser();
             adminprojects = sc.GetAdminProjekts();
             pvm.projects = projects;
+            pvm.IsUserAdminInProject(adminprojects);   
 
             ProjektHub = new ProjectHub(sc, pvm, this);
             Main.Content = ProjektHub;
             user = (User)sender;    
 
             Username.Text = user.Username;
+        }
 
-
-           
-          
-
-
-            foreach (Project item in projects)
-            {
-                if (IsAdmin(item) )
-                {
-                    Button btn = new Button();  
-                    btn.Content = "Admin" + item.Name + " (" + item.ID + ")";
-                    btn.Template = (ControlTemplate)FindResource("ReloadButton");
-                    btn.Click += MenuButtonClick;
-                    Projekte.Items.Add( btn);
-                }
-                else
-                {
-                    Button btn = new Button();
-                    btn.Content = item.Name + " (" + item.ID + ")";
-                    btn.Template = (ControlTemplate)FindResource("ReloadButton");
-                    btn.Click += MenuButtonClick; 
-                    Projekte.Items.Add(btn);
-                }
-               
-            }
-
-            
-
-
+        /// <summary>
+        /// do not use anymore
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Main.Content = ProjektHub;
+            APu.Visibility = Visibility.Hidden;
+            Pro.Visibility = Visibility.Hidden;
+            Dia.Visibility = Visibility.Hidden;
 
         }
 
-        private void MenuButtonClick(object sender, RoutedEventArgs e)
+        public void SelectProject(Project project)
         {
-           Button btn =  (Button)sender;
-            string[] split = btn.Content.ToString().Split('(');
-            string id = split[1].Trim(')');
-            foreach (Project item in projects)
-            {
-                if (item.ID == id)
-                {
-                    selectetProj = item;
-                }
-            }
-
-            pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.ID));
-            pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.ID));
+            selectetProj = project;
+            pvm.users = sc.GetUsersforProject(Convert.ToInt32(pvm.currentProjectID));
+            pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(pvm.currentProjectID));
             pvm.BindUsersToTasks();
-            Useroverview useroverview = new Useroverview(selectetProj, sc, pvm  );
+            Useroverview useroverview = new Useroverview(selectetProj, sc, pvm);
 
             APu.Visibility = Visibility.Visible;
-            Pro.Visibility = Visibility.Visible;    
+            Pro.Visibility = Visibility.Visible;
             Dia.Visibility = Visibility.Visible;
+            ProjectOverview = new ProjektOverview(pvm.curentProject, sc, pvm, this); 
 
-            Main.Content = useroverview;
-            //MessageBox.Show(id);  
-
+            Main.Content = ProjectOverview;
         }
 
         public bool IsAdmin(Project project)
@@ -250,7 +225,7 @@ namespace Helpplaner.Client.GUI
             login = new Login(sc, ref user);
             login.Userfound += Login_Userfound;
             sc.ServerMessage += Sc_ServerMessage;
-            Projekte.Items.Clear();
+      
 
 
             APu.Visibility = Visibility.Hidden;

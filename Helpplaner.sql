@@ -52,7 +52,7 @@ CREATE TABLE WorkSession
     "ID" INT IDENTITY(1,1) PRIMARY KEY,
     "WorkPackageID" INT,
     "CreatorID" INT,  -- Verweis auf Nutzer-ID
-    "WorkTime" INT,
+    "WorkTime" Time(7),
     FOREIGN KEY ("WorkPackageID") REFERENCES "WorkPackage"("ID"),
     FOREIGN KEY ("CreatorID") REFERENCES "User"("ID")
 );

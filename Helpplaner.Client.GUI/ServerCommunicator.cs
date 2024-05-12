@@ -23,6 +23,8 @@ namespace Helpplaner.Client.GUI
        bool needsToBeReloaded = false;  
         int projetidthatneedsreloading = 0; 
 
+       public bool needLogout = false;   
+
        public  event EventHandler<string> ServerMessage;
         public ServerCommunicator(IServiceLogger logger)
         {
@@ -37,6 +39,7 @@ namespace Helpplaner.Client.GUI
         }
         public bool tryConnect()
         {
+            lock(this) {
             if (!skipconnection)
             {
                 if (isconnected)
@@ -52,12 +55,20 @@ namespace Helpplaner.Client.GUI
                         }
                         if(input == "Shutdown")
                         {
+                                _writer.Send("logout;");
                             _writer.Send("exit");
                             sk.Shutdown(SocketShutdown.Both);
                             sk.Disconnect(true);
                             Thread.Sleep(5000);
                             isconnected = false;
                             return false;
+                        }
+                        if(input == "Logout")
+                            {
+                            
+                            needLogout = true;   
+                           
+                            return true;
                         }
                         if (input.StartsWith("tr;"))
                         {
@@ -66,6 +77,8 @@ namespace Helpplaner.Client.GUI
                             projetidthatneedsreloading = int.Parse(input.Remove(0, 3));  
                             return true;
                         }
+
+                     
                         else
                         {
                             return false;
@@ -97,6 +110,7 @@ namespace Helpplaner.Client.GUI
                     }
                 }
             }
+            }
             return true;
          
            
@@ -118,6 +132,8 @@ namespace Helpplaner.Client.GUI
         }   
         public User[] GetUsersforProject(int id)
         {
+            lock(this)
+            { 
             skipconnection = true;  
             List<User> users = new List<User>();
             string input = "";
@@ -127,60 +143,97 @@ namespace Helpplaner.Client.GUI
             users.AddRange((User[])user);   
             skipconnection = false;
             return users.ToArray();
+            }
         }
 
 
         public Helpplaner.Service.Objects.WorkPackage[] GetTasksforProject(int id)
         {
-            skipconnection = true;
-            List<Helpplaner.Service.Objects.WorkPackage> tasks = new List<Helpplaner.Service.Objects.WorkPackage>();
-            string input = "";
-            _writer.Send("getalltasks;" + id);   
-            Object task = null;
-            task = _reader.ReadObject();
-            tasks.AddRange((Helpplaner.Service.Objects.WorkPackage[])task);
-            skipconnection = false;
-            return tasks.ToArray();
-
+            lock (this)
+            {
+                skipconnection = true;
+                List<Helpplaner.Service.Objects.WorkPackage> tasks = new List<Helpplaner.Service.Objects.WorkPackage>();
+                string input = "";
+                _writer.Send("getalltasks;" + id);
+                Object task = null;
+                task = _reader.ReadObject();
+                tasks.AddRange((Helpplaner.Service.Objects.WorkPackage[])task);
+                skipconnection = false;
+                return tasks.ToArray();
+            }
         }  
         
      
 
         public string Send(string message)
         {
-            _writer.Send(message);
-            return _reader.Read();
+            lock (this)
+            {
+                _writer.Send(message);
+                return _reader.Read();
+            }
         }
         public string Receive(string message)
         {
+            lock(this) { 
             return _reader.Read();
+            }
         }
 
         public User TryLogin(string username, string password)
         {
+
             skipconnection = true;
-      
-            _writer.Send("login;" + username + ";" + password);
-          
-            string input = _reader.Read();
-   
-            if (input == "done")
+            lock (this)
             {
-               
-                User user = (User)_reader.ReadObject();
-                skipconnection = false;
-                return user;
-            }
-            else
-              
-            {
-                skipconnection = false;
-                return null;
+                _writer.Send("login;" + username + ";" + password);
+
+                string input = _reader.Read();
+
+                if (input == "done")
+                {
+
+                    User user = (User)_reader.ReadObject();
+                    skipconnection = false;
+                    return user;
+                }
+                if(input == "NDone")
+
+                {
+                    skipconnection = false;
+                    return null;
+                }
+                if(input == "UserLogged")
+                {
+                    User user = (User)_reader.ReadObject();
+                    LogOtherSessionOut(user);
+                    skipconnection = false;
+                    
+                    return user;
+                }
+                else
+                {
+                    skipconnection = false;
+                    return null;
+                }
             }
          
         }   
+
+
+        public void LogOtherSessionOut(User user)
+        {
+            lock(this)
+            {
+              
+            _writer.Send("logoutother;" + user.ID);
+            _reader.Read();
+            }
+        }   
         public Project[] GetProjectsforUser()
         {
+            lock(this)
+            { 
             List<Project> projects = new List<Project>();
             string input = "";
             _writer.Send("getallprojects");
@@ -188,15 +241,19 @@ namespace Helpplaner.Client.GUI
             proj = _reader.ReadObject();
             projects.AddRange((Project[])proj);
             return projects.ToArray();
+            }
         }
         public void Logout()
         {
+            lock(this) {
             _writer.Send("logout");
             _reader.Read();
+            }
         }
          
         public Project[] GetAdminProjekts()
         {
+            lock (this) { 
             List<Project> projects = new List<Project>();
             string input = "";
             _writer.Send("getadminprojects");
@@ -204,19 +261,23 @@ namespace Helpplaner.Client.GUI
             proj = _reader.ReadObject();
             projects.AddRange((Project[])proj);
             return projects.ToArray();
+            }
         }
 
         public void ReceiveAsyncMessage(object sender, string e)
         {
+            lock(this) {
             if (ServerMessage != null)
             {
                 ServerMessage(sender, e);
+            }
             }
         }   
 
 
         public string AddTaskToProject(Helpplaner.Service.Objects.WorkPackage task, int projectid)
         {
+            lock (this) { 
         
             _writer.Send("addTask;" + projectid);
             if (_reader.Read() == "ok")
@@ -227,27 +288,67 @@ namespace Helpplaner.Client.GUI
            _reader.Read();
             _writer.Send("lastAddWorkSessionID");
             return _reader.Read();
-
+            }
 
         }
         public void addDependency(WorkPackage[] tasks, WorkPackage task)
         {
+            lock (this)
+            {
+                
+            
             _writer.Send("addDependency;");
             if (_reader.Read() == "ok")
             {
                 _writer.SendObject(task);
-                _writer.SendObject(tasks);  
+                _writer.SendObjectArray(tasks);  
             }
 
             _reader.Read();
+            }
         }
 
 
         public void DeleteTask(Helpplaner.Service.Objects.WorkPackage task)
         {
+            lock (this) { 
             _writer.Send("DeleteTask;" + task.ID);
 
             _reader.Read();
+            }
+        }
+
+        public void StartWorkSession(WorkPackage session)
+        {
+            lock (this)
+            {
+            _writer.Send("startWorkSession;" + session.ID);
+            _reader.Read();
+            }
+        }  
+        public void StopWorkSession()
+        {
+            lock (this)
+            {
+            _writer.Send("stopWorkSession;" );
+            _reader.Read();
+            }
+        }
+        public void PauseWorkSession()
+        {
+            lock (this)
+            {
+            _writer.Send("pauseWorkSession;");
+            _reader.Read();
+            }
+        }  
+       public void ContinueWorkSession()
+        {
+            lock (this)
+            {
+                _writer.Send("continueWorkSession;");
+                _reader.Read();
+            }
         }
     }
 }

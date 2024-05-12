@@ -1,0 +1,94 @@
+﻿<Window x:Class="Helpplaner.Client.GUI.Pages.Popup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Helpplaner.Client.GUI.Pages"
+        mc:Ignorable="d"
+        Title="Popup" Height="140" Width="50"
+        ResizeMode="NoResize"
+          WindowStartupLocation="Manual" 
+         Left="0" Top="0" Topmost="True" Deactivated="Window_Deactivated" WindowStyle="None"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    xmlns:converters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf" Background="Transparent" AllowsTransparency="True">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\Themes\DarkMode.xaml"/>
+
+
+                <!-- You can include a default theme here -->
+            </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="Red"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+            <SolidColorBrush x:Key="Button.Pressed.Background" Color="Transparent"/>
+            <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+            <ControlTemplate x:Key="ReloadButton" TargetType="{x:Type ButtonBase}">
+                <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" SnapsToDevicePixels="true">
+                    <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="Button.IsDefaulted" Value="true">
+                        <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{DynamicResource BackgroundColorTextHighlight}"></Setter>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="true">
+                        <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                        <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+          
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    <Border Background="{DynamicResource BackgroundColorTextHighlight}" CornerRadius="0,0,20,0">
+    <Grid >
+        <StackPanel>
+            
+                <Button Template="{DynamicResource ReloadButton}"  Background="{DynamicResource BackgroundColorTextHighlight}" Margin="0,20,0,0" Click="Button_Click" >
+                    <Path x:Name="Play" Data="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" Fill="White" Stretch="Fill" >
+                    <Path.RenderTransform>
+
+                        <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+
+
+                    </Path.RenderTransform>
+                    
+                    </Path>
+                  
+                </Button>
+
+
+                <Button Template="{DynamicResource ReloadButton}"  Background="{DynamicResource BackgroundColorTextHighlight}" Margin="0,20,0,0" Click="Button_Click_1" >
+                    <Path x:Name="Exit" Data="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z" Fill="White" Stretch="Fill" >
+                        <Path.RenderTransform>
+                            <ScaleTransform ScaleX="0.7" ScaleY="0.7"/>
+                        </Path.RenderTransform>
+                    </Path>
+                </Button>
+
+
+              
+
+                <Label Margin="5" x:Name="Timer">00:00</Label>
+         
+
+
+
+        </StackPanel>
+    </Grid>
+    </Border>
+</Window>

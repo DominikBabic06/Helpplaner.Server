@@ -13,6 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Helpplaner.Service.Objects;   
+
+    
+    
+    
+    
+        
+
 namespace Helpplaner.Client.GUI.Pages
 {
     /// <summary>
@@ -23,6 +31,9 @@ namespace Helpplaner.Client.GUI.Pages
         ServerCommunicator SC;
         ProjectViewModel pv;
         MainWindow mw;
+
+        Project selectedProject;
+
 
         public ProjectHub(ServerCommunicator SC, ProjectViewModel pv, MainWindow mw)
         {
@@ -41,17 +52,35 @@ namespace Helpplaner.Client.GUI.Pages
             if (search == "")
             {
                 if (cbAktiveProjekte.IsChecked == false)
+                    if (cbAdmin.IsChecked == true)
+                        Projekts.ItemsSource = pv.projects.Where(p => p.UserIsAdmin == true);   
+                    else
                     Projekts.ItemsSource = pv.projects;
                 else
                 {
-                    Projekts.ItemsSource = pv.projects.Where(p => p.Active == true);
+                   
+                    if(cbAdmin.IsChecked == true)
+                    {
+                        Projekts.ItemsSource = pv.projects.Where(p => p.Active == true && p.UserIsAdmin == true);
+                    }
+                    else
+                    {
+                        Projekts.ItemsSource = pv.projects.Where(p => p.Active == true);
+                    }
+
                 }
             }
             else
             {
                 if (cbAktiveProjekte.IsChecked == false)
+                    if (cbAdmin.IsChecked == true)
+                        Projekts.ItemsSource = pv.projects.Where(p => p.Name.Contains(search) && p.UserIsAdmin == true);    
+                    else
                     Projekts.ItemsSource = pv.projects.Where(p => p.Name.Contains(search));
                 else
+                    if (cbAdmin.IsChecked == true)
+                    Projekts.ItemsSource = pv.projects.Where(p => p.Name.Contains(search) && p.Active == true && p.UserIsAdmin == true);    
+                    else
                     Projekts.ItemsSource = pv.projects.Where(p => p.Name.Contains(search) && p.Active == true);
             }
         }
@@ -71,6 +100,24 @@ namespace Helpplaner.Client.GUI.Pages
         private void Search_TextChanged(object sender, TextChangedEventArgs e)
         {
             changeShown ();
+        }
+
+        private void Projekts_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            pv.curentProject = selectedProject; 
+            pv.currentProjectID = Convert.ToInt32(selectedProject.ID);
+            pv.currentProjectName = selectedProject.Name;
+            mw.SelectProject(pv.curentProject);
+        }
+
+        private void Projekts_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (Projekts.SelectedItem != null)
+            {
+                selectedProject = (Project)Projekts.SelectedItem;
+                
+            }
+
         }
     }
 }

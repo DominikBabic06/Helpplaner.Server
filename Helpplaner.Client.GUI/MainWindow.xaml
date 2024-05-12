@@ -204,15 +204,14 @@
                         <ColumnDefinition Width="12*" />
 
                     </Grid.ColumnDefinitions>
-                    <Menu  Background="{DynamicResource  BackgroundColorSecondary}" Style="{DynamicResource MaterialDesignMenu}" Foreground="{DynamicResource ColorText}" >
+                    <Grid  Background="{DynamicResource  BackgroundColorSecondary}" Grid.Column="0"  >
 
-                        <MenuItem  x:Name="Projekte" Header="Projekte" Style="{DynamicResource MaterialDesignMenuItem}" Click="MenuItem_Click" Background="{DynamicResource BackgroundColorSecondary}" >
+                        <Button  x:Name="Projekte" Content="Projekte" Click="MenuItem_Click" Background="{DynamicResource BackgroundColorSecondary}" BorderThickness="0" Width="70" Height="30" HorizontalAlignment="Left" Margin="20,0,0,0" FontSize="14px" Template="{DynamicResource ReloadButton}">
 
-                        </MenuItem>
-                        <MenuItem Header="Preferenzen" Style="{DynamicResource MaterialDesignMenuItem}" Click="MenuItem_Click" Background="{DynamicResource BackgroundColorSecondary}"  >
-
-                        </MenuItem>
-                    </Menu>
+                        </Button>
+                        
+                        
+                    </Grid>
 
                     <Grid Grid.Column="1" Background="{DynamicResource  BackgroundColorSecondary}">
                         <Frame   x:Name ="ConnectionEstablished"  HorizontalAlignment="Right"  Margin="0,0,20,0" NavigationUIVisibility="Hidden" BorderThickness="0"></Frame>

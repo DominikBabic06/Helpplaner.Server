@@ -8,6 +8,8 @@ using Helpplaner.Service.Shared;
 using System.Data.SqlClient;
 using Helpplaner.Service.SqlHandling;
 using Helpplaner.Service.Objects;
+using System.Reflection.Metadata.Ecma335;
+using System.Diagnostics;
 
 namespace Helpplaner.Service.Core
 {
@@ -22,11 +24,17 @@ namespace Helpplaner.Service.Core
         InsertSqlCommandHandler _insertSqlCommandHandler;
         SelectSqlCommandHandler _selectSqlCommandHandler;
         AlterSqlCommandHandler _alterSqlCommandHandler;
-        User user;
+        public  User user;
         string info;
         Config config;
-        Project currentProj;
-        public SessionHandler(Socket client, IServiceLogger logger, Guid id)
+        public  Project currentProj;
+        public WorkSession currentWorkSession; 
+        Stopwatch sw = new Stopwatch();
+        ClientHandler father;
+       public Delegate _Dissconect;
+        
+
+        public SessionHandler(Socket client, IServiceLogger logger, Guid id, ClientHandler father)
         {
             config = new Config();
             _logger = logger;
@@ -35,7 +43,8 @@ namespace Helpplaner.Service.Core
             writer = new SocketWriter(_clientSocket, _logger);
             reader = new SocketReader(_clientSocket, _logger);
             info = "None";
-
+            _Dissconect = Close;
+           this.father = father;    
 
             _connection = new SqlConnection(config.ConnectionString);
             _insertSqlCommandHandler = new InsertSqlCommandHandler(_connection, _logger);
@@ -78,18 +87,64 @@ namespace Helpplaner.Service.Core
                                 _logger.Log(info, "green");
                             info = "None";
                             break;
-                        
 
+                        case "logoutother":
+                         //parameter1 is user id
+                            OpenConnection();
+                            User user2 = _selectSqlCommandHandler.GiveUser(Convert.ToInt32(text.Split(';')[1].Trim()));
+                           
+                            CloseConnection();
+
+                            father.GetSessionIDOfUser(user2,_sessionId);
+                            father.PostMessageToSpecificSession("Logout", father.GetSessionIDOfUser(user2, _sessionId));
+                         
+                            writer.Send("done");
+                            break;
+                        case "startWorkSession":
+                            //parameter1 is task id
+                            currentWorkSession = new WorkSession(); 
+                            currentWorkSession.WorkPackageID = text.Split(';')[1].Trim();
+                            currentWorkSession.CreatorID = user.ID;    
+                           
+                            writer.Send("done");
+                            break;
+                        case "stopWorkSession":
+                            //parameter1 is task id
+                            sw.Stop();
+                            currentWorkSession.WorkTime = $"{sw.Elapsed.Hours}:{sw.Elapsed.Minutes}:{sw.Elapsed.Seconds}";
+                           OpenConnection();
+                             _insertSqlCommandHandler.InsertArbeitsSitzung(currentWorkSession);
+                            CloseConnection();
+                            writer.Send("done");
+                            TriggererServerMessage(this, "tr;" + currentProj.ID);
+
+                            break;
+                        case "getWorkSessionsForTask":
+                            //parameter1 is task id
+                            OpenConnection();
+                            WorkPackage workPackage = _selectSqlCommandHandler.GetTask(Convert.ToInt32(text.Split(';')[1].Trim()));
+                            WorkSession[] workSessions = _selectSqlCommandHandler.GetAllArbeitsSitzungen(workPackage);
+                            CloseConnection();
+                            writer.SendObjectArray(workSessions);
+                            break;
+                        case"pauseWorkSession":
+                            sw.Stop();
+                            writer.Send("done");
+                            break;  
+                        case"continueWorkSession":
+                            sw.Start();
+                            writer.Send("done");
+                            break;  
                         case "getallusers":
                             OpenConnection();
-                            writer.SendObject(_selectSqlCommandHandler.GiveAllUsers());
+                            writer.SendObjectArray(_selectSqlCommandHandler.GiveAllUsers());
                             CloseConnection();
                             break;
                         case "getallprojects":
                             OpenConnection();
                             projects = _selectSqlCommandHandler.GetAllProjekte(user);
                             CloseConnection();
-                            writer.SendObject(projects);
+                            writer.SendObjectArray(projects);
                             _logger.Log("All projects sent", "green");
                             break;
                         case "getalltasks":
@@ -101,7 +156,7 @@ namespace Helpplaner.Service.Core
                             currentProj = project;  
                             tasks = _selectSqlCommandHandler.GetAllTasks(project);
                             CloseConnection();
-                            writer.SendObject(tasks);
+                            writer.SendObjectArray(tasks);
                             _logger.Log("All tasks sent", "green");
                             break;
                         case "getalluserprojects":
@@ -112,14 +167,14 @@ namespace Helpplaner.Service.Core
                             OpenConnection();
                             users = _selectSqlCommandHandler.GetAllUsers(project);
                             CloseConnection();
-                            writer.SendObject(users);
+                            writer.SendObjectArray(users);
                             _logger.Log("All users sent", "green");
                             break;
                         case "getadminprojects":
                             OpenConnection();
                             projects = _selectSqlCommandHandler.GetAllAdminProjekte(user);
                             CloseConnection();
-                            writer.SendObject(projects);
+                            writer.SendObjectArray(projects);
                             _logger.Log("All projects sent", "green");
                             break;
                         case "getusersforproject":
@@ -131,7 +186,7 @@ namespace Helpplaner.Service.Core
                             currentProj = project;  
                             users = _selectSqlCommandHandler.GetAllUsers(project);
                             CloseConnection();
-                            writer.SendObject(users);
+                            writer.SendObjectArray(users);
                             _logger.Log("All users sent", "green");
                             break;
 
@@ -174,6 +229,17 @@ namespace Helpplaner.Service.Core
                             OpenConnection();
                             writer.Send(""+_selectSqlCommandHandler.GetLastAddedWorkPackageID());
                             CloseConnection();
+                            break;
+
+                        case "getUnalowedDependecys":
+                        //parameter1 is task id
+                            OpenConnection();
+                            WorkPackage workpackage = _selectSqlCommandHandler.GetTask(Convert.ToInt32(text.Split(';')[1].Trim()));
+                          
+                            CloseConnection();
+                            
+                            
+                            writer.SendObjectArray(rekursiveSuccsersorgetting(workpackage));
                             break;  
                         case "logout":
                             user = null;
@@ -185,7 +251,7 @@ namespace Helpplaner.Service.Core
                             CheckPassword(text);
                             CloseConnection();
                             break;
-
+                        
                         case "DeleteTask":
                             //parameter1 is task id
                             OpenConnection();
@@ -248,7 +314,9 @@ namespace Helpplaner.Service.Core
             try
             {
                 User trueUser = _selectSqlCommandHandler.GiveUser(text.Split(';')[0].Trim());
-                if (trueUser.Password.Trim() == text.Split(';')[1].Trim())
+                if(!father.IsUserInUse(trueUser, _sessionId))
+                { 
+                if (trueUser.Password.Trim() == text.Split(';')[1].Trim()  )
                 {
                     user = trueUser;
                     writer.Send("done");
@@ -260,11 +328,19 @@ namespace Helpplaner.Service.Core
                     writer.Send("NDone");
 
                 }
+                }
+                else
+                {
+                    user = trueUser;
+                    writer.Send("UserLogged");
+                    writer.SendObject(user);
+
+                }   
             }
             catch (Exception EX)
             {
 
-                writer.Send("Login nicht erfolgreich");
+                writer.Send("NDone");
             }
 
 
@@ -320,5 +396,26 @@ namespace Helpplaner.Service.Core
                 i++;
             }
         }
+
+
+       public string[] rekursiveSuccsersorgetting(WorkPackage wp)
+        {
+            List<string> succsersors = new List<string>();
+            foreach (string item in wp.Successor.Split(' '))
+            {
+                if (item != "")
+                {
+                    WorkPackage wp2 = _selectSqlCommandHandler.GetTask(Convert.ToInt32(item));
+                    succsersors.Add(wp2.ID);
+                    succsersors.AddRange(rekursiveSuccsersorgetting(wp2));
+                }
+            }
+            return succsersors.ToArray();
+        }
+
+        
+
+
+   
     }
 }

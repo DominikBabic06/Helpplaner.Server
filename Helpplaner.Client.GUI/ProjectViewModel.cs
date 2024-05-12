@@ -18,6 +18,12 @@ namespace Helpplaner.Client.GUI
         public ProjectViewModel()
         { }
 
+        public Project curentProject { get; set; }
+        public int currentProjectID { get; set; }  
+
+        public string currentProjectName { get; set; }
+
+        public bool isAdmin { get; set;}
 
         public IEnumerable<Service.Objects.WorkPackage> Tasks { get; set; }
 
@@ -38,6 +44,14 @@ namespace Helpplaner.Client.GUI
                     _ => "White"
                 };  
             }   
+        }
+
+       internal void IsUserAdminInProject(Project[] AdminProjectsForUser)
+        {
+            foreach(Project project in projects)
+            {
+                project.UserIsAdmin = AdminProjectsForUser.Any(p => p.ID == project.ID);
+            }
         }
     }
 }
