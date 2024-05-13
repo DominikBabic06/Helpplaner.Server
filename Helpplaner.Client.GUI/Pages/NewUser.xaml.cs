@@ -81,7 +81,7 @@ namespace Helpplaner.Client.GUI.Pages
 
         private void EnableButton()
         {
-            if (Name.Text != "" && Password.Password != "" &&   Regex.IsMatch(Email.Text, @"/^ [\w -\.] +@([\w -] +\.) + [\w -]{ 2,4}$" )  )
+            if (Name.Text != "" && Password.Password != "" &&   Regex.IsMatch(Email.Text, @"^[^@]+@[^@]+\.[^@]+$")  )
             {
                 Save.IsEnabled = true;
             }

@@ -306,7 +306,7 @@ namespace Helpplaner.Service.Core
                             _insertSqlCommandHandler.InsertProject(project3);
                             project3.ID = ""+ _selectSqlCommandHandler.GiveLastProjectID(); 
                             _insertSqlCommandHandler.InsertProjektNutzer(project3, user, true);
-                            _insertSqlCommandHandler.InsertArbeitspaket(new WorkPackage() { IdInProject = "1", Name = "Start", ProjectID = project3.ID, Description = "Start", RealTime = "0", Dependecy = "", Successor = "", ExpectedTime = "", Responsible = "1", Status = "Beendet", });
+                            _insertSqlCommandHandler.InsertArbeitspaket(new WorkPackage() { IdInProject = "1", Name = "Start", ProjectID = project3.ID, Description = "Start", RealTime = "00:00:00", Dependecy = "", Successor = "", ExpectedTime = "", Responsible = "1", Status = "Beendet", });
 
                             CloseConnection();
                           
@@ -327,6 +327,8 @@ namespace Helpplaner.Service.Core
                             _insertSqlCommandHandler.InsertNutzer(user4);
                             CloseConnection();
                             writer.Send("done");
+
+                            TriggererServerMessage(this, "ReloadGlobalUsers");
                             break;
                         case "changeProject":
                             //parameter1 is ProjectId 

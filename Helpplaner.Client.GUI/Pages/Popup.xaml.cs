@@ -105,12 +105,12 @@ namespace Helpplaner.Client.GUI.Pages
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             Seconds = sw.Elapsed.Seconds;   
-            if (Seconds == 60)
+            if (Seconds > 60)
             {
                 Seconds = 0;
                 Minutes++;
             }
-            if (Minutes == 60)
+            if (Minutes > 60)
             {
                 Minutes = 0;
                 Horus++;

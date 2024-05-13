@@ -55,7 +55,7 @@ namespace Helpplaner.Client.GUI.Pages
                 task.ProjectID = Project.ID;
                 task.Name = Name.Text;
                 task.Description = Beschreibung.Text;
-                task.RealTime = "0";
+                task.RealTime = "00:00:00";
                 task.ExpectedTime = Dauer.Text; 
                 task.Responsible = responsible.ID;
                 task.Status = "Aktiv";  
