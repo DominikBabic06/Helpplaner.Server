@@ -113,7 +113,11 @@ namespace Helpplaner.Service.Core
                         case "stopWorkSession":
                             //parameter1 is task id
                             sw.Stop();
+                            if (currentWorkSession != null)
+                            { 
                             currentWorkSession.WorkTime = $"{sw.Elapsed.Hours}:{sw.Elapsed.Minutes}:{sw.Elapsed.Seconds}";
+
+                            sw.Reset(); 
                            OpenConnection();
                              _insertSqlCommandHandler.InsertArbeitsSitzung(currentWorkSession);
                             WorkPackage sessionPackage = _selectSqlCommandHandler.GetTask(Convert.ToInt32(currentWorkSession.WorkPackageID));
@@ -126,7 +130,13 @@ namespace Helpplaner.Service.Core
                             TriggererServerMessage(this, "tr;" + currentProj.ID);
                             currentWorkSession  = null;
                             CurrentWorkedOnTask = 0;
-
+                            }
+                            else
+                            {
+                                writer.Send("done");
+                                sw.Reset();
+                            }
+                        
 
                             break;
                         case "getWorkSessionsForTask":
@@ -324,12 +334,26 @@ namespace Helpplaner.Service.Core
                             writer.Send("ok");
                             OpenConnection();
                             User user4 = (User)reader.ReadObject();
-                            _insertSqlCommandHandler.InsertNutzer(user4);
-                            CloseConnection();
-                            writer.Send("done");
 
-                            TriggererServerMessage(this, "ReloadGlobalUsers");
-                            break;
+
+                            if (_selectSqlCommandHandler.checkIfUserNameISUniqe(user4.Username))
+                            {
+                                _insertSqlCommandHandler.InsertNutzer(user4);
+                                CloseConnection();
+                                writer.Send("done");
+                                TriggererServerMessage(this, "ReloadGlobalUsers");
+                                break;
+                            }
+                            else
+                            {
+                                CloseConnection();
+                                writer.Send("Nutzername exestiert bereits");
+                                break;
+
+                            }
+
+                          
+                           
                         case "changeProject":
                             //parameter1 is ProjectId 
                             writer.Send("ok");

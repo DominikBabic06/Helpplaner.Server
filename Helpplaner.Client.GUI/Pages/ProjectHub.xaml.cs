@@ -131,12 +131,17 @@ namespace Helpplaner.Client.GUI.Pages
 
         }
         
+       
 
         public void Reload()
         {
 
             Projekts.ItemsSource = null;
             Projekts.ItemsSource = pv.projects; 
+            ProjektsUser.ItemsSource = null;    
+            ProjektsUser.ItemsSource = pv.globalUser;
+
+            
             changeShown();  
         }
 

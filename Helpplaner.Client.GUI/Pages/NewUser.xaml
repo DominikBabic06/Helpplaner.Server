@@ -39,6 +39,8 @@
             <ListBox x:Name="Dependants" SelectionChanged="Dependants_SelectionChanged" ItemsSource="{Binding Tasks}" Visibility="Collapsed"   SelectionMode="Multiple" Height="200">
                 </ListBox>
 
+          
+
 
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical">

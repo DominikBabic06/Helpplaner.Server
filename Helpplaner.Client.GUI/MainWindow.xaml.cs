@@ -120,6 +120,15 @@ namespace Helpplaner.Client.GUI
                     }   
                     sc.ProjectsneedtobeReloaded = false;  
                 }
+                if(sc.needToReloadGlobalUser)
+                {
+                  pvm.globalUser = sc.GiveAllUser();
+                    if (ProjektHub != null)
+                    {
+                        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { ProjektHub.Reload(); });
+                    }
+                    sc.needToReloadGlobalUser = false;
+                }
                 if(selectetProj != null)
                 if (sc.NeedsToBeReloaded(int.Parse(selectetProj.ID)))
                 {

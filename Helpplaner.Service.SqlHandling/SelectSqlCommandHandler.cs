@@ -93,6 +93,29 @@
 
         }
 
+        public bool checkIfUserNameISUniqe(string username)
+        {
+            bool isUniqe = true;
+            try
+            {
+                using (SqlCommand command = new SqlCommand("Select * from \"User\" where Username = @Username", _connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            isUniqe = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex.Message, "red");
+            }
+            return isUniqe;
+        }
         public User GiveUser(int id)
         {
             

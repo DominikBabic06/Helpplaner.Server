@@ -13,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Security.Cryptography;
+
 
 namespace Helpplaner.Client.GUI.Pages
 {
@@ -54,10 +56,19 @@ namespace Helpplaner.Client.GUI.Pages
             {
               User newUSer = new User();    
                 newUSer.Username = Name.Text;
-                newUSer.Password = Password.Password;
+                newUSer.Password = HashPassword( Password.Password);
                 newUSer.Email = Email.Text;
                 newUSer.IsSysadmin = Admin.IsChecked.Value;
-               
+                string Message = sr.CreateUser(newUSer);
+                if (Message ==  "done")
+                {
+                    this.Close();
+
+                }  
+                else
+                {
+                    Waring.Content = Message;   
+                }
 
               
 
@@ -67,7 +78,7 @@ namespace Helpplaner.Client.GUI.Pages
                 MessageBox.Show(ex.Message);
             }   
             
-            this.Close();
+           
 
            
 
@@ -81,7 +92,7 @@ namespace Helpplaner.Client.GUI.Pages
 
         private void EnableButton()
         {
-            if (Name.Text != "" && Password.Password != "" &&   Regex.IsMatch(Email.Text, @"^[^@]+@[^@]+\.[^@]+$")  )
+            if (Name.Text != "" && Password.Password != "" &&   Regex.IsMatch(Email.Text, @"^[^@]+@[^@]+\.[^@]+$")  && Password.Password != "DummyPassowrd")
             {
                 Save.IsEnabled = true;
             }
@@ -128,11 +139,29 @@ namespace Helpplaner.Client.GUI.Pages
             EnableButton();
         }
 
+       
+
+        public string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Convert byte array to a string
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
         private void Admin_Checked(object sender, RoutedEventArgs e)
         {
 
         }
-      
 
         private void Admin_Unchecked(object sender, RoutedEventArgs e)
         {

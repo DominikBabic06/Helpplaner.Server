@@ -29,6 +29,7 @@ namespace Helpplaner.Client.GUI.Pages
          User responsible;
         List<WorkPackage> dependencies;
         int time = 0;   
+        bool changeFromSearch = false;
 
 
         public NewAP(Project proj, ServerCommunicator sr, ProjectViewModel pvm)
@@ -117,18 +118,24 @@ namespace Helpplaner.Client.GUI.Pages
 
         private void Zuständiger_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            responsible = (User)Zuständiger.SelectedItem; 
+            if (Zuständiger.SelectedItem != null)
+            {
+                responsible = (User)Zuständiger.SelectedItem; 
+            }
+       
             EnableButton();
         }
         private void Dependants_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            dependencies.Clear();   
-            foreach (var item in Dependants.SelectedItems)
+            if(!changeFromSearch)
             {
-                dependencies.Add((WorkPackage)item);
-            }   
-            EnableButton();
-
+                dependencies.Clear();
+                foreach (var item in Dependants.SelectedItems)
+                {
+                    dependencies.Add((WorkPackage)item);
+                }
+                EnableButton();
+            }
         }
 
         private void Zubutton_Click(object sender, RoutedEventArgs e)
@@ -182,14 +189,19 @@ namespace Helpplaner.Client.GUI.Pages
                     List<User> Temp = new List<User>();
                     Temp.AddRange(pvm.users.Where(x => x.Username.Contains(Search.Text)));
                     Zuständiger.ItemsSource = Temp;
+                 
+
                 }
-                if(Dependants.IsVisible == true)
+                if (Dependants.IsVisible == true)
                 {
+                    changeFromSearch = true;    
                     List<WorkPackage> Temp = new List<WorkPackage>();
                     Temp.AddRange(pvm.Tasks.Where(x => x.Name.Contains(Search.Text)));
                     Dependants.ItemsSource = Temp;
-                }   
-                
+                    changeFromSearch = false;
+
+                }
+
 
             }
 
@@ -199,6 +211,22 @@ namespace Helpplaner.Client.GUI.Pages
                 Dependants.ItemsSource = pvm.Tasks; 
 
             }
+            Zuständiger.SelectedIndex = Zuständiger.Items.IndexOf(responsible);
+            changeFromSearch = true;
+            Dependants.SelectedItems.Clear();   
+            foreach (var package in dependencies)
+            {
+               if(Dependants.Items.Contains(package))
+                {
+                 
+                    Dependants.SelectedItems.Add(Dependants.Items[Dependants.Items.IndexOf(package)]);
+                }
+            }
+            changeFromSearch = false;
+
+
+
+
 
         }
     }

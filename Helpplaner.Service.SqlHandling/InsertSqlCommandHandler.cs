@@ -45,11 +45,12 @@ namespace Helpplaner.Service.SqlHandling
         public void InsertNutzer(User user)
         {             try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Nutzer ( Username, Password, Email) VALUES ( @Username, @Password, @Email)", _connection);
+                SqlCommand command = new SqlCommand($"INSERT INTO \"User\" ( Username, Password, Email, IsSysAdmin) VALUES ( @Username, @Password, @Email, @IsSysAdmin)", _connection);
                
                 command.Parameters.AddWithValue("@Username", user.Username);
                 command.Parameters.AddWithValue("@Password", user.Password);
                 command.Parameters.AddWithValue("@Email", user.Email);  
+                command.Parameters.AddWithValue("@IsSysAdmin", Convert.ToInt32(user.IsSysadmin));   
                
                 command.ExecuteNonQuery();
             }

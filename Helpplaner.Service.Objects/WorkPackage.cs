@@ -33,6 +33,8 @@ namespace Helpplaner.Service.Objects
         public string colorStatus { get; set; } 
 
         public string IdInProject { get; set; } 
+
+        public bool Selectet { get; set; } = false; 
          
         public List<WorkSession> ArbeitsSitzungs { get; set; } = new List<WorkSession>();
 

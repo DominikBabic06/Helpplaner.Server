@@ -11,7 +11,9 @@
         public string Username { get; set; }    
         public string Email { get; set; }   
         public bool IsSysadmin { get; set; }  
+        
 
+        public bool Selected { get; set; } = false; 
 
         /// <summary>
         /// asdada

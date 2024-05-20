@@ -23,7 +23,7 @@ namespace Helpplaner.Client.GUI
        bool needsToBeReloaded = false;  
         int projetidthatneedsreloading = 0; 
        public  bool ProjectsneedtobeReloaded = false;    
- 
+       public bool needToReloadGlobalUser = false;  
        public bool needLogout = false;   
 
        public  event EventHandler<string> ServerMessage;
@@ -83,6 +83,13 @@ namespace Helpplaner.Client.GUI
                                 ProjectsneedtobeReloaded = true;    
                             return true;
                         }   
+                        if(input == "ReloadGlobalUsers")
+                            {
+
+                                needToReloadGlobalUser = true;  
+
+                           return true ;
+                        }   
 
                      
                         else
@@ -138,6 +145,18 @@ namespace Helpplaner.Client.GUI
             _reader.Read();
             }
         }
+
+        public string CreateUser(User user)
+        {
+            lock(this)
+            {
+            _writer.Send("CreateUser;");
+            _reader.Read();
+            _writer.SendObject(user);
+            
+            return _reader.Read();
+            }
+        }   
 
 
         public User[] GiveAllUser()
