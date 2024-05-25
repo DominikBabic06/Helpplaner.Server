@@ -43,6 +43,9 @@ namespace Helpplaner.Client.GUI.Pages
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+            Useroverview useroverview = new Useroverview(project, sr, pvm); 
+            mw.changeShowPage(useroverview);    
+
 
 
 

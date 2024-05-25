@@ -31,15 +31,15 @@ namespace Helpplaner.Client.GUI.Pages
             Project = proj;
             this.sr = sr;
             this.pvm = pvm;
-            this.DataContext = pvm; 
-            FillUser();
+            Users.DataContext = pvm;    
+         
 
         }
 
         private void FillUser()
         {
             User = sr.GetUsersforProject(Convert.ToInt32(Project.ID));
-            Users.ItemsSource = User;
+          
 
 
         }
@@ -47,6 +47,53 @@ namespace Helpplaner.Client.GUI.Pages
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void PopupButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            UserHinzufügen uh = new UserHinzufügen(Project, sr, pvm);    
+            uh.ShowDialog();    
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AP_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AP_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+
+        }
+
+
+        public void Reload_Click()
+        {
+            Users.DataContext = null;
+            Users.DataContext = pvm;
+
+        }   
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (SearchBox.Text != "" )
+            {
+                Users.ItemsSource = pvm.users.Where(x => x.Username.Contains(SearchBox.Text));  
+            }
+            else
+            {
+                Users.ItemsSource = pvm.users; 
+            }   
         }
     }
 }

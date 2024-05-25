@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -34,6 +35,8 @@ namespace Helpplaner.Client.GUI
         ProjectViewModel pvm;
         ProjektOverview ProjectOverview;
         ProjectHub ProjektHub;
+        Useroverview Useroverview;  
+
 
         
         public MainWindow()
@@ -129,11 +132,30 @@ namespace Helpplaner.Client.GUI
                     }
                     sc.needToReloadGlobalUser = false;
                 }
+                if(sc.needToReloadUsers)
+                {
+                   pvm.users = sc.GetUsersforProject(Convert.ToInt32(pvm.currentProjectID));
+            pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(pvm.currentProjectID));
+            pvm.Admins = sc.GetAdminsForPorj();
+            pvm.BindAdminsToProjects();
+            pvm.BindUsersToTasks();
+                   
+                    if (Useroverview != null)
+                    {
+                        Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { Useroverview.Reload_Click(); });
+                    }
+
+                    sc.needToReloadUsers = false;
+                }
                 if(selectetProj != null)
                 if (sc.NeedsToBeReloaded(int.Parse(selectetProj.ID)))
                 {
                     pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(selectetProj.ID));
-                    pvm.users = sc.GetUsersforProject(Convert.ToInt32(selectetProj.ID));
+                        pvm.users = sc.GetUsersforProject(Convert.ToInt32(pvm.currentProjectID));
+                        pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(pvm.currentProjectID));
+                        pvm.Admins = sc.GetAdminsForPorj();
+                        pvm.BindAdminsToProjects();
+                        pvm.BindUsersToTasks();
                         pvm.BindUsersToTasks();
                         if (aPÜbersicht != null)
                         {
@@ -198,12 +220,15 @@ namespace Helpplaner.Client.GUI
             selectetProj = project;
             pvm.users = sc.GetUsersforProject(Convert.ToInt32(pvm.currentProjectID));
             pvm.Tasks = sc.GetTasksforProject(Convert.ToInt32(pvm.currentProjectID));
+            pvm.Admins = sc.GetAdminsForPorj();
+            pvm.BindAdminsToProjects();
             pvm.BindUsersToTasks();
             Useroverview useroverview = new Useroverview(selectetProj, sc, pvm);
 
             APu.Visibility = Visibility.Visible;
             Pro.Visibility = Visibility.Visible;
             Dia.Visibility = Visibility.Visible;
+              Mitarbeiter.Visibility = Visibility.Visible;
             ProjectOverview = new ProjektOverview(pvm.curentProject, sc, pvm, this); 
 
             Main.Content = ProjectOverview;
@@ -255,6 +280,7 @@ namespace Helpplaner.Client.GUI
             APu.Visibility = Visibility.Hidden;
             Pro.Visibility = Visibility.Hidden;
             Dia.Visibility = Visibility.Hidden;
+            Mitarbeiter.Visibility = Visibility.Hidden;
             Main.Content = login;
         }
 
@@ -301,13 +327,14 @@ namespace Helpplaner.Client.GUI
 
         private void AB_MouseEnter(object sender, MouseEventArgs e)
         {
-            DiagramIcon.Stroke = FindResource("BackgroundColorTextHighlight") as Brush;
-            
+            Database1.Stroke = FindResource("BackgroundColorTextHighlight") as Brush;
+           
         }
 
         private void Ab_MouseLeave(object sender, MouseEventArgs e)
         {
             Database1.Stroke = FindResource("ColorText") as Brush;
+           
           
         }
 
@@ -315,6 +342,26 @@ namespace Helpplaner.Client.GUI
         public void changeShowPage(Page page)
         {
            Dispatcher.Invoke( System.Windows.Threading.DispatcherPriority.Normal, (Action)delegate () { Main.Content = page; });
-        }   
+        }
+
+        private void Mitarbeiter_Click(object sender, RoutedEventArgs e)
+        {
+            Useroverview = new Useroverview(selectetProj, sc, pvm);
+            Main.Content = Useroverview;    
+
+        }
+
+        private void Mitarbeiter_MouseEnter(object sender, MouseEventArgs e)
+        {
+           Users.Stroke = FindResource("BackgroundColorTextHighlight") as Brush;
+            Users.Fill = FindResource("BackgroundColorTextHighlight") as Brush;
+        }
+
+        private void Mitarbeiter_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Users.Stroke = FindResource("ColorText") as Brush;
+            Users.Fill = FindResource("ColorText") as Brush;
+
+        }
     }
 }

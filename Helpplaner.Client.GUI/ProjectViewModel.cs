@@ -28,6 +28,7 @@ namespace Helpplaner.Client.GUI
         public IEnumerable<Service.Objects.WorkPackage> Tasks { get; set; }
 
         public IEnumerable<User> users { get; set; }
+        public IEnumerable<User> Admins { get; set; }
 
 
         public IEnumerable<User> globalUser { get; set; }
@@ -54,6 +55,14 @@ namespace Helpplaner.Client.GUI
             foreach(Project project in projects)
             {
                 project.UserIsAdmin = AdminProjectsForUser.Any(p => p.ID == project.ID);
+            }
+        }
+
+        internal void BindAdminsToProjects()
+        {
+          foreach(User user in users)
+            {
+                user.IsAdmin = Admins.Any(a => a.ID == user.ID);
             }
         }
     }

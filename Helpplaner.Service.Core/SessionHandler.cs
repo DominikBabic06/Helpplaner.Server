@@ -324,6 +324,34 @@ namespace Helpplaner.Service.Core
                             TriggererServerMessage(this, "ReloadProjects"); 
                             break;
 
+                        case "AddUserRealation":
+                            //parameter 1 is ProjectId
+                            //parameter 2 is UserId
+                            //parameter 3 is Admin  
+
+                          
+                            OpenConnection();
+                            Project project5 = _selectSqlCommandHandler.GiveProjekt(Convert.ToInt32(text.Split(';')[1].Trim()));
+                            User user3 = _selectSqlCommandHandler.GiveUser(Convert.ToInt32(text.Split(';')[2].Trim()));
+                            if (_selectSqlCommandHandler.GetAllUsers(project5).Contains(user3))
+                            {
+                                writer.Send("User exestiert bereits in diesem Projekt");
+                                break;
+                            }
+                            else
+                            {
+                                _insertSqlCommandHandler.InsertProjektNutzer(project5, user3, Convert.ToBoolean(text.Split(';')[3].Trim()));
+                                writer.Send("done");
+                                TriggererServerMessage(this, "RealoadUsers;" + project5.ID);
+
+
+                            }
+                       
+
+                            CloseConnection();
+                            
+                            break;  
+
                         case "GiveAllUsers":
                             OpenConnection();
                             writer.SendObjectArray(_selectSqlCommandHandler.GiveAllUsers());
@@ -384,6 +412,14 @@ namespace Helpplaner.Service.Core
                             CloseConnection();
                             writer.Send("done");
                             break;
+                        case "GetAdminsForProject":
+                            //parameter1 is ProjectId 
+                            OpenConnection();
+                            writer.SendObjectArray(_selectSqlCommandHandler.GetAllAdmins(currentProj));
+                         
+                            CloseConnection();
+                            break;
+
                         case "exit":
                             Close();
 

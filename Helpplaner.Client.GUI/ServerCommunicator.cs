@@ -25,6 +25,7 @@ namespace Helpplaner.Client.GUI
        public  bool ProjectsneedtobeReloaded = false;    
        public bool needToReloadGlobalUser = false;  
        public bool needLogout = false;   
+        public bool needToReloadUsers = false;  
 
        public  event EventHandler<string> ServerMessage;
         public ServerCommunicator(IServiceLogger logger)
@@ -90,6 +91,12 @@ namespace Helpplaner.Client.GUI
 
                            return true ;
                         }   
+
+                        if(input.StartsWith("RealoadUsers;"))
+                                {
+                                needToReloadUsers = true;  
+                            return true;
+                        }
 
                      
                         else
@@ -345,6 +352,30 @@ namespace Helpplaner.Client.GUI
             return projects.ToArray();
             }
         }
+
+
+        public string MakeUserProjectRelation(int projectid, int userid, bool admin)
+        {
+            lock(this)
+            {
+            _writer.Send("AddUserRealation;" + projectid + ";" + userid + ";" + admin);
+            return _reader.Read();
+            }
+        }   
+
+        public User[] GetAdminsForPorj()
+        {
+            lock(this)
+            {
+            List<User> users = new List<User>();
+            string input = "";
+            _writer.Send("GetAdminsForProject;");
+            Object user = null;
+            user = _reader.ReadObject();
+            users.AddRange((User[])user);
+            return users.ToArray();
+            }
+        }   
 
         public void ReceiveAsyncMessage(object sender, string e)
         {

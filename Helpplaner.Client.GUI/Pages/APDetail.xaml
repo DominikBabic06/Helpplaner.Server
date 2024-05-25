@@ -105,13 +105,13 @@
                 <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Geschätzte Zeit:" Grid.Row="0" FontSize="15" FontWeight="Normal"
                 Margin="20,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="ExpectedTimeLabel"/>
-                <TextBlock Text="0h" Grid.Row="0" FontSize="15" FontWeight="Normal"
+                    <TextBlock Text="{Binding ExpectedTime}" Grid.Row="0" FontSize="15" FontWeight="Normal"
                 Margin="10,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="ExpectedTime"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Reale Zeit:" Grid.Row="0" FontSize="15" FontWeight="Normal"
+                    <TextBlock Text="Reale Zeit: " Grid.Row="0" FontSize="15" FontWeight="Normal" 
                 Margin="20,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="RealTimeLabel"/>
-                <TextBlock Text="0h" Grid.Row="0" FontSize="15" FontWeight="Normal"
+                    <TextBlock Text="{Binding RealTime}" Grid.Row="0" FontSize="15" FontWeight="Normal"
                  Margin="10,0,0,0" HorizontalAlignment="Left" Foreground="{DynamicResource ColorText}" x:Name="RealTime"/>
             </StackPanel>
             </StackPanel>
