@@ -8,7 +8,8 @@ class Program
     static void Main(string[] args)
     {
         ConsoleLogger cl = new ConsoleLogger();
-        Server server = new Server(cl);
+        Config config = new Config();   
+        Server server = new Server(cl, config._ipAddress, config._port);
         
         string input;
        /// server.Start();

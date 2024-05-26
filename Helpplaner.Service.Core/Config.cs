@@ -7,7 +7,7 @@ namespace Helpplaner.Service.Core
         public string ConnectionString { get; set; }
         public int MaxConnections { get; set; }
 
-        public IPAddress _ipAddress;
+        public string _ipAddress;
         public int _port;
 
 
@@ -21,7 +21,7 @@ namespace Helpplaner.Service.Core
 
                 ConnectionString = configs.Where(x => x.Contains("ConnectionString")).FirstOrDefault().Trim(' ').Split(":")[1];
                 MaxConnections = int.Parse(configs.Where(x => x.Contains("MaxConnections")).FirstOrDefault().Trim(' ').Split(":")[1]);
-                _ipAddress = IPAddress.Parse(configs.Where(x => x.Contains("IPAddress")).FirstOrDefault().Trim(' ').Split(":")[1]);
+                _ipAddress = configs.Where(x => x.Contains("IPAddress")).FirstOrDefault().Trim(' ').Split(":")[1];
                 _port = int.Parse(configs.Where(x => x.Contains("Port")).FirstOrDefault().Split(":")[1]);
 
 
