@@ -2,13 +2,21 @@
 
 using Helpplaner.Service.Core;
 using Helpplaner.Service.Shared;
+using System.Net;
+
 class Program
 {
     //hurensohn
     static void Main(string[] args)
     {
         ConsoleLogger cl = new ConsoleLogger();
-        Config config = new Config();   
+        Config config = new Config();  
+        IPAddress ip;   
+
+        if (IPAddress.TryParse(config._ipAddress, out ip) && config.rightConfig)
+        {
+          
+       
         Server server = new Server(cl, config._ipAddress, config._port);
         
         string input;
@@ -63,8 +71,12 @@ class Program
             }   
 
         } while (input != "exit");
-        server.Stop();  
-        
+        server.Stop();
+        }
+        else
+        {
+            Console.WriteLine("Invalid IP address or config file"); 
+        }
 
     }
 }

@@ -10,7 +10,7 @@ namespace Helpplaner.Service.Core
         public string _ipAddress;
         public int _port;
 
-
+        public bool rightConfig = false;    
         public Config config;
 
         public Config()
@@ -18,13 +18,20 @@ namespace Helpplaner.Service.Core
             if (File.Exists("../../../../config.txt"))
             {
                 string[] configs = File.ReadAllLines("../../../../config.txt");
+                try
+                {
+                    ConnectionString = configs.Where(x => x.Contains("ConnectionString")).FirstOrDefault().Trim(' ').Split(":")[1];
+                    MaxConnections = int.Parse(configs.Where(x => x.Contains("MaxConnections")).FirstOrDefault().Trim(' ').Split(":")[1]);
+                    _ipAddress = configs.Where(x => x.Contains("IPAddress")).FirstOrDefault().Trim(' ').Split(":")[1];
+                    _port = int.Parse(configs.Where(x => x.Contains("Port")).FirstOrDefault().Split(":")[1]);
+                    rightConfig = true;
 
-                ConnectionString = configs.Where(x => x.Contains("ConnectionString")).FirstOrDefault().Trim(' ').Split(":")[1];
-                MaxConnections = int.Parse(configs.Where(x => x.Contains("MaxConnections")).FirstOrDefault().Trim(' ').Split(":")[1]);
-                _ipAddress = configs.Where(x => x.Contains("IPAddress")).FirstOrDefault().Trim(' ').Split(":")[1];
-                _port = int.Parse(configs.Where(x => x.Contains("Port")).FirstOrDefault().Split(":")[1]);
-
-
+                }
+                catch (Exception)
+                {
+                    rightConfig = false;    
+                  }
+              
 
 
             }
@@ -33,7 +40,7 @@ namespace Helpplaner.Service.Core
                
 
                 File.AppendAllLines("../../../../config.txt", new string[] { "ConnectionString: ", "MaxConnections:10 ", "IPAddress:127.0.0.1", "Port:5000" });
-
+                rightConfig = true;
             }
         }
 

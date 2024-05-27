@@ -142,6 +142,11 @@ namespace Helpplaner.Client.GUI.Pages
             }
             if (selectedTask.Successor == "" )
             {
+                if (selectedTask.IdInProject == "1")
+                {
+                    Waring.Content = "Das Start Arbeitspaket darf nicht gelöscht werden";
+                    return; 
+                }
                 Waring.Content = "";
                 sr.DeleteTask(selectedTask);
 
